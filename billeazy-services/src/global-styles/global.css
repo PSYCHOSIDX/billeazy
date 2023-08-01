@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@200&family=Unbounded:wght@200&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 1600px;
+  background-size: cover;
+}
+
+@media screen and (min-width: 2000px) {
+  html {
+    margin-left: 20%;
+    margin-right: 10%;
+  }
+}/*# sourceMappingURL=global.css.map */
