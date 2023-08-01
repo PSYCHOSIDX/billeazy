@@ -63,9 +63,23 @@
   filter: blur(50%);
   box-shadow: rgba(162, 159, 159, 0.049) 0px 7px 29px 0px;
 }
+.container .link-collection {
+  color: white;
+  display: flex;
+  list-style: none;
+  margin: auto;
+  padding: 0.3rem;
+}
+.container .link-collection li {
+  margin: 1rem;
+  cursor: pointer;
+}
+.container .link-collection li:hover {
+  color: #42EE49;
+}
 
 .logo {
-  width: 10%;
+  width: 20%;
   margin: auto;
   padding-top: 1rem;
 }
@@ -94,19 +108,17 @@
 }
 
 .btn-contact {
-  all: unset;
-  background-color: #000000;
-  padding: 0.4rem 1rem;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 2px solid #00FFA3;
-  color: #00FFA3;
-  font-weight: bold;
+  background-color: #42EE49;
+  padding: auto;
+  padding: 0.4rem 2.5rem;
   text-align: center;
-  margin: 0.2rem;
-  margin-left: 1rem;
-  text-shadow: 1px 1px rgba(255, 255, 255, 0.4235294118);
-  margin-right: 1rem;
+  color: #ffffff;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bolder;
+  margin: auto;
+  border-radius: 1rem;
+  box-shadow: none;
+  text-decoration: none;
 }
 .btn-contact:active {
   background-color: rgb(165, 165, 165);
