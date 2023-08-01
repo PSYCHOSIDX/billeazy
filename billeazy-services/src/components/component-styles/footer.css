@@ -40,8 +40,12 @@
     padding-left: 5%;
     margin-left: 0;
   }
+  .footer .footer-left h5 {
+    font-size: 1rem;
+    margin-left: 0;
+  }
   .footer .footer-left .logo {
-    width: 50%;
+    width: 40%;
   }
   .footer .footer-right {
     width: 90%;
@@ -49,9 +53,10 @@
     padding-left: 3%;
   }
   .footer .footer-right h4 {
-    font-size: 1rem;
+    font-size: 0.7rem;
     color: #ffffff;
     margin-bottom: 5%;
     text-align: left;
+    margin-left: -0.5rem;
   }
 }/*# sourceMappingURL=footer.css.map */

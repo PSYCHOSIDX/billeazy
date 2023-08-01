@@ -76,6 +76,13 @@ $bluex:#000000;
         margin-left: -3rem;
 
         li{
+            a{
+                text-decoration: none;
+                color: #ffffff;
+                &:active{
+                    color: #42EE49;
+                }
+            }
             margin: 1rem;
             cursor: pointer;
             &:hover{

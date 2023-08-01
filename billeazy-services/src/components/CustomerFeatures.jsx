@@ -10,7 +10,7 @@ const CustomerFeatures = () => {
 
     <>
     
-  <div className="features">
+  <div className="features" id='features-link'>
     <h5 className='colored'>Features</h5>
     <div className="card-holder-features">
       <div className="cards">

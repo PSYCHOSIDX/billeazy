@@ -5,7 +5,7 @@ import logo from '../assets/logo.png'
 const Footer = () => {
   return (
     <>
-      <div className="footer">
+      <div className="footer" id='footer-link'>
 
         <div className="footer-left">
         <img src={logo} alt="RydMate" className='logo' />

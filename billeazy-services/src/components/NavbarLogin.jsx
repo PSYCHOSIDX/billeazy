@@ -17,9 +17,10 @@ function NavbarLogin(){
         <Navbar.Toggle aria-controls="basic-navbar-nav" className='n' />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto nav-hold">
-          <ul className='link-collection'><li>Features</li>
-       <li>Working</li>
-       <li>Contact</li>
+          <ul className='link-collection'>
+      <li > <a href='#features-link'>Features</a></li>
+       <li > <a href='#work-link'>Working</a></li>
+       <li > <a href='#footer-link'>Contact</a></li>
        </ul>
             <Link to="/login" className='link'>
             <a className='btn-contact' id='visible'><b>Login   </b></a>

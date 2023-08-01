@@ -10,7 +10,7 @@ const CustomerWorkFlow = () => {
 
     <>
     
-  <div className="work">
+  <div className="work" id='work-link'>
     <br />
     <h5 className='coloredx'>Work flow</h5>
     <div className="card-holder-features">
