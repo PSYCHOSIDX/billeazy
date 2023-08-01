@@ -44,7 +44,7 @@
   z-index: -8;
 }
 
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 720px) {
   .call-box .line-img {
     position: absolute;
     margin-top: -9rem;
@@ -56,7 +56,102 @@
     margin-left: 15%;
   }
   .call-box .holder .customer-text {
-    font-size: 2.2rem;
+    font-size: 2rem;
     margin: 0%;
+  }
+}
+.features {
+  background-color: rgba(66, 238, 72, 0);
+}
+.features .colored {
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  color: rgb(91, 91, 91);
+}
+.features .card-holder-features {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.features .card-holder-features .cards {
+  padding: 3.9rem 3rem;
+  margin: 1rem;
+  color: white;
+  text-align: center;
+  background-color: #42EE49;
+  border-radius: 100%;
+}
+.features .card-holder-features .cards h5 {
+  font-size: 1rem;
+}
+.features .card-holder-features .cards .fea {
+  font-size: 2rem;
+}
+
+@media screen and (max-width: 720px) {
+  .features .colored {
+    margin-top: 2rem;
+  }
+  .features .card-holder-features {
+    flex-direction: row;
+  }
+  .features .card-holder-features .cards {
+    padding: 1.5rem 1.5rem;
+    margin: 0.4rem;
+  }
+  .features .card-holder-features .cards .fea {
+    font-size: 1rem;
+  }
+  .features .card-holder-features .cards h5 {
+    font-size: 0.5rem;
+  }
+}
+.work {
+  background-color: #4B00AB;
+}
+.work .coloredx {
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  color: rgb(255, 255, 255);
+}
+.work .card-holder-features {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.work .card-holder-features .cards {
+  padding: 1.9rem 2rem;
+  margin: 1rem;
+  color: white;
+  text-align: center;
+  background-color: rgba(66, 238, 72, 0);
+  border-radius: 100%;
+}
+.work .card-holder-features .cards h5 {
+  font-size: 1rem;
+}
+.work .card-holder-features .cards .fea {
+  font-size: 2rem;
+  margin: 0.5rem;
+}
+
+@media screen and (max-width: 720px) {
+  .work .colored {
+    margin-top: 6rem;
+  }
+  .work .card-holder-features {
+    flex-direction: column;
+  }
+  .work .card-holder-features .cards {
+    margin: 0%;
+    padding: 1.5rem 2rem;
+  }
+  .work .card-holder-features .cards .fea {
+    font-size: 2rem;
+  }
+  .work .card-holder-features .cards h5 {
+    font-size: 1rem;
   }
 }/*# sourceMappingURL=customer-landing.css.map */

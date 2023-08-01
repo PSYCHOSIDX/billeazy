@@ -3,7 +3,7 @@
 .call-box{
     background-color: rgba(0, 255, 255, 0);
     height: 60vh;
-  
+ 
     .holder{
         z-index: 5;
         position: absolute;
@@ -49,7 +49,7 @@
 
 
 
-@media screen and (max-width:1020px) {
+@media screen and (max-width:720px) {
 
     .call-box{
 
@@ -65,9 +65,134 @@
                 margin-left: 15%;
             }
             .customer-text{
-                font-size: 2.2rem;
+                font-size: 2rem;
                 margin: 0%;
             }
         }
     }
+}
+
+
+
+
+
+
+
+
+.features{
+    background-color: #42ee4800;
+
+    .colored{
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 900;
+        color: rgb(91, 91, 91);
+    }
+    .card-holder-features{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .cards{
+            padding: 3.9rem 3rem;
+            margin: 1rem;
+            color: white;
+            h5{
+                font-size: 1rem;
+            }
+            text-align: center;
+            background-color: #42EE49;
+            border-radius: 100%;
+            .fea{
+              font-size: 2rem;  
+            }
+        }
+    }
+    
+}
+
+
+@media screen and (max-width:720px) {
+
+    .features{
+        .colored{
+            margin-top: 2rem;
+        }
+    .card-holder-features{
+        flex-direction: row;
+
+        .cards{
+            padding: 1.5rem 1.5rem;
+            margin: 0.4rem;
+            .fea{
+                font-size: 1rem;
+            }
+
+            h5{
+                font-size: .5rem;
+            }
+        }
+    }
+}
+}
+
+
+
+
+
+
+.work{
+    background-color: #4B00AB;
+
+    .coloredx{
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 900;
+        color: rgb(255, 255, 255);
+    }
+    .card-holder-features{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .cards{
+            padding: 1.9rem 2rem;
+            margin: 1rem;
+            color: white;
+            h5{
+                font-size: 1rem;
+            }
+            text-align: center;
+            background-color: #42ee4800;
+            border-radius: 100%;
+            .fea{
+              font-size: 2rem; 
+              margin: .5rem; 
+            }
+        }
+    }
+    
+}
+
+
+@media screen and (max-width:720px) {
+
+    .work{
+        .colored{
+            margin-top: 6rem;
+        }
+    .card-holder-features{
+        flex-direction: column;
+
+        .cards{
+            margin: 0%;
+            padding: 1.5rem 2rem;
+            .fea{
+                font-size: 2rem;
+            }
+
+            h5{
+                font-size: 1rem;
+            }
+        }
+    }
+}
 }

@@ -15,8 +15,7 @@ const CustomerLanding = () => {
         <img className='line-img' src={line} alt="......." />
         </div>
 
-
-
+   
     </div>
     
     </>
