@@ -22,7 +22,7 @@ function NavbarLogin(){
        <li>Contact</li>
        </ul>
             <Link to="/login" className='link'>
-            <a className='btn-contact' id='visible'><b>Login</b></a>
+            <a className='btn-contact' id='visible'><b>Login   </b></a>
             </Link>
             
           </Nav>

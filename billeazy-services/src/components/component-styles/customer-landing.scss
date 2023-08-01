@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@200&family=Unbounded:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+.call-box{
+    background-color: rgba(0, 255, 255, 0);
+    height: 60vh;
+  
+    .holder{
+        z-index: 5;
+        position: absolute;
+       
+        .btn-action{
+            z-index: 5;
+            all: unset;
+            box-shadow: none;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 1rem;
+            padding: 1rem 5rem;
+            background-color: #6E25CB;
+            color: white;
+           margin-left: 40%;
+           &:hover{
+            background-color: black;
+            cursor: pointer;
+           }
+        }
+        .customer-text{
+            z-index: 5;
+            font-size: 4rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-align: center;
+            padding: 3rem;
+
+            background: -webkit-linear-gradient(30deg,#42EE49, #4B00AB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+}
+
+.line-img{
+    position: absolute;
+    margin-top: -12rem;
+    width: 120%;
+    margin-left: -49rem;
+    z-index: -8;
+}
+
+
+
+@media screen and (max-width:1020px) {
+
+    .call-box{
+
+        .line-img{
+            position: absolute;
+            margin-top: -9rem;
+            width: 140%;
+            margin-left: -20rem;
+            z-index: -8;
+        }
+        .holder{
+            .btn-action{
+                margin-left: 15%;
+            }
+            .customer-text{
+                font-size: 2.2rem;
+                margin: 0%;
+            }
+        }
+    }
+}

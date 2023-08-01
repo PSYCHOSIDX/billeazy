@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@200&family=Unbounded:wght@200&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
 $bluex:#000000;
 
 #visible{
@@ -73,6 +73,7 @@ $bluex:#000000;
         list-style: none;
         margin: auto;
         padding: .3rem;
+        margin-left: -3rem;
 
         li{
             margin: 1rem;
@@ -119,13 +120,12 @@ $bluex:#000000;
 
 .btn-contact{
    background-color: #42EE49;
-   padding: auto;
-   padding: .4rem 2.5rem;
-   text-align: center;
+   padding: .4rem 2.8rem;
+   
    
    color: #ffffff;
-   font-family: 'Montserrat', sans-serif;
-   font-weight:bolder;
+   font-family:  sans-serif;
+   font-weight: 900;
    margin: auto;
    border-radius: 1rem;
    box-shadow: none;
@@ -184,23 +184,30 @@ $bluex:#000000;
     }
 }
 
-@media screen and (max-width:480px){
+@media screen and (max-width:720px){
+
+  .logo{
+    width: 60%;
+    margin: auto;
+  }
+  
 
     .profile{
         margin: auto;
         margin-right: 0;
     }
     .btn-contact{
-        padding: .6rem 1rem;
+        padding: .3rem 1.5rem;
         font-size: .8rem;
         display: none;
         margin-left: -8%;
     }
     .container{
-        width: 120%;
+        width: 100%;
         display: block;
-      
-        
+        .link-collection{
+            display: none;
+        }  
     }
 
     .username{ display: none;}
