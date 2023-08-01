@@ -6,7 +6,9 @@ import app from "../firebaseConfig";
 
 const allowedExtensions = ["csv"];
 const db = getFirestore(app);
-const colRef = collection(db,"billing");
+const colRef = collection(db,"Meter Reading");
+const reqFields=['Meter_Reading', 'Unit', 'Current_Reading_Date', 'Current_Reading', 
+        'Prev_Reading_Date', 'Prev_Reading', 'Reading_Difference', 'MF', 'Consumption', 'Reading_Remark'];
 
 const UploadFile = () =>{
    // This state will store the parsed data
@@ -57,16 +59,30 @@ const UploadFile = () =>{
     // loads, we parse it and set the data.
     reader.onload = async ({ target }) => {
         const csv = Papa.parse(target.result, { header: true });
-        const parsedData = csv?.data;
+        const parsedData = csv?.data
         const columns = Object.keys(parsedData[0]);
         // console.log(parsedData);
-        setCols(columns);
-        setData(parsedData);
+        const valid = reqFields.every(value =>{
+          return columns.includes(value);
+        })
+        if(!valid){
+          setError("All columns not present in csv");
+          return;
+        }
+        // setCols(columns);
+        // setData(parsedData);
         parsedData.forEach(row => {
           addDoc(colRef,{
-            name: row.Name,
-            country: row.Country,
-            date: row.Founded
+            "Meter Reading": row.Meter_Reading,
+            "Unit": row.Unit,
+            "Current Reading Date": row.Current_Reading_Date,
+            "Current Reading" :row.Current_Reading ,
+            "Prev Reading Date" : row.Prev_Reading_Date,
+            "Prev Reading" : row.Prev_Reading,
+            "Reading Difference" : row.Reading_Difference,
+            "MF" : row.MF,
+            "Consumption" : row.Consumption,
+            "Reading Remark" : row.Reading_Remark,
           });
         }); 
         console.log("added data");
@@ -88,9 +104,11 @@ return (
           <button onClick={handleParse}>Parse</button>
       </div>
       <div style={{ marginTop: "3rem" }}>
-          {error ? error : cols.map((col,
+
+          {error ? error : "All right"}
+          {/* cols.map((col,
               idx) => <div key={idx}>{col}</div>)}
-              {data.map((d)=><div key={d.Index}>{d.Name}</div>)}
+              {data.map((d)=><div key={d.Index}>{d.Name}</div>)} */}
       </div>
   </div>
 );
