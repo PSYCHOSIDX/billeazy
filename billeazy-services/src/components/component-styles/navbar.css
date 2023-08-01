@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@200&family=Unbounded:wght@200&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap");
 #visible {
   display: block;
   width: 90%;
@@ -63,9 +64,31 @@
   filter: blur(50%);
   box-shadow: rgba(162, 159, 159, 0.049) 0px 7px 29px 0px;
 }
+.container .link-collection {
+  color: white;
+  display: flex;
+  list-style: none;
+  margin: auto;
+  padding: 0.3rem;
+  margin-left: -3rem;
+}
+.container .link-collection li {
+  margin: 1rem;
+  cursor: pointer;
+}
+.container .link-collection li a {
+  text-decoration: none;
+  color: #ffffff;
+}
+.container .link-collection li a:active {
+  color: #42EE49;
+}
+.container .link-collection li:hover {
+  color: #42EE49;
+}
 
 .logo {
-  width: 10%;
+  width: 20%;
   margin: auto;
   padding-top: 1rem;
 }
@@ -94,19 +117,15 @@
 }
 
 .btn-contact {
-  all: unset;
-  background-color: #000000;
-  padding: 0.4rem 1rem;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 2px solid #00FFA3;
-  color: #00FFA3;
-  font-weight: bold;
-  text-align: center;
-  margin: 0.2rem;
-  margin-left: 1rem;
-  text-shadow: 1px 1px rgba(255, 255, 255, 0.4235294118);
-  margin-right: 1rem;
+  background-color: #42EE49;
+  padding: 0.4rem 2.8rem;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-weight: 900;
+  margin: auto;
+  border-radius: 1rem;
+  box-shadow: none;
+  text-decoration: none;
 }
 .btn-contact:active {
   background-color: rgb(165, 165, 165);
@@ -157,20 +176,27 @@
     font-size: 1rem;
   }
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 720px) {
+  .logo {
+    width: 60%;
+    margin: auto;
+  }
   .profile {
     margin: auto;
     margin-right: 0;
   }
   .btn-contact {
-    padding: 0.6rem 1rem;
+    padding: 0.3rem 1.5rem;
     font-size: 0.8rem;
     display: none;
     margin-left: -8%;
   }
   .container {
-    width: 120%;
+    width: 100%;
     display: block;
+  }
+  .container .link-collection {
+    display: none;
   }
   .username {
     display: none;

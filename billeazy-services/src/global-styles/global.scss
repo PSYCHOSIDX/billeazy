@@ -7,6 +7,7 @@ body{
     // background: url(../assets/bg2.svg);
     max-width: 1600px;
     background-size: cover;
+    overflow-x: hidden;
 }
 
 @media screen and (min-width:2000px) {

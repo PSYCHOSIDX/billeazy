@@ -17,11 +17,13 @@ function NavbarLogin(){
         <Navbar.Toggle aria-controls="basic-navbar-nav" className='n' />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto nav-hold">
-            {/* <Nav.Link href="#home" className='nav-link link'>Home</Nav.Link>
-            <Nav.Link href="#services" className='nav-link link'>Services</Nav.Link>
-            <Nav.Link href="#about" className=' nav-link link'>About Us</Nav.Link> */}
+          <ul className='link-collection'>
+      <li > <a href='#features-link'>Features</a></li>
+       <li > <a href='#work-link'>Working</a></li>
+       <li > <a href='#footer-link'>Contact</a></li>
+       </ul>
             <Link to="/login" className='link'>
-            <button  className='btn-contact' id='visible'> Login </button>
+            <a className='btn-contact' id='visible'><b>Login   </b></a>
             </Link>
             
           </Nav>
