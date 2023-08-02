@@ -8,6 +8,7 @@ import Admin from "./pages/Admin";
 
 import AdminLoginPage from "./pages/AdminLoginPage"
 import CustomerLanding from "./pages/CustomerLanding";
+import Customer from "./pages/Customer";
 
 const App = () => {
   return (
@@ -28,7 +29,7 @@ const App = () => {
             {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}
    
           <Route path="/admin" element={<Admin/>} />
-          
+          <Route path="/customer" element={<Customer/>} />
         </Routes>
         </AuthContextProvider>
           
