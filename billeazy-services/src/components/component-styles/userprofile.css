@@ -7,10 +7,44 @@
   font-size: 2rem;
 }
 
+.btn-action-admin {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  z-index: 5;
+  all: unset;
+  text-align: center;
+  font-weight: 900;
+  box-shadow: none;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 1rem;
+  padding: 0.7rem 1.2rem;
+  background: linear-gradient(45deg, #8641e1, #42EE49);
+  color: white;
+  margin: 0.9rem;
+  margin-left: 0%;
+}
+.btn-action-admin:hover {
+  background: black;
+  cursor: pointer;
+}
+
+.usericon {
+  font-size: 2.1rem;
+  margin: 0.3rem;
+  color: #ffffff;
+}
+
+.usericonx {
+  font-size: 2.1rem;
+  margin: 0.3rem;
+  color: #42EE49;
+}
+
 #update-button {
-  background: #09b677;
+  background: rgba(74, 0, 171, 0.3411764706);
   width: 100%;
   border: none;
+  border: 1px solid #42EE49;
   font-family: "Poppins", sans-serif;
   font-size: 1.4rem;
   font-weight: bolder;
@@ -21,16 +55,19 @@
 }
 
 #update-button-x {
-  background: #09b677;
+  background: rgba(74, 0, 171, 0);
+  color: #232323;
   width: 100%;
   border: none;
+  border: 1px solid #42EE49;
   font-family: "Poppins", sans-serif;
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: bolder;
-  margin-top: 1rem;
+  margin-top: 0.9rem;
 }
 #update-button-x:hover {
-  background: #232323;
+  background: #8641e1;
+  color: #42EE49;
 }
 
 .icon {

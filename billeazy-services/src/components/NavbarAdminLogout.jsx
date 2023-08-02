@@ -11,7 +11,8 @@ import { UserAuth } from '../context/UserAuthContext';
 import { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import {FaRegUser} from 'react-icons/fa'
-
+import {RiMenu3Fill} from 'react-icons/ri'
+import './component-styles/customer-landing.css'
 
 // eslint-disable-next-line
 import { 
@@ -44,7 +45,7 @@ function Profile({ name, ...props }) {
   const handleLogout = async () => {
     try{
       await logout();
-      navigate('/')
+      navigate('/adminlogin')
     } catch(e) {
       console.log(e.message);
     }
@@ -57,9 +58,9 @@ function Profile({ name, ...props }) {
         </h5>
 
          {user.photoURL ? <img onClick={handleShow} src={user.photoURL} alt='' className='profile'/>  : 
-         <FaRegUser onClick={handleShow} className='icon'/>} 
+         <RiMenu3Fill onClick={handleShow} className='usericon'/>} 
        
-        <Offcanvas show={show} onHide={handleClose} id='sidebar'{...props}>
+        <Offcanvas className='colorxx' show={show} onHide={handleClose} id='sidebar'{...props}>
 
         <Offcanvas.Header closeButton>
           <Offcanvas.Title className='user-title'> USER PROFILE  </Offcanvas.Title>
@@ -71,34 +72,20 @@ function Profile({ name, ...props }) {
         <Offcanvas.Body>
       
        {
-          user.photoURL ? <img src={user.photoURL} alt='' className='profile'/> : <FaRegUser  className='icon' id='icon' />}
-          <h4> <b>Name</b> </h4>
-          <h5>{user.displayName}</h5> 
+          user.photoURL ? <img src={user.photoURL} alt='' className='profile'/> : <FaRegUser  className='usericonx'  />}
+          {/* <h4> <b>Name</b> </h4>
+          <h5>{user.displayName}</h5>  */}
           <br/>
           <h4><b>Email</b></h4>
           <h5>{user.email}</h5>
 
 
-           <Link className='link' to='/'>
+           <Link className='link' to='/admin'>
               <Button as="input" id='update-button-x' type="button" value="Home"/> 
           </Link>
-          <Link className='link' to='/rides'>
-              <Button as="input" id='update-button-x' type="button" value="Search Rides"/> 
-          </Link>
          
-
-          <Link className='link' to='/rewards'>
-              <Button as="input" id='update-button-x' type="button" value="Rewards"/> 
-          </Link>
-          <Link className='link' to='/emergency'>
-              <Button as="input" id='update-button-x' type="button" value="Emergency Contacts"/> 
-          </Link>
-
-          <Link className='link' to='/viewrides'>
-              <Button as="input" id='update-button-x' type="button" value="My Rides"/> 
-          </Link>
           
-          <button onClick={handleLogout} className='btn-contact' id='visible'> Logout </button>
+          <button onClick={handleLogout} className='btn-action-admin' id='visible'> Logout </button>
           
           {/* {user.phoneNumber ? 
           
@@ -131,7 +118,7 @@ function InfoPage() {
 }
 
 
-function NavbarLogout(){
+function NavbarAdminLogout(){
   const {logout} = UserAuth();
   const navigate = useNavigate();
  
@@ -151,8 +138,8 @@ function NavbarLogout(){
     <>
       <Navbar className='custom-nav'>
       <Container className='container'>
-        <Navbar.Brand href="/">
-        <img className='logo' src={logo} alt="RydMate" />
+        <Navbar.Brand href="/admin">
+        <img className='logo' src={logo} alt="BillEazy" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className='n' />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -161,11 +148,6 @@ function NavbarLogout(){
            <InfoPage/>
 
 
-            {/* <Link to="" className='link'>
-            <button onClick={handleLogout} className='btn-contact'> Logout </button>
-            </Link> */}
-
-            
             
           </Nav>
         </Navbar.Collapse>
@@ -180,4 +162,4 @@ function NavbarLogout(){
 
 
 
-export default NavbarLogout;
+export default NavbarAdminLogout
