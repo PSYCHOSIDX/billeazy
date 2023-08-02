@@ -19,8 +19,8 @@ function BillsList(){
                 className="mb-3"
                 >
                     <Tab eventKey="all" title="All">
-                        <div>
-                            <Stack>
+                        <div className='list-container'>
+                            <Stack className='list-heading'>
                                 <div className="ListHeadings shadow-none p-2">
                                     <Row>
                                         <Col>CA no.</Col>
@@ -36,7 +36,7 @@ function BillsList(){
                                 </div>
                             </Stack>
                             <Stack gap={2}>
-                                <div className="BillsList bg-light shadow-sm p-2">
+                                <div className="BillList bg-light shadow-sm p-2">
                                     <Row>
                                         <Col>0000</Col>
                                         <Col>0000</Col>
@@ -49,7 +49,7 @@ function BillsList(){
                                         <Col>Pending</Col>
                                     </Row>
                                 </div>
-                                <div className="BillsList bg-light shadow-sm p-2">
+                                <div className="BillList bg-light shadow-sm p-2">
                                     <Row>
                                         <Col>0000</Col>
                                         <Col>0000</Col>
@@ -62,7 +62,7 @@ function BillsList(){
                                         <Col>Pending</Col>
                                     </Row>
                                 </div>
-                                <div className="BillsList bg-light shadow-sm p-2">
+                                <div className="BillList bg-light shadow-sm p-2">
                                     <Row>
                                         <Col>0000</Col>
                                         <Col>0000</Col>
@@ -81,7 +81,7 @@ function BillsList(){
                     <Tab eventKey="pending" title="Pending">
                         <div>
                             <Stack gap={2}>
-                                <div className="BillsList bg-light shadow-sm p-2">
+                                <div className="BillList bg-light shadow-sm p-2">
                                     <Row>
                                         <Col>0000</Col>
                                         <Col>0000</Col>
@@ -99,7 +99,7 @@ function BillsList(){
                     </Tab>
                     <Tab eventKey="paid" title="Paid">
                         <Stack gap={2}>
-                            <div className="BillsList bg-light shadow-sm p-2">
+                            <div className="BillList bg-light shadow-sm p-2">
                                 <Row>
                                     <Col>0000</Col>
                                     <Col>0000</Col>
@@ -117,7 +117,7 @@ function BillsList(){
                     <Tab eventKey="consumertickets" title="Consumer Tickets">
                         <div>
                             <Stack gap={2}>
-                                <div className="BillsList bg-light shadow-sm p-2">
+                                <div className="BillList bg-light shadow-sm p-2">
                                     <Row>
                                         <Col>0000</Col>
                                         <Col>0000</Col>
@@ -132,6 +132,23 @@ function BillsList(){
                                 </div>
                             </Stack>
                         </div>
+                    </Tab>
+                    <Tab eventKey="agents" title="Employees">
+                        <Stack gap={2}>
+                            <div className="BillList bg-light shadow-sm p-2">
+                                <Row>
+                                    <Col>0000</Col>
+                                    <Col>0000</Col>
+                                    <Col>dd/mm/yy</Col>
+                                    <Col>0000</Col>
+                                    <Col>dd/mm/yy</Col>
+                                    <Col>0000</Col>
+                                    <Col>00</Col>
+                                    <Col>--</Col>
+                                    <Col>Pending</Col>
+                                </Row>
+                            </div>
+                        </Stack>
                     </Tab>
                 </Tabs>
             </div>
