@@ -7,8 +7,9 @@ import Agent from "./pages/Agent";
 import Admin from "./pages/Admin";
 
 import AdminLoginPage from "./pages/AdminLoginPage"
-import CustomerLanding from "./pages/CustomerLanding";
+
 import Customer from "./pages/Customer";
+import CustomerLandingPage from "./pages/CustomerLandingPage";
 
 const App = () => {
   return (
@@ -17,7 +18,7 @@ const App = () => {
 
     
 
-            <Route path='/'  element={<CustomerLanding/>} />
+            <Route path='/'  element={<CustomerLandingPage/>} />
 
             <Route path='/adminlogin'  element={<AdminLoginPage/>} />
 

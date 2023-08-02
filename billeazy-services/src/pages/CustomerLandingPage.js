@@ -7,15 +7,16 @@ import { UserAuth } from '../context/UserAuthContext'
 import CustomerWorkFlow from '../components/CustomerLandingPage/CustomerWorkFlow'
 import CustomerFeatures from '../components/CustomerLandingPage/CustomerFeatures'
 import CustomerLanding from'../components/CustomerLandingPage/CustomerLanding'
+import NavbarCustomerLogout from '../components/NavbarCustomerLogout'
 
-const Customer = () => {
+const CustomerLandingPage = () => {
 
   const {user} = UserAuth();
 
   return (
     <>
   
-    {user ? null: <NavbarLogin/>}
+    {user ? <NavbarCustomerLogout/> : <NavbarLogin/>}
     <CustomerLanding/>
     <CustomerFeatures/>
     <CustomerWorkFlow/>
@@ -24,4 +25,4 @@ const Customer = () => {
   )
 }
 
-export default Customer
+export default CustomerLandingPage
