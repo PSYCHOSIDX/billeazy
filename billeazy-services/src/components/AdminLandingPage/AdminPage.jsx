@@ -14,6 +14,7 @@ function AdminPage(){
     const [key, setKey] = useState('all');
     const [showC, setShowC] = useState(false);
     const [showA, setShowA] = useState(false);
+    const [showT, setShowT] = useState(false);
     const handleCloseConsumer = () => setShowC(false);
     const handleCloseAgent = () => setShowA(false);
     const handleShowConsumer = () => setShowC(true);
@@ -23,10 +24,10 @@ function AdminPage(){
         <div className='p-5'>
             <div className='my-3'>
                 <Row>
-                    <Col sm={4}>
+                    <Col sm={6}>
                         <h2 className='fw-semibold'>Admin Page</h2>
                     </Col>
-                    <Col sm={8}>
+                    <Col sm={6}>
                         <Row>
                             <Col>
                                 <Button className='AdminActionButtons' variant="outline-primary" onClick={handleShowConsumer}>
@@ -156,9 +157,6 @@ function AdminPage(){
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
-                            </Col>
-                            <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary">Raise a Ticket</Button>
                             </Col>
                         </Row>
                     </Col>
