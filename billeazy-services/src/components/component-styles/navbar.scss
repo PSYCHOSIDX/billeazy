@@ -79,7 +79,12 @@ $bluex:#000000;
             a{
                 text-decoration: none;
                 color: #ffffff;
+                font-weight: 400;
                 &:active{
+                    color: #42EE49;
+                }
+
+                &:hover{
                     color: #42EE49;
                 }
             }
