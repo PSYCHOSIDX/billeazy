@@ -5,6 +5,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import Home from "./pages/Home";
 import Agent from "./pages/Agent";
 import Admin from "./pages/Admin";
+import Login from "./pages/Login";
 
 const App = () => {
   return (

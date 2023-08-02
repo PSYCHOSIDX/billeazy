@@ -1,8 +1,8 @@
 import Papa from "papaparse";
-import { useState } from "react";
+import { useState, useCallback  } from "react";
 import {getFirestore, addDoc, collection} from '@firebase/firestore';
 import app from "../firebaseConfig";
-
+import Dropzone from "./DropZone";
 
 const allowedExtensions = ["csv"];
 const db = getFirestore(app);
@@ -25,12 +25,17 @@ const UploadFile = () =>{
 
      // This function will be called when
     // the file input changes
-    const handleFileChange = (e) => {
-      setError("");
 
+    const onDrop = useCallback(acceptedFiles => {
+      // this callback will be called after files get dropped, we will get the acceptedFiles. If you want, you can even access the rejected files too
+      handleFileChange(acceptedFiles);
+    }, []);
+    const handleFileChange = (files) => {
+      setError("");
+      // console.log(files);
       // Check if user has entered the file
-      if (e.target.files.length) {
-          const inputFile = e.target.files[0];
+      if (files.length) {
+          const inputFile = files[0];
 
           // Check the file extensions, if it not
           // included in the allowed extensions
@@ -49,6 +54,7 @@ const UploadFile = () =>{
  
     // If user clicks the parse button without
     // a file we show a error
+    console.log(file);
     if (!file) return setError("Enter a valid file");
 
     // Initialize a reader which allows user
@@ -65,14 +71,22 @@ const UploadFile = () =>{
         const valid = reqFields.every(value =>{
           return columns.includes(value);
         })
-        if(!valid){
-          setError("All columns not present in csv");
-          return;
-        }
-        // setCols(columns);
-        // setData(parsedData);
-        parsedData.forEach(row => {
-          addDoc(colRef,{
+        // if(!valid){
+        //   setError("All columns not present in csv");
+        //   return;
+        // }
+        setCols(columns);
+        setData(parsedData);
+       
+        console.log("added data");
+    };
+    reader.readAsText(file);
+};
+
+const onAcceptHandler = () =>{
+   data.forEach(row => {
+           addDoc(colRef,
+            {
             "Meter Reading": row.Meter_Reading,
             "Unit": row.Unit,
             "Current Reading Date": row.Current_Reading_Date,
@@ -85,30 +99,34 @@ const UploadFile = () =>{
             "Reading Remark" : row.Reading_Remark,
           });
         }); 
-        console.log("added data");
-    };
-    reader.readAsText(file);
-};
+}
 return (
   <div>
       <label htmlFor="csvInput" style={{ display: "block" }}>
           Enter CSV File
       </label>
-      <input
+      {/* <input
           onChange={handleFileChange}
           id="csvInput"
           name="file"
           type="File"
-      />
+      /> */}
+        <Dropzone onDrop={onDrop}/>
+        {file !=""? <div>{file["name"]}</div>:console.log("")}
       <div>
           <button onClick={handleParse}>Parse</button>
       </div>
       <div style={{ marginTop: "3rem" }}>
 
           {error ? error : "All right"}
-          {/* cols.map((col,
-              idx) => <div key={idx}>{col}</div>)}
-              {data.map((d)=><div key={d.Index}>{d.Name}</div>)} */}
+          <table>
+            <tr>{cols.map(col =><th key={col}>{col}</th>)}</tr>
+            {data.map((row,idx) => 
+            <tr key={idx}>{
+              cols.map(c => <td key={row[c]}>{row[c]}</td>)
+            }</tr>)}
+          </table>
+          <button onClick={onAcceptHandler}>Accept</button>
       </div>
   </div>
 );
