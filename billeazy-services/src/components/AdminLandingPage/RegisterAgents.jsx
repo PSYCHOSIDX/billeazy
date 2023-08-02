@@ -2,11 +2,28 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import '../components/component-styles/forms.css'
+import Modal from 'react-bootstrap/Modal';
 
 function RegisterAgent() {
+    const [lgShow, setLgShow] = useState(false);
   return (
     <div className='forms'>
+        <Button onClick={() => setLgShow(true)}>Large modal</Button>
+        <Modal
+        size="sm"
+        show={smShow}
+        onHide={() => setSmShow(false)}
+        aria-labelledby="example-modal-sizes-title-sm"
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-lg">
+                Large Modal
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>...</Modal.Body>
+        </Modal>
+
+
         <h2 className='fw-semibold mb-5'>Register Agent</h2>
         <Form>
             <Form.Group as={Row} className="mb-3" controlId="FormElementAgentId">
