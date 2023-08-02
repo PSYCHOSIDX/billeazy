@@ -120,6 +120,12 @@
   padding-top: 1rem;
 }
 
+.logox {
+  width: 15%;
+  margin: auto;
+  padding-top: 1rem;
+}
+
 .nav-hold {
   width: 100%;
   justify-content: right;
@@ -184,8 +190,11 @@
   }
 }
 @media screen and (max-width: 720px) {
+  .logox {
+    width: 30%;
+  }
   .logo {
-    width: 60%;
+    width: 40%;
     margin: auto;
   }
   .profile {
