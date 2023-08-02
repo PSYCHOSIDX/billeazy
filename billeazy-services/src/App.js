@@ -5,11 +5,11 @@ import ProtectedAdminRoutes from "./components/ProtectedAdminRoutes";
 import Home from "./pages/Home";
 import Agent from "./pages/Agent";
 import Admin from "./pages/Admin";
+import Login from "./pages/Login";
 import AdminLoginPage from "./pages/AdminLoginPage"
 
 const App = () => {
   return (
-    
         <AuthContextProvider>
         <Routes>
 
@@ -24,8 +24,9 @@ const App = () => {
             
             
             {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}
-
-            
+          <Route path="/login" element={<Login/>} />
+          <Route path="/admin" element={<Admin/>} />
+          
         </Routes>
         </AuthContextProvider>
           
