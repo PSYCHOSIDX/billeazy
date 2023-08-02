@@ -1,5 +1,5 @@
 import React from 'react'
-import './component-styles/customer-landing.css'
+import '../component-styles/customer-landing.css'
 import {FaDollarSign} from 'react-icons/fa/'
 import{MdOutlinePublishedWithChanges} from 'react-icons/md'
 import {BsFillArrowDownCircleFill} from 'react-icons/bs'

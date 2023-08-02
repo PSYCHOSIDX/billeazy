@@ -23,7 +23,7 @@ function NavbarLogin(){
        <li > <a href='#footer-link'>Contact</a></li>
        </ul>
             <Link to="/login" className='link'>
-            <a className='btn-contact' id='visible'><b>Login   </b></a>
+            <a className='btn-contact' >Login</a>
             </Link>
             
           </Nav>

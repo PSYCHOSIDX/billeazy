@@ -8,8 +8,18 @@
 .call-box .holder {
   z-index: 5;
   position: absolute;
+  margin: auto;
 }
-.call-box .holder .btn-action {
+.call-box .holder .sec {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  z-index: 5;
+}
+.call-box .holder .sec .left {
+  width: 55%;
+}
+.call-box .holder .sec .left .btn-action {
   z-index: 5;
   all: unset;
   box-shadow: none;
@@ -19,83 +29,91 @@
   padding: 1rem 5rem;
   background-color: #6E25CB;
   color: white;
-  margin-left: 40%;
+  margin-left: 7%;
+  margin-top: 0%;
 }
-.call-box .holder .btn-action:hover {
+.call-box .holder .sec .left .btn-action:hover {
   background-color: black;
   cursor: pointer;
 }
-.call-box .holder .customer-text {
+.call-box .holder .sec .left .customer-text {
   z-index: 5;
-  font-size: 4rem;
+  font-size: 3rem;
   font-family: "Montserrat", sans-serif;
   font-weight: 900;
-  text-align: center;
+  text-align: left;
   padding: 3rem;
   background: -webkit-linear-gradient(30deg, #42EE49, #4B00AB);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.call-box .holder .sec .right {
+  width: 40%;
+}
+.call-box .holder .sec .right .bill-img {
+  width: 80%;
+  margin: auto;
+  margin-top: 2rem;
+}
 
 .line-img {
   position: absolute;
-  margin-top: -12rem;
+  margin-top: -19rem;
   width: 120%;
-  margin-left: -49rem;
+  margin-left: -4rem;
   z-index: -8;
   overflow-x: hidden;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 800px) {
   .call-box {
-    height: 42vh;
+    height: 39vh;
+    z-index: 5;
+    overflow-x: hidden;
+  }
+  .call-box .holder {
+    overflow-x: hidden;
+  }
+  .call-box .holder .sec {
+    flex-direction: column;
+    width: 100%;
+  }
+  .call-box .holder .sec .left {
+    width: 99%;
+    overflow-x: hidden;
+  }
+  .call-box .holder .sec .left .customer-text {
+    font-size: 1.9rem;
+  }
+  .call-box .holder .sec .left .btn-action {
+    padding: 0.7rem 30%;
+    font-size: 0.9rem;
+    font-weight: 900;
+  }
+  .call-box .holder .sec .right {
+    width: 95%;
+    display: none;
   }
   .call-box .line-img {
     position: absolute;
     margin-top: -9rem;
     width: 140%;
-    margin-left: -30rem;
+    margin-left: 0rem;
     z-index: -8;
     overflow-x: hidden;
-  }
-  .call-box .holder .btn-action {
-    margin-left: 15%;
-    padding: 1rem 9rem;
-  }
-  .call-box .holder .customer-text {
-    font-size: 2rem;
-    margin: 0%;
-  }
-}
-@media screen and (max-width: 500px) {
-  .call-box {
-    overflow-x: hidden;
-  }
-  .call-box .line-img {
-    position: absolute;
-    margin-top: -9rem;
-    width: 140%;
-    margin-left: -30rem;
-    z-index: -8;
-    overflow-x: hidden;
-  }
-  .call-box .holder .btn-action {
-    margin-left: 15%;
-    padding: 1rem 6rem;
-  }
-  .call-box .holder .customer-text {
-    font-size: 2rem;
-    margin: 0%;
   }
 }
 .features {
-  background-color: rgba(66, 238, 72, 0);
+  background-color: #ffffff;
+  z-index: 5;
 }
 .features .colored {
   text-align: center;
   font-family: "Montserrat", sans-serif;
   font-weight: 900;
-  color: rgb(91, 91, 91);
+  color: #42EE49;
+  margin-top: 3rem;
+  padding-top: 1rem;
 }
 .features .card-holder-features {
   display: flex;
@@ -108,7 +126,6 @@
   color: white;
   text-align: center;
   background-color: #42EE49;
-  border-radius: 100%;
 }
 .features .card-holder-features .cards h5 {
   font-size: 1rem;
@@ -122,8 +139,14 @@
 }
 
 @media screen and (max-width: 720px) {
+  .features {
+    border-top: 3px solid #42EE49;
+  }
+  .features .colored {
+    margin: 0%;
+  }
   .features .card-holder-features {
-    flex-direction: row;
+    flex-direction: column;
   }
   .features .card-holder-features .cards {
     padding: 1.5rem 1.5rem;
@@ -183,4 +206,4 @@
   .work .card-holder-features .cards h5 {
     font-size: 1rem;
   }
-}/*# sourceMappingURL=customer-landing.css.map */
+}/*# sourceMappingURL=agent-landing.css.map */

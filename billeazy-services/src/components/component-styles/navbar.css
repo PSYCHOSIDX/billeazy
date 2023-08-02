@@ -86,6 +86,29 @@
 .container .link-collection li:hover {
   color: #42EE49;
 }
+.container a {
+  margin: auto;
+}
+.container .btn-contact {
+  all: unset;
+  background-color: #42EE49;
+  padding: 0.5rem 2.2rem;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-weight: 900;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  box-shadow: none;
+  text-decoration: none;
+}
+.container .btn-contact:active {
+  background-color: rgb(165, 165, 165);
+}
+.container .btn-contact:hover {
+  background-color: #222222;
+  color: rgb(255, 255, 255);
+}
 
 .logo {
   width: 20%;
@@ -114,26 +137,6 @@
   background-color: rgba(45, 157, 255, 0.4156862745);
   border-radius: 0.3rem;
   cursor: pointer;
-}
-
-.btn-contact {
-  background-color: #42EE49;
-  padding: 0.4rem 2.8rem;
-  color: #ffffff;
-  font-family: sans-serif;
-  font-weight: 900;
-  margin: auto;
-  border-radius: 1rem;
-  box-shadow: none;
-  text-decoration: none;
-}
-.btn-contact:active {
-  background-color: rgb(165, 165, 165);
-}
-
-.btn-contact:hover {
-  background-color: #222222;
-  color: rgb(255, 255, 255);
 }
 
 .me-auto {
