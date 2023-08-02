@@ -27,13 +27,13 @@
   text-decoration: none;
   border-radius: 1rem;
   padding: 1rem 5rem;
-  background-color: #6E25CB;
+  background: linear-gradient(45deg, #8641e1, #42EE49);
   color: white;
   margin-left: 7%;
   margin-top: 0%;
 }
 .call-box .holder .sec .left .btn-action:hover {
-  background-color: black;
+  background: black;
   cursor: pointer;
 }
 .call-box .holder .sec .left .customer-text {
@@ -43,6 +43,8 @@
   font-weight: 900;
   text-align: left;
   padding: 3rem;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   background: -webkit-linear-gradient(30deg, #42EE49, #4B00AB);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

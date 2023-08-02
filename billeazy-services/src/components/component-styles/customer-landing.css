@@ -17,12 +17,12 @@
   text-decoration: none;
   border-radius: 1rem;
   padding: 1rem 5rem;
-  background-color: #6E25CB;
+  background: linear-gradient(45deg, #8641e1, #42EE49);
   color: white;
   margin-left: 40%;
 }
 .call-box .holder .btn-action:hover {
-  background-color: black;
+  background: black;
   cursor: pointer;
 }
 .call-box .holder .customer-text {
@@ -34,10 +34,11 @@
   padding: 3rem;
   background: -webkit-linear-gradient(30deg, #42EE49, #4B00AB);
   -webkit-background-clip: text;
+          background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.line-img {
+.line-imgx {
   position: absolute;
   margin-top: -12rem;
   width: 120%;
@@ -71,7 +72,7 @@
   .call-box {
     overflow-x: hidden;
   }
-  .call-box .line-img {
+  .call-box .line-imgx {
     position: absolute;
     margin-top: -9rem;
     width: 140%;
