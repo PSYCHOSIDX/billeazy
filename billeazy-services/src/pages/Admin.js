@@ -35,7 +35,7 @@ const Admin = () => {
     <>
     
     {user ? <NavbarAdminLogout/> : <NavbarLogin/>}
-    {usertype?  <AdminPage/> : <h1 className='alert-admin'> Only Admin Users Can View This Page</h1> }
+    {usertype === 'admin'?  <AdminPage/> : <h1 className='alert-admin'> Only Admin Users Can View This Page</h1> }
    
     <Footer/>
     </>
