@@ -13,7 +13,7 @@ const AgentLanding = () => {
         <div className="holder">
             <div className="sec">
               <div className="left">
-              <h1 className='customer-text'>Track and Pay Electricity Bills Easily with BillEazy</h1>
+              <h1 className='customer-text'>Import Meter Data and Distribute Bills Easily with BillEazy</h1>
             <button className='btn-action' >Let's Start</button>
               </div>
 
