@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Agent from "./pages/Agent";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
+import UploadFile from "./components/UploadFile";
 
 const App = () => {
   return (
@@ -16,7 +17,9 @@ const App = () => {
 
             <Route path='/'  element={<Home/>} />
             <Route path='/employees' element={<Agent/>} />
+            <Route path='/employees/upload' element={<UploadFile/>} />
             <Route path='/admin' element={<Admin/>} />
+
             
             {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}
           <Route path="/login" element={<Login/>} />

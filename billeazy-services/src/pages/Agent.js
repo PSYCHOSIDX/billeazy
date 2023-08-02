@@ -17,7 +17,7 @@ const Agent = () => {
     <>
     
     {user ? <NavbarLogout/> : <NavbarLogin/>}
-    <AgentLanding/>
+    {/* <AgentLanding/> */}
     <AgentFeatures/>
     <AgentWorkFlow/>
     
