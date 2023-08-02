@@ -2,11 +2,12 @@ import React from "react";
 import { Routes, Route} from "react-router-dom";
 import { AuthContextProvider } from "./context/UserAuthContext";
 import ProtectedAdminRoutes from "./components/ProtectedAdminRoutes";
-import Customer from "./pages/Customer";
+
 import Agent from "./pages/Agent";
 import Admin from "./pages/Admin";
 
 import AdminLoginPage from "./pages/AdminLoginPage"
+import CustomerLanding from "./pages/CustomerLanding";
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
 
     
 
-            <Route path='/'  element={<Customer/>} />
+            <Route path='/'  element={<CustomerLanding/>} />
 
             <Route path='/adminlogin'  element={<AdminLoginPage/>} />
 
