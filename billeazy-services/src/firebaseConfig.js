@@ -4,7 +4,7 @@ import {getAuth} from "firebase/auth";
 import { getStorage } from 'firebase/storage';
 
 const firebaseApp = {
-  apiKey: process.env.REACT_APP_FIREBASE_API,
+  apiKey: "AIzaSyAHAUNrUGHUG-Tw4x1aLnS1V3A_EFpnqzQ",
   authDomain: "electricity-billing-32cd0.firebaseapp.com",
   projectId: "electricity-billing-32cd0",
   storageBucket: "electricity-billing-32cd0.appspot.com",

@@ -1,6 +1,6 @@
 import React from 'react'
 import AdminLogin from '../components/AdminLogin'
-import NavbarLogout from '../components/NavbarLogout'
+
 import NavbarBasic from '../components/NavbarBasic'
 import { UserAuth } from '../context/UserAuthContext'
 import Footer from '../components/Footer'
@@ -13,7 +13,7 @@ const AdminLoginPage = () => {
 
   return (
    <>
-    {user ? <NavbarLogout/> : <NavbarBasic/> }
+    {user ?  <NavbarBasic/> : null}
     <AdminLogin />
     <Footer/>
    </>

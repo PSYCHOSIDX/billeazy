@@ -5,12 +5,15 @@ import Row from 'react-bootstrap/Row';
 import '../components/component-styles/customer-landing.css'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-
+import { useNavigate } from 'react-router-dom';
+import { UserAuth } from "../context/UserAuthContext.js";
 
 function AdminForm() {
+const navigate = useNavigate()
 const [email, setEmail] = useState();
-const [pass, setPass] = useState();
-
+const [password, setPass] = useState();
+const [error, setError] = useState("");
+  
 
 const { signin , googleSignIn, user} = UserAuth();
 
@@ -19,12 +22,12 @@ const { signin , googleSignIn, user} = UserAuth();
     e.preventDefault();
     setError('');
     try{
-       await signin(email, pass);
+       await signin(email, password);
        navigate('/admin');
     } 
     catch(e){
       setError(e.message);
-      console.log(e.message);
+      alert(error)
     }
   };
 
@@ -36,7 +39,7 @@ const { signin , googleSignIn, user} = UserAuth();
       <Card.Body >
      
      
-      <Form xs="auto" className='form-admin' onSubmit={''}>
+      <Form xs="auto" className='form-admin' onSubmit={handleSubmit}>
       <Card.Title className='title'>Admin Login</Card.Title>
      
 
