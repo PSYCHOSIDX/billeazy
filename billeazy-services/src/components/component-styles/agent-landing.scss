@@ -7,7 +7,15 @@
     .holder{
         z-index: 5;
         position: absolute;
-       
+        margin: auto;
+      
+        .sec{
+            width: 90%;
+            margin: auto;
+            display: flex;
+            z-index: 5;
+            .left{
+                width: 55%;
         .btn-action{
             z-index: 5;
             all: unset;
@@ -16,90 +24,104 @@
             text-decoration: none;
             border-radius: 1rem;
             padding: 1rem 5rem;
+            
             background: linear-gradient(45deg, #8641e1,#42EE49);
+            
             color: white;
-           margin-left: 40%;
+           margin-left: 8%;
+           margin-top: 0%;
            &:hover{
             background: black;
             cursor: pointer;
            }
         }
         .customer-text{
+            //sass-lint:disable-block 
             z-index: 5;
-            font-size: 4rem;
+            font-size: 3rem;
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
-            text-align: center;
+            text-align: left;
             padding: 3rem;
-            
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
             background: -webkit-linear-gradient(30deg,#42EE49, #4B00AB);
-            background-clip: text;
+            -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent;
         }
+            }
+
+            .right{
+                width: 40%;
+                .bill-img{
+                    width: 80%;
+                    margin: auto;
+                    margin-top: 2rem;
+                }
+            }
+        }
+       
     }
 }
 
-.line-imgx{
+.line-img{
     position: absolute;
-    margin-top: -12rem;
+    margin-top: -19rem;
     width: 120%;
-    margin-left: -49rem;
+    margin-left: -4rem;
     z-index: -8;
     overflow-x: hidden;
 }
 
 
 
-@media screen and (max-width:720px) {
+@media screen and (max-width:800px) {
 
     .call-box{
-        height: 42vh;
+        height: 39vh;
+        z-index: 5;
+        overflow-x: hidden;
+
+    .holder{    
+        overflow-x: hidden;
+        .sec{
+            flex-direction: column;
+            width: 100%;
+            
+            
+            .left{
+                width: 99%;
+                overflow-x: hidden;
+                .customer-text{
+                    font-size: 1.9rem;
+                }
+                .btn-action{
+                    padding: .7rem 30% ;
+                    font-size: .9rem;
+                    font-weight: 900;
+                }
+            
+            }
+
+            .right{
+                width: 95%;
+                display: none;
+            }
+        }
+
+    }
         .line-img{
             position: absolute;
             margin-top: -9rem;
             width: 140%;
-            margin-left: -30rem;
+            margin-left: -0rem;
             z-index: -8;
             overflow-x: hidden;
         }
-        .holder{
-            .btn-action{
-                margin-left: 15%;
-                padding: 1rem 9rem;
-            }
-            .customer-text{
-                font-size: 2rem;
-                margin: 0%;
-            }
-        }
+      
     }
 }
 
-
-@media screen and (max-width:500px) {
-
-    .call-box{
-        overflow-x: hidden;
-        .line-imgx{
-            position: absolute;
-            margin-top: -9rem;
-            width: 140%;
-            margin-left: -30rem;
-            z-index: -8;
-            overflow-x: hidden;
-        }
-        .holder{
-            .btn-action{
-                margin-left: 15%;
-                padding: 1rem 6rem;
-            }
-            .customer-text{
-                font-size: 2rem;
-                margin: 0%;
-            }
-        }
-    }
-}
 
 
 
@@ -108,23 +130,21 @@
 
 
 .features{
-    background-color: #42ee4800;
-
-    .coloredm{
+    background-color: #ffffff;
+   
+    z-index: 5;
+    .colored{
         text-align: center;
         font-family: 'Montserrat', sans-serif;
         font-weight: 900;
-        color: #42EE49;
-        margin-top: -1.2rem;
+        color:#42EE49;
+        margin-top: 3rem;
+        padding-top: 1rem;
     }
     .card-holder-features{
         display: flex;
         justify-content: center;
         align-items: center;
-
-        .coloredm{
-            margin-top: 0;
-        }
         .cards{
             padding: 2.9rem 2rem;
             margin: 1rem;
@@ -134,7 +154,7 @@
             }
             text-align: center;
             background-color: #42EE49;
-            border-radius: 100%;
+            
             .fea{
               font-size: 2rem;  
             }
@@ -154,8 +174,12 @@
 
     .features{
         
+        
+        .colored{
+        margin: 0%;
+        }
     .card-holder-features{
-        flex-direction: row;
+        flex-direction: column;
 
         .cards{
             padding: 1.5rem 1.5rem;

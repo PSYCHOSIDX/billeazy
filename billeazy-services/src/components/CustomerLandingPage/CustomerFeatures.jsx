@@ -1,5 +1,5 @@
 import React from 'react'
-import './component-styles/customer-landing.css'
+import '../component-styles/customer-landing.css'
 import {FaDollarSign} from 'react-icons/fa/'
 import{MdOutlinePublishedWithChanges} from 'react-icons/md'
 import {BsFillArrowDownCircleFill} from 'react-icons/bs'
@@ -11,7 +11,7 @@ const CustomerFeatures = () => {
     <>
     
   <div className="features" id='features-link'>
-    <h5 className='colored'>Features</h5>
+    <h5 className='coloredm'>Features</h5>
     <div className="card-holder-features">
       <div className="cards">
       <FaDollarSign className='fea'/>

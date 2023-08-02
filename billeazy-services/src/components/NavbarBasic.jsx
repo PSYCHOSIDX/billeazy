@@ -12,7 +12,7 @@ function NavbarBasic(){
       <Navbar className='custom-nav'>
       <Container className='container'>
         <Navbar.Brand href="/">
-          <img className='logo' src={logo} alt="RydMate" />
+          <img className='logox' src={logo} alt="RydMate" />
         </Navbar.Brand>
        
       </Container>

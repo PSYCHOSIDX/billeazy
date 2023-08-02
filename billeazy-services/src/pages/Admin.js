@@ -4,24 +4,22 @@ import Footer from '../components/Footer'
 import '../global-styles/global.css'
 import { UserAuth } from '../context/UserAuthContext'
 import NavbarLogout from '../components/NavbarLogout'
-import CustomerWorkFlow from '../components/CustomerLandingPage/CustomerWorkFlow'
-import CustomerFeatures from '../components/CustomerLandingPage/CustomerFeatures'
-import CustomerLanding from'../components/CustomerLandingPage/CustomerLanding'
+import AdminPage from '../components/AdminLandingPage/AdminPage'
 
-const Home = () => {
+
+
+const Admin = () => {
 
   const {user} = UserAuth();
 
   return (
     <>
-  
+    
     {user ? <NavbarLogout/> : <NavbarLogin/>}
-    <CustomerLanding/>
-    <CustomerFeatures/>
-    <CustomerWorkFlow/>
+    <AdminPage/>
     <Footer/>
     </>
   )
 }
 
-export default Home
+export default Admin
