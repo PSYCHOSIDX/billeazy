@@ -92,16 +92,20 @@
 .features {
   background-color: rgba(66, 238, 72, 0);
 }
-.features .colored {
+.features .coloredm {
   text-align: center;
   font-family: "Montserrat", sans-serif;
   font-weight: 900;
-  color: rgb(91, 91, 91);
+  color: #42EE49;
+  margin-top: -1.2rem;
 }
 .features .card-holder-features {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.features .card-holder-features .coloredm {
+  margin-top: 0;
 }
 .features .card-holder-features .cards {
   padding: 2.9rem 2rem;
