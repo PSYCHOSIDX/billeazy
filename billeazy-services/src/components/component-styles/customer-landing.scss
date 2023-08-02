@@ -1,5 +1,62 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@200&family=Unbounded:wght@200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
+
+.form-admin{
+.title{
+     font-family: 'Montserrat', sans-serif;
+     font-weight: 900;
+     padding: 1rem;
+     font-size: 1.6rem;
+}
+
+.field{
+    margin-top: 1.5rem;
+}
+    margin: auto;
+    width: 90%;
+    margin: 2rem;
+    margin-top: 3rem;
+    padding: 1rem;
+    
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-bottom: 9vh;
+    color: #42EE49;
+
+#btn-action-admin{
+    z-index: 5;
+    all: unset;
+    box-shadow: none;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 1rem;
+    padding: .7rem 7rem;
+    background: linear-gradient(45deg, #8641e1,#42EE49);
+    color: white;
+    margin: .9rem;
+    margin-left: 0%;
+   &:hover{
+    background: black;
+    cursor: pointer;
+   }
+}
+
+}
+@media screen and (max-width:720px) {
+
+    .form-admin{
+        margin: .5%;
+        width: 99%;
+        margin-top: 30%;
+        margin-bottom: 30%;
+
+    }
+}
+
+
+
+
 .call-box{
     background-color: rgba(0, 255, 255, 0);
     height: 60vh;
