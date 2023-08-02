@@ -79,8 +79,12 @@
 .container .link-collection li a {
   text-decoration: none;
   color: #ffffff;
+  font-weight: 400;
 }
 .container .link-collection li a:active {
+  color: #42EE49;
+}
+.container .link-collection li a:hover {
   color: #42EE49;
 }
 .container .link-collection li:hover {
