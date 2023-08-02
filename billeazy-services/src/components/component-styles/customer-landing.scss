@@ -31,7 +31,7 @@
             font-weight: 900;
             text-align: center;
             padding: 3rem;
-
+            
             background: -webkit-linear-gradient(30deg,#42EE49, #4B00AB);
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -110,16 +110,21 @@
 .features{
     background-color: #42ee4800;
 
-    .colored{
+    .coloredm{
         text-align: center;
         font-family: 'Montserrat', sans-serif;
         font-weight: 900;
-        color: rgb(91, 91, 91);
+        color: #42EE49;
+        margin-top: -1.2rem;
     }
     .card-holder-features{
         display: flex;
         justify-content: center;
         align-items: center;
+
+        .coloredm{
+            margin-top: 0;
+        }
         .cards{
             padding: 2.9rem 2rem;
             margin: 1rem;

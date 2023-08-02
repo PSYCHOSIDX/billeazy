@@ -29,7 +29,7 @@
   padding: 1rem 5rem;
   background: linear-gradient(45deg, #8641e1, #42EE49);
   color: white;
-  margin-left: 7%;
+  margin-left: 8%;
   margin-top: 0%;
 }
 .call-box .holder .sec .left .btn-action:hover {
@@ -141,9 +141,6 @@
 }
 
 @media screen and (max-width: 720px) {
-  .features {
-    border-top: 3px solid #42EE49;
-  }
   .features .colored {
     margin: 0%;
   }
