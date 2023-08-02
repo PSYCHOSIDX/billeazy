@@ -13,7 +13,7 @@ const AdminLoginPage = () => {
 
   return (
    <>
-    {user ?  <NavbarBasic/> : null}
+    {user ?  null: <NavbarBasic/>}
     <AdminLogin />
     <Footer/>
    </>

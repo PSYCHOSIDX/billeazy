@@ -2,10 +2,10 @@ import React from "react";
 import { Routes, Route} from "react-router-dom";
 import { AuthContextProvider } from "./context/UserAuthContext";
 import ProtectedAdminRoutes from "./components/ProtectedAdminRoutes";
-import Home from "./pages/Home";
+import Customer from "./pages/Customer";
 import Agent from "./pages/Agent";
 import Admin from "./pages/Admin";
-import Login from "./pages/Login";
+
 import AdminLoginPage from "./pages/AdminLoginPage"
 
 const App = () => {
@@ -15,7 +15,8 @@ const App = () => {
 
     
 
-            <Route path='/'  element={<Home/>} />
+            <Route path='/'  element={<Customer/>} />
+
             <Route path='/adminlogin'  element={<AdminLoginPage/>} />
 
             <Route path='/admin' element={<ProtectedAdminRoutes> <Admin/> </ProtectedAdminRoutes>} />
@@ -24,7 +25,7 @@ const App = () => {
             
             
             {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}
-          <Route path="/login" element={<Login/>} />
+   
           <Route path="/admin" element={<Admin/>} />
           
         </Routes>

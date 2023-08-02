@@ -8,7 +8,7 @@ import CustomerWorkFlow from '../components/CustomerLandingPage/CustomerWorkFlow
 import CustomerFeatures from '../components/CustomerLandingPage/CustomerFeatures'
 import CustomerLanding from'../components/CustomerLandingPage/CustomerLanding'
 
-const Home = () => {
+const Customer = () => {
 
   const {user} = UserAuth();
 
@@ -24,4 +24,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Customer

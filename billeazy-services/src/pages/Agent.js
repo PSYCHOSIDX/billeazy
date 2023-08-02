@@ -1,5 +1,5 @@
 import React from 'react'
-import NavbarLogin from '../components/NavbarLogin'
+import NavbarAgentLogin from '../components/NavbarAgentLogin'
 import Footer from '../components/Footer'
 import '../global-styles/global.css'
 import { UserAuth } from '../context/UserAuthContext'
@@ -16,7 +16,7 @@ const Agent = () => {
   return (
     <>
     
-    {user ? null : <NavbarLogin/>}
+    {user ? null : <NavbarAgentLogin/>}
     <AgentLanding/>
     <AgentFeatures/>
     <AgentWorkFlow/>
