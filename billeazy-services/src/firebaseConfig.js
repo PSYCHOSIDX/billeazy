@@ -4,13 +4,12 @@ import {getAuth} from "firebase/auth";
 import { getStorage } from 'firebase/storage';
 
 const firebaseApp = {
-  apiKey: "AIzaSyAEHorfmivcBPIse8hHUwklXGv0Ebcj-ew",
-  authDomain: "fy-project-4521e.firebaseapp.com",
-  projectId: "fy-project-4521e",
-  storageBucket: "fy-project-4521e.appspot.com",
-  messagingSenderId: "823613276124",
-  appId: "1:823613276124:web:e08645ee21a2c00e219919",
-  measurementId: "G-5YRYL96X1R"
+  apiKey: process.env.REACT_APP_FIREBASE_API,
+  authDomain: "electricity-billing-32cd0.firebaseapp.com",
+  projectId: "electricity-billing-32cd0",
+  storageBucket: "electricity-billing-32cd0.appspot.com",
+  messagingSenderId: "12011552111",
+  appId: "1:12011552111:web:4a9896f6f1d8f07019bc9a"
 };
 
 const app = initializeApp(firebaseApp);
