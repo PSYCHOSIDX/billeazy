@@ -1,46 +1,89 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import React, { useState, useEffect } from 'react'
 import '../components/component-styles/customerpage.css';
-
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
-import { useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import Button from 'react-bootstrap/Button';
 import '../components/component-styles/admin-page.css'
-
-import React from 'react'
-
-
-
-
-import logo from '../assets/logo.png';
 import '../components/component-styles/navbar.css';
+import { UserAuth } from '../context/UserAuthContext'
+import {db} from '../firebaseConfig';
+import {collection, getDocs, query, orderBy, where, addDoc} from 'firebase/firestore';
 
 function CustomerBillPage() {
     const [key, setKey] = useState('all');
+    const [name, setName]= useState();
+    const [caNo, setcaNo]= useState();
+    const [meter, setmeter]= useState();
+    const [bill , setBill] = useState([0]);
+    const {user} = UserAuth();
+    const userId = user.uid;
+
+    const consumersCollectionRef = collection(db,`users/${userId}/details`);
+    const billsCollectionRef = collection(db,`bills`);
+
+//get all bills
+
+useEffect(() => {
+    const getBills = async () => {
+      const q = query(billsCollectionRef, where("email", "==", user.email));
+      const data = await getDocs(q);
+      const newData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+      }));
+      console.log("rendered bills"+ newData);
+      setBill(newData);
+    
+    };
+  
+  
+      getBills()
+    }, [])
+
+
+// get consumer details
+    useEffect(() => {
+      const getUser = async () => {
+        const q = query(consumersCollectionRef, where("usertype", "==", "consumer"));
+        const data = await getDocs(q);
+        const newData = data.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+        }));
+        console.log("rendered consumer")
+        newData.map((m)=>(
+            setName(m.consumerName),
+            setcaNo(m.consumerAccNo),
+            setmeter(m.meterNo)
+        ))
+      
+      };
+    
+    
+        getUser()
+      },[])
+
     return (
         <>
            
-            <div className='p-5'>
+            <div className='p-5 '>
                 <div className='my-3'>
                     <Row>
-                        <Col sm={4}>
-                            <h2 className='fw-semibold'>Customer Page</h2>
-                        </Col>
+                       
+                            <h4 className='fw-semibold title '>Welcome {name} </h4>
+                        
                        
                     </Row>
                 </div>
                 <div id="mtrca-number">
-                    <h4>CA no. :<span>0000</span></h4>
-                    <h4>Meter no. :<span>0000</span></h4>
+                    <h5>CA no. :<span>{caNo}</span></h5>
+                    <h5>Meter no. :<span>{meter}</span></h5>
                 </div>
+                <br/>
                 <div>
-                    <div>
+                    <div  className=''>
                         <Tabs
                             id="controlled-tab-example"
                             activeKey={key}
@@ -65,52 +108,29 @@ function CustomerBillPage() {
                                             </Row>
                                         </div>
                                     </Stack>
-                                    <Stack gap={2}>
+                                    {
+                                        bill.map((b)=>(
+                                            <Stack gap={2}>
                                         <div className="BillsList bg-light shadow-sm p-2">
                                             <Row>
-                                                <Col>0000</Col>
-
-                                                <Col>dd/mm/yy</Col>
-                                                <Col>0000</Col>
-                                                <Col>dd/mm/yy</Col>
-                                                <Col>0000</Col>
-                                                <Col>00</Col>
-                                                <Col>--</Col>
-                                                <Col>Pending</Col>
+                                            
+                                                <Col>{b.billNo}</Col>
+                                                <Col>{b.currentReadingDate}</Col>
+                                                <Col>{b.currentReading}</Col>
+                                                <Col>{b.previousReadingDate}</Col>
+                                                <Col>{b.previousReading}</Col>
+                                                <Col>{b.readingDifference}</Col>
+                                                <Col>{b.amount}</Col>
+                                                <Col>{b.paymentStatus}</Col>
                                                 <Col><a class="bn60" href="/">Report</a></Col>
+
                                             </Row>
                                         </div>
-                                        <div className="BillsList bg-light shadow-sm p-2">
-                                            <Row>
-                                                <Col>0000</Col>
-
-                                                <Col>dd/mm/yy</Col>
-                                                <Col>0000</Col>
-                                                <Col>dd/mm/yy</Col>
-                                                <Col>0000</Col>
-                                                <Col>00</Col>
-                                                <Col>--</Col>
-                                                <Col>Pending</Col>
-                                                <Col><a class="bn60" href="/">Report</a></Col>
-                                            </Row>
-                                        </div>
-                                        <div className="BillsList bg-light shadow-sm p-2">
-                                            <Row>
-                                                <Col>0000</Col>
-
-                                                <Col>dd/mm/yy</Col>
-                                                <Col>0000</Col>
-                                                <Col>dd/mm/yy</Col>
-                                                <Col>0000</Col>
-                                                <Col>00</Col>
-                                                <Col>--</Col>
-                                                <Col>Pending</Col>
-                                                <Col><a class="bn60" href="/">Report</a></Col>
-                                                    
-                                                
-                                            </Row>
-                                        </div>
+                                       
                                     </Stack>
+                                        ))
+                                    }
+                                    
                                 </div>
                             </Tab>
                             <Tab eventKey="pending" title="Pending">
@@ -130,6 +150,8 @@ function CustomerBillPage() {
                                             </Row>
                                         </div>
                                     </Stack>
+
+
                                     <Stack gap={2}>
                                         <div className="BillsList bg-light shadow-sm p-2">
                                             <Row>
@@ -163,6 +185,7 @@ function CustomerBillPage() {
                                         </Row>
                                     </div>
                                 </Stack>
+
                                 <Stack gap={2}>
                                     <div className="BillsList bg-light shadow-sm p-2">
                                         <Row>
