@@ -23,21 +23,23 @@ const Admin = () => {
       const adminCollection = collection(db,`users/${userId}/details`);
       const adminSnapshot = await getDocs(adminCollection);
       const AdminList = adminSnapshot.docs.map(doc => doc.data());
+      
       setAdminData(AdminList);
-    adminData.map((x)=>(setType(x.usertype)));
+      console.log(adminData);
+      
     };
     fetchData();
 
     
   },[]);
-
-
+  
   return (
-    <>
     
+    <>
     {user ? <NavbarAdminLogout/> : <NavbarBasic/>}
-    {usertype === 'admin'?  <AdminPage/> : <h1 className='alert-admin'> Only Admin Users Can View This Page</h1> }
-   
+    {/* {usertype ? null : <div>Loading...</div>} */}
+    {usertype &&(usertype== 'admin'?  <AdminPage/> : <h1 className='alert-admin'> Only Admin Users Can View This Page</h1>) }
+    <AdminPage/>
     <Footer/>
     </>
   )
