@@ -42,7 +42,7 @@ const Customer = () => {
       <>
 
        {user ? <NavbarCustomerLogout/> : <NavbarLogin/>}
-      {usertype&&usertype === 'consumer' ? <CustomerBillPage/> : <h1 className='alert-admin'> Loading ..</h1>}
+      {usertype && usertype === 'consumer' ? <CustomerBillPage/> : <h1 className='alert-admin'> Loading ..</h1>}
         <Footer/> 
         
       
