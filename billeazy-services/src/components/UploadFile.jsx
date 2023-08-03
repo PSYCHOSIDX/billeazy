@@ -3,6 +3,16 @@ import { useState, useCallback  } from "react";
 import {getFirestore, addDoc, collection} from '@firebase/firestore';
 import app from "../firebaseConfig";
 import Dropzone from "./DropZone";
+import { UserAuth } from "../context/UserAuthContext";
+import Footer from "./Footer";
+import NavbarAdminLogout  from "./NavbarAdminLogout";
+import NavbarLogin from "./NavbarLogin";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Table from 'react-bootstrap/Table';
+
+import "./component-styles/upload-file.css"
+
 
 const allowedExtensions = ["csv"];
 const db = getFirestore(app);
@@ -11,6 +21,7 @@ const reqFields=['Meter_Reading', 'Unit', 'Current_Reading_Date', 'Current_Readi
         'Prev_Reading_Date', 'Prev_Reading', 'Reading_Difference', 'MF', 'Consumption', 'Reading_Remark'];
 
 const UploadFile = () =>{
+  const {user} = UserAuth();
    // This state will store the parsed data
   
    const [cols,setCols] = useState([]);
@@ -23,12 +34,15 @@ const UploadFile = () =>{
    // It will store the file uploaded by the user
    const [file, setFile] = useState("");
 
+   const [show,setShow] = useState(false);
+
      // This function will be called when
     // the file input changes
 
     const onDrop = useCallback(acceptedFiles => {
       // this callback will be called after files get dropped, we will get the acceptedFiles. If you want, you can even access the rejected files too
       handleFileChange(acceptedFiles);
+      // handleParse();
     }, []);
     const handleFileChange = (files) => {
       setError("");
@@ -71,63 +85,92 @@ const UploadFile = () =>{
         const valid = reqFields.every(value =>{
           return columns.includes(value);
         })
-        // if(!valid){
-        //   setError("All columns not present in csv");
-        //   return;
-        // }
+        if(!valid){
+          setError("All columns not present in csv");
+          return;
+        }
         setCols(columns);
         setData(parsedData);
-       
+        setError("Data Preview")
         console.log("added data");
     };
     reader.readAsText(file);
 };
 
 const onAcceptHandler = () =>{
-   data.forEach(row => {
-           addDoc(colRef,
-            {
-            "Meter Reading": row.Meter_Reading,
-            "Unit": row.Unit,
-            "Current Reading Date": row.Current_Reading_Date,
-            "Current Reading" :row.Current_Reading ,
-            "Prev Reading Date" : row.Prev_Reading_Date,
-            "Prev Reading" : row.Prev_Reading,
-            "Reading Difference" : row.Reading_Difference,
-            "MF" : row.MF,
-            "Consumption" : row.Consumption,
-            "Reading Remark" : row.Reading_Remark,
-          });
-        }); 
-}
+ 
+  // setData(data.slice(0, -1));
+  // console.log(data);
+    data.forEach(row => {
+      addDoc(colRef,
+       {
+       "Meter Reading": row.Meter_Reading,
+       "Unit": row.Unit,
+       "Current Reading Date": row.Current_Reading_Date,
+       "Current Reading" :row.Current_Reading ,
+       "Prev Reading Date" : row.Prev_Reading_Date,
+       "Prev Reading" : row.Prev_Reading,
+       "Reading Difference" : row.Reading_Difference,
+       "MF" : row.MF,
+       "Consumption" : row.Consumption,
+       "Reading Remark" : row.Reading_Remark,
+     });
+   });
+   setCols([]);
+   setData([]);
+   setError("Data pushed successfully")
+   setShow(false);
+  }
+  
+   
+
 return (
   <div>
-      <label htmlFor="csvInput" style={{ display: "block" }}>
-          Enter CSV File
-      </label>
+    {user ? <NavbarAdminLogout/> : <NavbarLogin/>}
+    <div className="upload-area">
+      {/* <label htmlFor="csvInput" style={{ display: "block" }}>
+          Upload your CSV file with meter
+      </label> */}
       {/* <input
           onChange={handleFileChange}
           id="csvInput"
           name="file"
           type="File"
       /> */}
-        <Dropzone onDrop={onDrop}/>
+        <Dropzone className='drop-area' onDrop={onDrop}/>
         {file !=""? <div>{file["name"]}</div>:console.log("")}
       <div>
-          <button onClick={handleParse}>Parse</button>
+          <Button variant="outline-primary" className="parse-btn" onClick={handleParse}>Parse</Button>
       </div>
-      <div style={{ marginTop: "3rem" }}>
+      <div className="preview-table"style={{ marginTop: "3rem" }}>
 
-          {error ? error : "All right"}
-          <table>
-            <tr>{cols.map(col =><th key={col}>{col}</th>)}</tr>
-            {data.map((row,idx) => 
+          {error ?? error }
+          <Table striped bordered>
+           <thead> <tr>{cols.map(col =><th key={col}>{col}</th>)}</tr></thead>
+           <tbody>{data.map((row,idx) => 
             <tr key={idx}>{
               cols.map(c => <td key={row[c]}>{row[c]}</td>)
             }</tr>)}
-          </table>
-          <button onClick={onAcceptHandler}>Accept</button>
+            </tbody> 
+          </Table>
+        {file ?<Button variant="outline-primary" className="m-5" onClick={()=> setShow(true)}>Upload</Button>:null}
+          
+      <Modal show={show} onHide={()=> setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add to database?</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={()=> setShow(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={onAcceptHandler}>
+            Add
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </div>
+      </div>
+      <Footer/>
   </div>
 );
 };

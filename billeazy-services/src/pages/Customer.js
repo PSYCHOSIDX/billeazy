@@ -27,17 +27,17 @@ const Customer = () => {
         const UserSnapshot = await getDocs(UserCollection);
         const UserList = UserSnapshot.docs.map(doc => doc.data());
         setUserData(UserList);
-      UserData.map((x)=>(setType(x.user_type)));
+      UserData.map((x)=>(setType(x.usertype)));
       };
       fetchData();
   
       
-    });
+    },[]);
+
   
     return (
       <>
 
-      
        {user ? <NavbarCustomerLogout/> : <NavbarLogin/>}
       {usertype === 'consumer' ? <CustomerBillPage/> : <h1 className='alert-admin'> Loading ..</h1>}
         <Footer/> 

@@ -4,5 +4,6 @@
     padding: 20px;
     border: 3px purple dashed;
     width: 60%;
-    margin: auto;
+    margin: 1rem auto;
+    /* margin: auto; */
   }
