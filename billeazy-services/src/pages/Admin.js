@@ -24,12 +24,13 @@ const Admin = () => {
       const adminSnapshot = await getDocs(adminCollection);
       const AdminList = adminSnapshot.docs.map(doc => doc.data());
       setAdminData(AdminList);
-    adminData.map((x)=>(setType(x.user_type)));
+    adminData.map((x)=>(setType(x.usertype)));
     };
     fetchData();
 
     
   },[]);
+
 
   return (
     <>
