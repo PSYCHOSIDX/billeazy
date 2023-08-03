@@ -13,6 +13,8 @@ import Customer from "./pages/Customer";
 import CustomerLandingPage from "./pages/CustomerLandingPage";
 import ProtectedCustomerRoutes from "./components/ProtectedAdminRoutes";
 import AddCustomerConnection from "./pages/AddCustomerConnection"
+import UploadHistory from "./components/UploadHistory";
+import AgentUploadHistory from "./pages/AgentUploadHistory";
 
 const App = () => {
   return (
@@ -29,6 +31,7 @@ const App = () => {
 
             <Route path='/employees' element={<Agent/>} />
             <Route path='/employees/upload' element={<UploadFile/>} />
+            <Route path='/employees/uploadhistory' element={<AgentUploadHistory/>} />
 
             
             
