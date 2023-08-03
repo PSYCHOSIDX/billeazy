@@ -27,6 +27,7 @@ const Admin = () => {
         id: doc.id,
     }));
     
+    console.log("hi")
     newData.map((m)=>(setType(m.usertype)))
   
   };
