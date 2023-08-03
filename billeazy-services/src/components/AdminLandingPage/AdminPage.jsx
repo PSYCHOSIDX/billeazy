@@ -8,14 +8,17 @@ import Modal from 'react-bootstrap/Modal';
 import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc,setDoc } from '@firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 function AdminPage(){
     const [showC, setShowC] = useState(false);
     const [showA, setShowA] = useState(false);
+    const [showBill,setShowBill] = useState(false);
     const handleCloseConsumer = () => setShowC(false);
     const handleCloseAgent = () => setShowA(false);
     const handleShowConsumer = () => setShowC(true);
     const handleShowAgent = () => setShowA(true);
+
 
     const [consumerName,setConsumerName] = useState("");
     const [consumerAccNo,setConsumerAccNo] = useState(`${Math.ceil(Math.random()*Math.pow(10,12))}`);
@@ -27,6 +30,8 @@ function AdminPage(){
     const [meterNo,setMeterNo] = useState("");
     const [tarrifCategory,setTarrifCategory] = useState("");
     const [sanctionedLoad,setSanctionedLoad] = useState("")
+
+    const navigate = useNavigate();
 
     const handleRegister = async e =>{
         //add data validation here
@@ -61,6 +66,11 @@ function AdminPage(){
                     </Col>
                     <Col sm={6}>
                         <Row>
+                            <Col>
+                            <Button className='AdminActionButtons' variant="outline-primary" onClick={()=>navigate("/admin/generate-bill")}>
+                                    Generate Bill
+                            </Button>
+                            </Col>
                             <Col>
                                 <Button className='AdminActionButtons' variant="outline-primary" onClick={handleShowConsumer}>
                                     Register Consumer

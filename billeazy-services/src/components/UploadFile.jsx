@@ -114,6 +114,7 @@ const onAcceptHandler = () =>{
       //  "MF" : row.MF,
        "consumption" : row.Consumption,
        "readingRemark" : row.Reading_Remark,
+       "billGenerated" : false  
      });
    });
    setCols([]);
