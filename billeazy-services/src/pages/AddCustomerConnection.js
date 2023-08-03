@@ -31,7 +31,9 @@ const AddCustomerConnection= () => {
 
 
   
-  
+//checked if account is linked
+
+
 
   useEffect(() => {
     
@@ -39,23 +41,29 @@ const AddCustomerConnection= () => {
       
       const userCollection = collection(db,`users/${userId}/details`);
       const userSnapshot = await getDocs(userCollection);
-      const userList = userSnapshot.docs.map(doc => doc.data());
-      setUserData(userList);
-    userData.map((x)=>(setDetail(x)));
+      const userList = userSnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+    }));
+    //console.log('hello :'+ userList);
+    userList.map((x)=>(setDetail(x)));
  try{
 
-  {userDetail.status === 'verified_consumer' ? navigate('/customer') : setTimeout(setShow(1), 5000);}
+  { userDetail && userDetail.status == 'verified_consumer' ? navigate('/customer') : setShow(1)}
     
   } catch(err){
     console.log(err)
   }
+
  }
      
     
     fetchData();
    
 
-  },[]);
+  },);
+
+
 
 
 
@@ -64,13 +72,15 @@ const AddCustomerConnection= () => {
     setError('');
     try{
       const getOtp = async () => {
-        const q = query(consumersCollectionRef, where("link_otp", "==", pin) );
-       const qmain = query(q,where("email", "==", user.email));
+        const q = query(consumersCollectionRef, where("link_otp", "==", parseInt(pin)) );
+      //  const qmain = query(q,where("email", "==", user.email));
         const data = await getDocs(q);
         const newData = data.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
         }));
+
+        console.log(newData);
         newData.map((x)=>(setLinkInfo(x)));
         if(user.email === linkInfo.email && pin == linkInfo.link_otp){
           console.log('match');
@@ -93,7 +103,6 @@ const AddCustomerConnection= () => {
             }
           
           }
-
           handleLink();
         } else {
           alert('Link Failed')
@@ -114,9 +123,12 @@ const AddCustomerConnection= () => {
   return (
 
     <>
-    { show === 1  ? <>
+    
     
       {user ? <NavbarCustomerLogout/> : <NavbarLogin/>}
+
+      { show === 1  ?
+
       <Card  className='car-card' bg='light'>
      
   
@@ -140,11 +152,14 @@ const AddCustomerConnection= () => {
   
      </Form>
      </Card.Body>
-   </Card> 
+   </Card> : <h3 className='alert-admin'> Access Denied </h3>
+   
+   }
+   
    <Footer/>
-      </> : <h2 className='alert-admin' > Loading </h2>}
+      </> 
 
-      </>
+     
     
   )
 }

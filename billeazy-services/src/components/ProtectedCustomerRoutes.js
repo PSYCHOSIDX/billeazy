@@ -8,7 +8,7 @@ const ProtectedAdminRoutes = ({children}) => {
   const {user} = UserAuth()
 
   if (!user){
-    return <Navigate to='/adminlogin'/>;
+    return <Navigate to='/ ' />;
   }
   return children;
 };

@@ -18,28 +18,31 @@ const Customer = () => {
     const userId = user.uid;
     const [UserData, setUserData] = useState([0]);
     const [usertype, setType] = useState();
-  
+    const consumersCollectionRef = collection(db,`users/${userId}/details`);
 
     useEffect(() => {
-      const fetchData = async () => {
-        
-        const UserCollection = collection(db,`users/${userId}/details`);
-        const UserSnapshot = await getDocs(UserCollection);
-        const UserList = UserSnapshot.docs.map(doc => doc.data());
-        setUserData(UserList);
-      UserData.map((x)=>(setType(x.usertype)));
-      };
-      fetchData();
-  
+      const getUser = async () => {
+        const q = query(consumersCollectionRef, where("usertype", "==", "consumer"));
+        const data = await getDocs(q);
+        const newData = data.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+        }));
+        console.log("rendered")
+        newData.map((m)=>(setType(m.usertype)))
       
-    },[]);
-
+      };
+    
+    
+        getUser()
+      },)
+    
   
     return (
       <>
 
        {user ? <NavbarCustomerLogout/> : <NavbarLogin/>}
-      {usertype === 'consumer' ? <CustomerBillPage/> : <h1 className='alert-admin'> Loading ..</h1>}
+      {usertype&&usertype === 'consumer' ? <CustomerBillPage/> : <h1 className='alert-admin'> Loading ..</h1>}
         <Footer/> 
         
       
