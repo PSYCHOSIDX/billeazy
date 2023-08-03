@@ -8,7 +8,7 @@ const ProtectedCustomerRoutes = ({children}) => {
   const {user} = UserAuth()
 
   if (!user){
-    return <Navigate to='/'/>;
+    return <Navigate to='/adminlogin'/>;
   }
   return children;
 };
