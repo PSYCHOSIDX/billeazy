@@ -27,6 +27,7 @@ function AdminPage(){
     const [meterNo,setMeterNo] = useState("");
     const [tarrifCategory,setTarrifCategory] = useState("");
     const [sanctionedLoad,setSanctionedLoad] = useState("")
+    const link_otp = Math.ceil(Math.random()*Math.pow(10,6));
 
     const handleRegister = async e =>{
         //add data validation here
@@ -40,13 +41,15 @@ function AdminPage(){
             energizationDate,
             meterNo,
             tarrifCategory,
-            sanctionedLoad
+            sanctionedLoad,
+            link_otp 
         };
 
         try{
             await setDoc(doc(db, "consumers", `${consumerAccNo}`), {
               ...newConsumer
             });
+
         }catch(error){
             console.log(error);
         }
@@ -131,51 +134,6 @@ function AdminPage(){
                                                     </Form.Label>
                                                     <Col sm={8}>
                                                     <Form.Control type="date" placeholder="energizationDate" /* id="energizationDate" */ name="energizationDate" value={energizationDate} onChange={e=>setEnergizationDate(e.target.value)} />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementInstallationNo">
-                                                    <Form.Label column sm={4}>
-                                                    Installation No.
-                                                    </Form.Label>
-                                                    <Col sm={8}>
-                                                        <Form.Control type="number" placeholder="" />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAddress">
-                                                    <Form.Label column sm={4}>
-                                                    Address
-                                                    </Form.Label>
-                                                    <Col sm={8}>
-                                                        <Form.Control type="text" placeholder="" />
-                                                    </Col>
-                                                </Form.Group>
-                                                
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementContactNo">
-                                                    <Form.Label column sm={4}>
-                                                    Contact No.
-                                                    </Form.Label>
-                                                    <Col sm={8}>
-                                                        <Form.Control type="number" placeholder="" />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementEmail">
-                                                    <Form.Label column sm={4}>
-                                                    Email ID
-                                                    </Form.Label>
-                                                    <Col sm={8}>
-                                                        <Form.Control type="email" placeholder="" />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementEnergization">
-                                                    <Form.Label column sm={4}>
-                                                    Energization Date
-                                                    </Form.Label>
-                                                    <Col sm={8}>
-                                                        <Form.Control type="date" />
                                                     </Col>
                                                 </Form.Group>
 
