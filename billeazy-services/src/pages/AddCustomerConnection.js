@@ -54,8 +54,8 @@ const AddCustomerConnection= () => {
     
     fetchData();
    
-  }, []);
 
+  },[]);
 
 
 

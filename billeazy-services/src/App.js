@@ -5,6 +5,7 @@ import ProtectedAdminRoutes from "./components/ProtectedAdminRoutes";
 
 import Agent from "./pages/Agent";
 import Admin from "./pages/Admin";
+import UploadFile from "./components/UploadFile";
 
 import AdminLoginPage from "./pages/AdminLoginPage"
 
@@ -27,6 +28,8 @@ const App = () => {
             <Route path='/admin' element={<ProtectedAdminRoutes> <Admin/> </ProtectedAdminRoutes>} />
 
             <Route path='/employees' element={<Agent/>} />
+            <Route path='/employees/upload' element={<UploadFile/>} />
+
             
             
             {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}

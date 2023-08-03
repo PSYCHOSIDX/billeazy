@@ -23,7 +23,7 @@ const Dropzone = ({ onDrop, accept }) => {
           <p className="dropzone-content">Release to drop the files here</p>
         ) : (
           <p className="dropzone-content">
-            Drag 'n' drop some files here, or click to select files
+            Drag and drop your meter reading file
           </p>
         )}
       </div>

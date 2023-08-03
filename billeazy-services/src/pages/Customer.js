@@ -32,7 +32,8 @@ const Customer = () => {
       fetchData();
   
       
-    }, []);
+    },[]);
+
   
     return (
       <>
