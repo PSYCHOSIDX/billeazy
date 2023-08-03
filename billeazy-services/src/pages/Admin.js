@@ -29,7 +29,7 @@ const Admin = () => {
     fetchData();
 
     
-  });
+  },[]);
 
   return (
     <>
