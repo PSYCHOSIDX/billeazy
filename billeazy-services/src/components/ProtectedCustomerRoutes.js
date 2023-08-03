@@ -4,13 +4,13 @@ import {UserAuth} from '../context/UserAuthContext';
 
 
 
-const ProtectedCustomerRoutes = ({children}) => {
+const ProtectedAdminRoutes = ({children}) => {
   const {user} = UserAuth()
 
   if (!user){
-    return <Navigate to='/'/>;
+    return <Navigate to='/adminlogin'/>;
   }
   return children;
 };
 
-export default ProtectedCustomerRoutes
+export default ProtectedAdminRoutes

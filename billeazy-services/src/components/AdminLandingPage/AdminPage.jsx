@@ -1,10 +1,7 @@
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Stack from 'react-bootstrap/Stack';
 import '../component-styles/admin-page.css';
 import { useState } from 'react';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -13,10 +10,8 @@ import { db } from '../../firebaseConfig';
 import { doc,setDoc } from '@firebase/firestore';
 
 function AdminPage(){
-    const [key, setKey] = useState('all');
     const [showC, setShowC] = useState(false);
     const [showA, setShowA] = useState(false);
-    const [showT, setShowT] = useState(false);
     const handleCloseConsumer = () => setShowC(false);
     const handleCloseAgent = () => setShowA(false);
     const handleShowConsumer = () => setShowC(true);
@@ -139,6 +134,51 @@ function AdminPage(){
                                                     </Col>
                                                 </Form.Group>
 
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementInstallationNo">
+                                                    <Form.Label column sm={4}>
+                                                    Installation No.
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                        <Form.Control type="number" placeholder="" />
+                                                    </Col>
+                                                </Form.Group>
+
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAddress">
+                                                    <Form.Label column sm={4}>
+                                                    Address
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                        <Form.Control type="text" placeholder="" />
+                                                    </Col>
+                                                </Form.Group>
+                                                
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementContactNo">
+                                                    <Form.Label column sm={4}>
+                                                    Contact No.
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                        <Form.Control type="number" placeholder="" />
+                                                    </Col>
+                                                </Form.Group>
+
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementEmail">
+                                                    <Form.Label column sm={4}>
+                                                    Email ID
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                        <Form.Control type="email" placeholder="" />
+                                                    </Col>
+                                                </Form.Group>
+
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementEnergization">
+                                                    <Form.Label column sm={4}>
+                                                    Energization Date
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                        <Form.Control type="date" />
+                                                    </Col>
+                                                </Form.Group>
+
                                                 <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
                                                     <Form.Label column sm={4}>
                                                     Meter Number
@@ -148,9 +188,9 @@ function AdminPage(){
                                                     </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerType">
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementSecurityDeposit">
                                                     <Form.Label column sm={4}>
-                                                        Consumer Type
+                                                    Security Deposit
                                                     </Form.Label>
                                                     <Col sm={8}>
                                                         <Form.Select /* id="tarrifCategory" */ name="tarrifCategory" value ={tarrifCategory} onChange={e=>setTarrifCategory(e.target.value)}>
@@ -215,6 +255,15 @@ function AdminPage(){
                                                     </Form.Label>
                                                     <Col sm={8}>
                                                     <Form.Control type="text" placeholder="Agent name" />
+                                                    </Col>
+                                                </Form.Group>
+
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementAgentContact">
+                                                    <Form.Label column sm={4}>
+                                                    Contact No.
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                    <Form.Control type="number" placeholder="" />
                                                     </Col>
                                                 </Form.Group>
 
