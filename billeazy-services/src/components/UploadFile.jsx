@@ -17,8 +17,8 @@ import "./component-styles/upload-file.css"
 const allowedExtensions = ["csv"];
 const db = getFirestore(app);
 const colRef = collection(db,"Meter Reading");
-const reqFields=['Meter_Reading', 'Unit', 'Current_Reading_Date', 'Current_Reading', 
-        'Prev_Reading_Date', 'Prev_Reading', 'Reading_Difference', 'MF', 'Consumption', 'Reading_Remark'];
+const reqFields=['Meter_No', 'Unit', 'Current_Reading_Date', 'Current_Reading', 
+        'Prev_Reading_Date', 'Prev_Reading', 'Reading_Difference', 'Consumption', 'Reading_Remark'];
 
 const UploadFile = () =>{
   const {user} = UserAuth();
@@ -104,16 +104,16 @@ const onAcceptHandler = () =>{
     data.forEach(row => {
       addDoc(colRef,
        {
-       "Meter Reading": row.Meter_Reading,
-       "Unit": row.Unit,
-       "Current Reading Date": row.Current_Reading_Date,
-       "Current Reading" :row.Current_Reading ,
-       "Prev Reading Date" : row.Prev_Reading_Date,
-       "Prev Reading" : row.Prev_Reading,
-       "Reading Difference" : row.Reading_Difference,
-       "MF" : row.MF,
-       "Consumption" : row.Consumption,
-       "Reading Remark" : row.Reading_Remark,
+       "meterNo": row.Meter_No,
+       "unit": row.Unit,
+       "currentReadingDate": row.Current_Reading_Date,
+       "currentReading" :row.Current_Reading ,
+       "prevReadingDate" : row.Prev_Reading_Date,
+       "prevReading" : row.Prev_Reading,
+       "readingDifference" : row.Reading_Difference,
+      //  "MF" : row.MF,
+       "consumption" : row.Consumption,
+       "readingRemark" : row.Reading_Remark,
      });
    });
    setCols([]);
