@@ -15,27 +15,46 @@ const Admin = () => {
   const {user} = UserAuth();
   const userId = user.uid;
   const [adminData, setAdminData] = useState([0]);
-  const [usertype, setType] = useState();
-
+  const [usertype, setType] = useState(null);
+  const userCollectionRef = collection(db,`users/${userId}/details`);
+  
   useEffect(() => {
-    const fetchData = async () => {
-      
-      const adminCollection = collection(db,`users/${userId}/details`);
-      const adminSnapshot = await getDocs(adminCollection);
-      const AdminList = adminSnapshot.docs.map(doc => doc.data());
-      
-      setAdminData(AdminList);
-    adminData.map((x)=>(setType(x.user_type)));
-    };
-    fetchData();
-
+  const getAdmin = async () => {
+    const q = query(userCollectionRef, where("usertype", "==", "admin"));
+    const data = await getDocs(q);
+    const newData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+    }));
     
-  });
+    newData.map((m)=>(setType(m.usertype)))
+  
+  };
+
+
+    getAdmin()
+  },)
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+      
+  //     const adminCollection = collection(db,`users/${userId}/details`);
+  //     const adminSnapshot = await getDocs(adminCollection);
+  //     const AdminList = adminSnapshot.docs.map((doc) => ({
+  //       ...doc.data(),
+  //       id: doc.id,
+  //   }));
+  //     setAdminData(AdminList);
+  //     adminData.map((x)=>(setType(x.usertype)));
+  //   };  
+  //   fetchData();
+  // }, []);
 
   return (
     <>
     {user ? <NavbarAdminLogout/> : <NavbarLogin/>}
-    {usertype === 'admin'?  <AdminPage/> : <h1 className='alert-admin'> Only Admin Users Can View This Page</h1> }
+    { console.log(usertype)}
+    {usertype && (usertype === 'admin'?  <AdminPage/> : <h1 className='alert-admin'> Only Admin Users Can View This Page</h1>) }
    
     <Footer/>
     </>
