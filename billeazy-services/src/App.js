@@ -11,6 +11,8 @@ import AdminLoginPage from "./pages/AdminLoginPage"
 
 import Customer from "./pages/Customer";
 import CustomerLandingPage from "./pages/CustomerLandingPage";
+import ProtectedCustomerRoutes from "./components/ProtectedAdminRoutes";
+import AddCustomerConnection from "./pages/AddCustomerConnection"
 
 const App = () => {
   return (
@@ -33,7 +35,10 @@ const App = () => {
             {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}
    
           <Route path="/admin" element={<Admin/>} />
-          <Route path="/customer" element={<Customer/>} />
+          <Route path="/customer" element={<ProtectedCustomerRoutes><Customer/></ProtectedCustomerRoutes>} />
+          <Route path="/addcustomerlink" element={<ProtectedCustomerRoutes><AddCustomerConnection/></ProtectedCustomerRoutes>} />
+
+
         </Routes>
         </AuthContextProvider>
           

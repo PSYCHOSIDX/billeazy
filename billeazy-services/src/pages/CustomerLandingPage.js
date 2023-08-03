@@ -9,9 +9,13 @@ import CustomerFeatures from '../components/CustomerLandingPage/CustomerFeatures
 import CustomerLanding from'../components/CustomerLandingPage/CustomerLanding'
 import NavbarCustomerLogout from '../components/NavbarCustomerLogout'
 
-const CustomerLandingPage = () => {
+import { Link, useNavigate} from "react-router-dom";
 
+const CustomerLandingPage = () => {
   const {user} = UserAuth();
+const navigate = useNavigate();
+  (user&& navigate('/addcustomerlink') )
+
 
   return (
     <>

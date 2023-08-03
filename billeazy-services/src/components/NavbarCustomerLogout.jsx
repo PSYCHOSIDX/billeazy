@@ -72,17 +72,17 @@ function Profile({ name, ...props }) {
         <Offcanvas.Body>
       
        {
-          user.photoURL ? <img src={user.photoURL} alt='' className='profile'/> : <FaRegUser  className='usericonx'  />}
+          user.photoURL ? <img src={user.photoURL} className='profile'/> : <FaRegUser  className='usericonx'  />}
           {/* <h4> <b>Name</b> </h4>
           <h5>{user.displayName}</h5>  */}
           <br/>
           <h4><b>Email</b></h4>
           <h5>{user.email}</h5>
 
-
-           <Link className='link' to='/customer'>
+{/* 
+           <Link className='link' to='/customer' href='/customer'>
               <Button as="input" id='update-button-x' type="button" value="Home"/> 
-          </Link>
+          </Link> */}
          
           
           <button onClick={handleLogout} className='btn-action-admin' id='visible'> Logout </button>
@@ -128,7 +128,7 @@ function NavbarCustomerLogout(){
     <>
       <Navbar className='custom-nav'>
       <Container className='container'>
-        <Navbar.Brand href="/admin">
+        <Navbar.Brand href="/customer">
         <img className='logo' src={logo} alt="BillEazy" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className='n' />
