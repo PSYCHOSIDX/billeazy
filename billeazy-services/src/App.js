@@ -13,6 +13,8 @@ import Customer from "./pages/Customer";
 import CustomerLandingPage from "./pages/CustomerLandingPage";
 import ProtectedCustomerRoutes from "./components/ProtectedAdminRoutes";
 import AddCustomerConnection from "./pages/AddCustomerConnection"
+import UploadHistory from "./components/UploadHistory";
+import AgentUploadHistory from "./pages/AgentUploadHistory";
 
 const App = () => {
   return (
@@ -23,8 +25,11 @@ const App = () => {
             <Route path='/admin' element={<ProtectedAdminRoutes> <Admin/> </ProtectedAdminRoutes>} />
             <Route path='/employees' element={<Agent/>} />
             <Route path='/employees/upload' element={<UploadFile/>} />
-            <Route path="/customer" element={<ProtectedCustomerRoutes><Customer/></ProtectedCustomerRoutes>} />
-            <Route path="/addcustomerlink" element={<ProtectedCustomerRoutes><AddCustomerConnection/></ProtectedCustomerRoutes>} />
+            <Route path='/employees/uploadhistory' element={<AgentUploadHistory/>} />
+          <Route path="/customer" element={<ProtectedCustomerRoutes><Customer/></ProtectedCustomerRoutes>} />
+          <Route path="/addcustomerlink" element={<ProtectedCustomerRoutes><AddCustomerConnection/></ProtectedCustomerRoutes>} />
+
+
         </Routes>
         </AuthContextProvider>
           
