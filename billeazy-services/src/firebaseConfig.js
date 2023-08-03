@@ -4,12 +4,12 @@ import {getAuth} from "firebase/auth";
 import { getStorage } from 'firebase/storage';
 
 const firebaseApp = {
-  apiKey: "AIzaSyBSQxFkHLvZ0Y_5_Gz-A2KqvCEiQcLYOJw",
-  authDomain: "goa-electricity-system.firebaseapp.com",
-  projectId: "goa-electricity-system",
-  storageBucket: "goa-electricity-system.appspot.com",
-  messagingSenderId: "880526443443",
-  appId: "1:880526443443:web:c7c3cbfc150e4859b541c6"
+  apiKey: "AIzaSyAxASR2IbmiVIXdLSIHRDmz4NoZhsHfh3M",
+  authDomain: "test-da514.firebaseapp.com",
+  projectId: "test-da514",
+  storageBucket: "test-da514.appspot.com",
+  messagingSenderId: "574180796106",
+  appId: "1:574180796106:web:53bcd66a50e4f89247b633"
 };
 
 const app = initializeApp(firebaseApp);

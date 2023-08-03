@@ -13,6 +13,7 @@ import Customer from "./pages/Customer";
 import CustomerLandingPage from "./pages/CustomerLandingPage";
 import ProtectedCustomerRoutes from "./components/ProtectedAdminRoutes";
 import AddCustomerConnection from "./pages/AddCustomerConnection"
+import GenerateBill from "./pages/GenerateBill";
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
             {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}
    
           <Route path="/admin" element={<Admin/>} />
+          <Route path="/admin/generate-bill" element={<GenerateBill/>} />
           <Route path="/customer" element={<ProtectedCustomerRoutes><Customer/></ProtectedCustomerRoutes>} />
           <Route path="/addcustomerlink" element={<ProtectedCustomerRoutes><AddCustomerConnection/></ProtectedCustomerRoutes>} />
 

@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@200&family=Unbounded:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
 #bg-body-tertiary{
     background-color: #42EE49;
 }
@@ -58,4 +61,17 @@
     height: 35px;
     width: 80px;
     
+  }
+
+  .title{
+    text-align: left;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: 2rem;
+    color: #4B00AB;
+  }
+
+  .table{
+    overflow: scroll;
   }
