@@ -17,27 +17,34 @@ function AdminPage(){
     const handleShowConsumer = () => setShowC(true);
     const handleShowAgent = () => setShowA(true);
 
-    const [consumerName,setConsumerName] = useState("");
+    const [cName,setCName] = useState("");
     const [consumerAccNo,setConsumerAccNo] = useState(`${Math.ceil(Math.random()*Math.pow(10,12))}`);
     const [instNo,setInstNo] = useState(Math.ceil(Math.random()*Math.pow(10,6)).toString());
-    const [address,setAddress] = useState("");
-    const [telephoneNo,setTelephoneNo] = useState("");
-    const [email,setEmail] = useState("");
+    const [cAddress,setCAddress] = useState("");
+    const [cTelephoneNo,setCTelephoneNo] = useState("");
+    const [cEmail,setCEmail] = useState("");
     const [energizationDate,setEnergizationDate] = useState("");
     const [meterNo,setMeterNo] = useState("");
     const [tarrifCategory,setTarrifCategory] = useState("");
     const [sanctionedLoad,setSanctionedLoad] = useState("")
-    const link_otp = Math.ceil(Math.random()*Math.pow(10,6));
+    const [link_otp,setLink_otp] = useState(null);
 
-    const handleRegister = async e =>{
+    const [aName,setAName] = useState("");
+    const [agentId,setAgentId] = useState(`${Math.ceil(Math.random()*Math.pow(10,12))}`);
+    const [aAddress,setAAddress] = useState("");
+    const [aTelephoneNo,setATelephoneNo] = useState("");
+    const [aEmail,setAEmail] = useState("");
+
+    const handleConsumerRegister = async e =>{
         //add data validation here
+        setLink_otp(Math.ceil(Math.random()*Math.pow(10,6)));
         const newConsumer = {
-            consumerName,
+            cName,
             consumerAccNo,
             instNo,
-            address,
-            telephoneNo,
-            email,
+            cAddress,
+            cTelephoneNo,
+            cEmail,
             energizationDate,
             meterNo,
             tarrifCategory,
@@ -53,7 +60,34 @@ function AdminPage(){
         }catch(error){
             console.log(error);
         }
-    }
+    };
+
+    const handleAgentRegister = async e =>{
+        //add data validation here
+        setLink_otp(Math.ceil(Math.random()*Math.pow(10,6)));
+        const newConsumer = {
+            consumerName,
+            consumerAccNo,
+            instNo,
+            cAddress,
+            cTelephoneNo,
+            cEmail,
+            energizationDate,
+            meterNo,
+            tarrifCategory,
+            sanctionedLoad,
+            link_otp 
+        };
+
+        try{
+            await setDoc(doc(db, "consumers", `${consumerAccNo}`), {
+              ...newConsumer
+            });
+
+        }catch(error){
+            console.log(error);
+        }
+    };
 
     return(
         <div className='p-5'>
@@ -80,7 +114,7 @@ function AdminPage(){
                                                     Name
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" placeholder="consumer name" /* name="consumerName" */ value={consumerName} onChange={e=>setConsumerName(e.target.value)}/>
+                                                    <Form.Control type="text" placeholder="consumer name" /* id="consumerName" */ name="consumerName" value={consumerName} onChange={e=>setConsumerName(e.target.value)}/>
                                                     </Col>
                                                 </Form.Group>
 
@@ -152,9 +186,9 @@ function AdminPage(){
                                                     </Form.Label>
                                                     <Col sm={8}>
                                                         <Form.Select /* id="tarrifCategory" */ name="tarrifCategory" value ={tarrifCategory} onChange={e=>setTarrifCategory(e.target.value)}>
-                                                            <option>Domestic</option>
-                                                            <option>Commercial</option>
-                                                            <option>Industrial</option>
+                                                            <option value={"domestic"}>Domestic</option>
+                                                            <option value={"commercial"}>Commercial</option>
+                                                            <option value={"industrial"}>Industrial</option>
                                                         </Form.Select>
                                                     </Col>
                                                 </Form.Group>
@@ -183,7 +217,7 @@ function AdminPage(){
                                         <Button variant="secondary" onClick={handleCloseConsumer}>
                                             Cancel
                                         </Button>
-                                        <Button variant="primary" onClick={function(event){handleCloseConsumer(); handleRegister()}}>
+                                        <Button variant="primary" onClick={function(event){handleCloseConsumer(); handleConsumerRegister()}}>
                                             Register
                                         </Button>
                                     </Modal.Footer>
@@ -198,6 +232,15 @@ function AdminPage(){
                                     <Modal.Body>
                                         <div className='forms'>
                                         <Form>
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementAgentName">
+                                                    <Form.Label column sm={4}>
+                                                    Name
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                    <Form.Control type="text" placeholder="agent name" /* id="agentName" */ name="agentName" value={aName} onChange={e=>setAName(e.target.value)}/>
+                                                    </Col>
+                                                </Form.Group>
+
                                                 <Form.Group as={Row} className="mb-3" controlId="FormElementAgentId">
                                                     <Form.Label column sm={4}>
                                                     Agent ID
@@ -207,32 +250,32 @@ function AdminPage(){
                                                     </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementAgentName">
-                                                    <Form.Label column sm={4}>
-                                                    Name
-                                                    </Form.Label>
-                                                    <Col sm={8}>
-                                                    <Form.Control type="text" placeholder="Agent name" />
-                                                    </Col>
-                                                </Form.Group>
-
                                                 <Form.Group as={Row} className="mb-3" controlId="FormElementAgentContact">
                                                     <Form.Label column sm={4}>
-                                                    Contact No.
+                                                    Contact Number
                                                     </Form.Label>
                                                     <Col sm={8}>
                                                     <Form.Control type="number" placeholder="" />
                                                     </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementAgentPassword">
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementEmailId">
+                                                    <Form.Label column sm={4}>
+                                                    Email ID
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                    <Form.Control type="email" placeholder="email" /* id="email" */ name="email" value={email} onChange={e=>setEmail(e.target.value)} />
+                                                    </Col>
+                                                </Form.Group>
+
+                                                {/* <Form.Group as={Row} className="mb-3" controlId="FormElementAgentPassword">
                                                     <Form.Label column sm={4}>
                                                     Password
                                                     </Form.Label>
                                                     <Col sm={8}>
                                                     <Form.Control type="password" placeholder="Password" />
                                                     </Col>
-                                                </Form.Group>
+                                                </Form.Group> */}
                                             </Form>
                                         </div>
                                     </Modal.Body>
