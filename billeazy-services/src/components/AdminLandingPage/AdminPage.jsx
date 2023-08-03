@@ -8,19 +8,22 @@ import Modal from 'react-bootstrap/Modal';
 import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc,setDoc } from '@firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 function AdminPage(){
     const [showC, setShowC] = useState(false);
     const [showA, setShowA] = useState(false);
+    const [showBill,setShowBill] = useState(false);
     const handleCloseConsumer = () => setShowC(false);
     const handleCloseAgent = () => setShowA(false);
     const handleShowConsumer = () => setShowC(true);
     const handleShowAgent = () => setShowA(true);
 
+
     const [cName,setCName] = useState("");
     const [consumerAccNo,setConsumerAccNo] = useState(`${Math.ceil(Math.random()*Math.pow(10,12))}`);
     const [instNo,setInstNo] = useState(Math.ceil(Math.random()*Math.pow(10,6)).toString());
-    const [cAddress,setCAddress] = useState("");
+    const [address,setAddress] = useState("");
     const [cTelephoneNo,setCTelephoneNo] = useState("");
     const [cEmail,setCEmail] = useState("");
     const [energizationDate,setEnergizationDate] = useState("");
@@ -31,7 +34,6 @@ function AdminPage(){
 
     const [aName,setAName] = useState("");
     const [agentId,setAgentId] = useState(`${Math.ceil(Math.random()*Math.pow(10,12))}`);
-    const [aAddress,setAAddress] = useState("");
     const [aTelephoneNo,setATelephoneNo] = useState("");
     const [aEmail,setAEmail] = useState("");
 
@@ -42,7 +44,7 @@ function AdminPage(){
             cName,
             consumerAccNo,
             instNo,
-            cAddress,
+            address,
             cTelephoneNo,
             cEmail,
             energizationDate,
@@ -65,23 +67,17 @@ function AdminPage(){
     const handleAgentRegister = async e =>{
         //add data validation here
         setLink_otp(Math.ceil(Math.random()*Math.pow(10,6)));
-        const newConsumer = {
-            consumerName,
-            consumerAccNo,
-            instNo,
-            cAddress,
-            cTelephoneNo,
-            cEmail,
-            energizationDate,
-            meterNo,
-            tarrifCategory,
-            sanctionedLoad,
+        const newAgent = {
+            aName,
+            agentId,
+            aTelephoneNo,
+            aEmail,
             link_otp 
         };
 
         try{
-            await setDoc(doc(db, "consumers", `${consumerAccNo}`), {
-              ...newConsumer
+            await setDoc(doc(db, "employees", `${ageentId}`), {
+              ...newAgent
             });
 
         }catch(error){
@@ -99,6 +95,11 @@ function AdminPage(){
                     <Col sm={6}>
                         <Row>
                             <Col>
+                            <Button className='AdminActionButtons' variant="outline-primary" onClick={()=>navigate("/admin/generate-bill")}>
+                                    Generate Bill
+                            </Button>
+                            </Col>
+                            <Col>
                                 <Button className='AdminActionButtons' variant="outline-primary" onClick={handleShowConsumer}>
                                     Register Consumer
                                 </Button>
@@ -114,11 +115,11 @@ function AdminPage(){
                                                     Name
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" placeholder="consumer name" /* id="consumerName" */ name="consumerName" value={consumerName} onChange={e=>setConsumerName(e.target.value)}/>
+                                                    <Form.Control type="text" placeholder="consumer name" /* id="consumerName" */ name="cName" value={cName} onChange={e=>setCName(e.target.value)}/>
                                                     </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerId">
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAccNo">
                                                     <Form.Label column sm={4}>
                                                     Consumer Account Number
                                                     </Form.Label>
@@ -127,7 +128,7 @@ function AdminPage(){
                                                     </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerId">
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerInstNo">
                                                     <Form.Label column sm={4}>
                                                     Installation Number
                                                     </Form.Label>
@@ -135,7 +136,7 @@ function AdminPage(){
                                                     <Form.Label>{instNo}</Form.Label>                                                    </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerId">
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAddress">
                                                     <Form.Label column sm={4}>
                                                     Address
                                                     </Form.Label>
@@ -149,20 +150,20 @@ function AdminPage(){
                                                     Telephone Number
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" placeholder="telephone no" /* id="telephoneNo" */ name="telephoneNo" value={telephoneNo} onChange={e=>setTelephoneNo(e.target.value)} />
+                                                    <Form.Control type="text" placeholder="telephone no" /* id="telephoneNo" */ name="cTelephoneNo" value={cTelephoneNo} onChange={e=>setCTelephoneNo(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerId">
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerEmail">
                                                     <Form.Label column sm={4}>
                                                     Email ID
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="email" placeholder="email" /* id="email" */ name="email" value={email} onChange={e=>setEmail(e.target.value)} />
+                                                    <Form.Control type="email" placeholder="email" /* id="email" */ name="cEmail" value={cEmail} onChange={e=>setCEmail(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerId">
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerEnergization">
                                                     <Form.Label column sm={4}>
                                                     Energization Date
                                                     </Form.Label>
@@ -237,7 +238,7 @@ function AdminPage(){
                                                     Name
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" placeholder="agent name" /* id="agentName" */ name="agentName" value={aName} onChange={e=>setAName(e.target.value)}/>
+                                                    <Form.Control type="text" placeholder="agent name" /* id="agentName" */ name="aName" value={aName} onChange={e=>setAName(e.target.value)}/>
                                                     </Col>
                                                 </Form.Group>
 
@@ -246,25 +247,25 @@ function AdminPage(){
                                                     Agent ID
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="number" placeholder="agent id" />
+                                                    <Form.Label>{agentId}</Form.Label>
                                                     </Col>
                                                 </Form.Group>
 
                                                 <Form.Group as={Row} className="mb-3" controlId="FormElementAgentContact">
                                                     <Form.Label column sm={4}>
-                                                    Contact Number
+                                                    Telephone Number
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="number" placeholder="" />
+                                                    <Form.Control type="text" placeholder="telephone no" /* id="aTelephoneNo" */ name="aTelephoneNo" value={aTelephoneNo} onChange={e=>setATelephoneNo(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
-
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementEmailId">
+                                                
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementAgentEmail">
                                                     <Form.Label column sm={4}>
-                                                    Email ID
+                                                    Email
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="email" placeholder="email" /* id="email" */ name="email" value={email} onChange={e=>setEmail(e.target.value)} />
+                                                    <Form.Control type="email" placeholder="email" /* id="email" */ name="aEmail" value={aEmail} onChange={e=>setAEmail(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
@@ -283,7 +284,7 @@ function AdminPage(){
                                         <Button variant="secondary" onClick={handleCloseAgent}>
                                             Cancel
                                         </Button>
-                                        <Button variant="primary" onClick={handleCloseAgent}>
+                                        <Button variant="primary" onClick={function(event){handleCloseAgent(); handleAgentRegister()}}>
                                             Register
                                         </Button>
                                     </Modal.Footer>
