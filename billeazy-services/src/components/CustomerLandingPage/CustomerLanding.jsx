@@ -31,7 +31,7 @@ const CustomerLanding = () => {
         <div className="holder">
 
             <h1 className='customer-text'>Track and Pay Electricity Bills Easily with BillEazy</h1>
-            <button className='btn-action' onClick={handleGoogleSignIn} ><b>Let's Start</b></button>
+            <a className='btn-action' href="/" ><b>Let's Start</b></a>
         <img className='line-imgx' src={line} alt="......." />
         </div>
 

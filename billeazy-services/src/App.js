@@ -20,24 +20,12 @@ const App = () => {
   return (
         <AuthContextProvider>
         <Routes>
-
-    
-
             <Route path='/'  element={<CustomerLandingPage/>} />
-
             <Route path='/adminlogin'  element={<AdminLoginPage/>} />
-
             <Route path='/admin' element={<ProtectedAdminRoutes> <Admin/> </ProtectedAdminRoutes>} />
-
             <Route path='/employees' element={<Agent/>} />
             <Route path='/employees/upload' element={<UploadFile/>} />
             <Route path='/employees/uploadhistory' element={<AgentUploadHistory/>} />
-
-            
-            
-            {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}
-   
-          <Route path="/admin" element={<Admin/>} />
           <Route path="/customer" element={<ProtectedCustomerRoutes><Customer/></ProtectedCustomerRoutes>} />
           <Route path="/addcustomerlink" element={<ProtectedCustomerRoutes><AddCustomerConnection/></ProtectedCustomerRoutes>} />
 
