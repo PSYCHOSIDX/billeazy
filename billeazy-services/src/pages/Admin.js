@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from 'react'
-import NavbarLogin from '../components/NavbarLogin'
+
 import Footer from '../components/Footer'
 import '../global-styles/global.css'
 import { UserAuth } from '../context/UserAuthContext'
@@ -8,7 +8,7 @@ import NavbarAdminLogout from '../components/NavbarAdminLogout'
 import { db } from '../firebaseConfig';
 import { getDocs,collection, deleteDoc, query, where, addDoc} from 'firebase/firestore';
 import { RiH1 } from 'react-icons/ri'
-
+import NavbarBasic from '../components/NavbarBasic'
 
 const Admin = () => {
 
@@ -34,7 +34,7 @@ const Admin = () => {
   return (
     <>
     
-    {user ? <NavbarAdminLogout/> : <NavbarLogin/>}
+    {user ? <NavbarAdminLogout/> : <NavbarBasic/>}
     {usertype === 'admin'?  <AdminPage/> : <h1 className='alert-admin'> Only Admin Users Can View This Page</h1> }
    
     <Footer/>
