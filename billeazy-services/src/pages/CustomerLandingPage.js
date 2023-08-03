@@ -7,15 +7,20 @@ import { UserAuth } from '../context/UserAuthContext'
 import CustomerWorkFlow from '../components/CustomerLandingPage/CustomerWorkFlow'
 import CustomerFeatures from '../components/CustomerLandingPage/CustomerFeatures'
 import CustomerLanding from'../components/CustomerLandingPage/CustomerLanding'
+import NavbarCustomerLogout from '../components/NavbarCustomerLogout'
 
-const Customer = () => {
+import { Link, useNavigate} from "react-router-dom";
 
+const CustomerLandingPage = () => {
   const {user} = UserAuth();
+const navigate = useNavigate();
+  (user&& navigate('/addcustomerlink') )
+
 
   return (
     <>
   
-    {user ? null: <NavbarLogin/>}
+    {user ? <NavbarCustomerLogout/> : <NavbarLogin/>}
     <CustomerLanding/>
     <CustomerFeatures/>
     <CustomerWorkFlow/>
@@ -24,4 +29,4 @@ const Customer = () => {
   )
 }
 
-export default Customer
+export default CustomerLandingPage

@@ -7,8 +7,11 @@ import Agent from "./pages/Agent";
 import Admin from "./pages/Admin";
 
 import AdminLoginPage from "./pages/AdminLoginPage"
-import CustomerLanding from "./pages/CustomerLanding";
+
 import Customer from "./pages/Customer";
+import CustomerLandingPage from "./pages/CustomerLandingPage";
+import ProtectedCustomerRoutes from "./components/ProtectedAdminRoutes";
+import AddCustomerConnection from "./pages/AddCustomerConnection"
 
 const App = () => {
   return (
@@ -17,7 +20,7 @@ const App = () => {
 
     
 
-            <Route path='/'  element={<CustomerLanding/>} />
+            <Route path='/'  element={<CustomerLandingPage/>} />
 
             <Route path='/adminlogin'  element={<AdminLoginPage/>} />
 
@@ -29,7 +32,10 @@ const App = () => {
             {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}
    
           <Route path="/admin" element={<Admin/>} />
-          <Route path="/customer" element={<Customer/>} />
+          <Route path="/customer" element={<ProtectedCustomerRoutes><Customer/></ProtectedCustomerRoutes>} />
+          <Route path="/addcustomerlink" element={<ProtectedCustomerRoutes><AddCustomerConnection/></ProtectedCustomerRoutes>} />
+
+
         </Routes>
         </AuthContextProvider>
           
