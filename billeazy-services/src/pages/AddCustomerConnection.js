@@ -54,7 +54,7 @@ const AddCustomerConnection= () => {
     
     fetchData();
    
-  });
+  }, []);
 
 
 
@@ -83,8 +83,8 @@ const AddCustomerConnection= () => {
                 address: linkInfo.address,
                 meterNo: linkInfo.meterNo,
                 email: linkInfo.email ,
-                status: 'verified',
-                user_type: 'consumer_consumer'
+                status: 'verified_consumer',
+                usertype: 'consumer'
               });
             console.log("Link Added !");
             alert('Account Linked Successfully');
