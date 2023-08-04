@@ -10,7 +10,7 @@ import '../components/component-styles/navbar.css';
 import '../components/component-styles/invoice.css';
 import { UserAuth } from '../context/UserAuthContext'
 import {db} from '../firebaseConfig';
-import {collection, getDocs, query, orderBy, where, addDoc} from 'firebase/firestore';
+import {collection, getDocs, query, orderBy, where, addDoc, getDoc, updateDoc} from 'firebase/firestore';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
@@ -19,7 +19,7 @@ import logo from '../assets/logo.png'
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
-
+import shortid from "shortid";
 
 
 function CustomerBillPage() {
@@ -36,10 +36,71 @@ function CustomerBillPage() {
 
     const consumersCollectionRef = collection(db,`users/${userId}/details`);
     const billsCollectionRef = collection(db,`bills`);
-
+   
 
 //modal for invoice
 
+//payments
+
+
+const paymentUpdate = async (billNo , payx) => {
+  
+    const q = query(billsCollectionRef,where('billNo', '==', billNo));
+  const data = (await getDocs(q)).docs[0].ref;
+console.log("pay :"+payID)
+     try{
+     
+        console.log('triggered update')
+        await updateDoc(data, {
+          paymentStatus: 'paid' ,
+          paymentID:payx
+        });
+      
+     } catch(error){
+      alert(error)
+     }
+     
+    
+  };
+
+const handlePayment =(amount, billNo) =>{
+    
+    if( amount === ""){
+      alert('please enter a valid amount');
+    } else {
+      var options = {
+        key: "rzp_test_9eZaqsKPvDfZne" ,
+        key_secret: "n1fKRJ7EaVa8q6uMmHtnssH8" ,
+        amount: amount*100 ,
+        currency:"INR",
+        name:"Bill Eazy",
+        receipt:'receipt'+shortid.generate() ,
+        handler: function(response){
+        if(response.razorpay_payment_id){
+        paymentUpdate(billNo, response.razorpay_payment_id);
+        alert("Payment Success");
+        } else { console.log('failure');
+        alert("Payment Failure")
+      }
+        
+        },
+        prefill:{
+          name: user.displayName,
+          email: user.email,
+      },
+      notes:{
+        address: "Razorpay corporate Office",
+      },
+      theme:{
+        color:'#00FFA3'
+      }
+    };
+  
+    var pay = new window.Razorpay(options);
+    pay.open()
+  
+   } 
+  }
 
 
 function InvoiceModal(props) {
@@ -373,11 +434,12 @@ useEffect(() => {
                                                 
 
                                                 
-                                                <Col> {b.paymentStatus==='paid' ? <InvoiceModal billNo={b.billNo}  currentReadingDate={b.currentReadingDate}
+                                                <Col> {
+                                                b.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(b.amount,b.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={b.billNo}  currentReadingDate={b.currentReadingDate}
                                                 currentReading={b.currentReading} previousReadingDate={b.previousReadingDate} previousReading={b.previousReading}
-                                                readingDifference={b.readingDifference} unit={b.unit} amount={b.amount} paymentStatus={b.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}
-
-                                                /> : null }</Col>
+                                                readingDifference={b.readingDifference} unit={b.unit} amount={b.amount} paymentStatus={b.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
+                                                  }
+                                                </Col>
 
                                             </Row>
                                         </div>
@@ -420,7 +482,12 @@ useEffect(() => {
                                                 <Col>{px.readingDifference}</Col>
                                                 <Col>{px.unit}</Col>
                                                 <Col>{px.amount}</Col>
-                                                <Col> {px.paymentStatus==='paid' ? <InvoiceModal/> : null }</Col>
+                                                <Col> {
+                                                px.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(px.amount,px.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={px.billNo}  currentReadingDate={px.currentReadingDate}
+                                                currentReading={px.currentReading} previousReadingDate={px.previousReadingDate} previousReading={px.previousReading}
+                                                readingDifference={px.readingDifference} unit={px.unit} amount={px.amount} paymentStatus={px.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
+                                                  }
+                                                </Col>
 
                                             </Row>
                                         </div>
@@ -465,7 +532,12 @@ useEffect(() => {
                                                 <Col>{bx.amount}</Col>
                                             
                                                  
-                                                <Col> {bx.paymentStatus==='paid' ? <InvoiceModal /> : null }</Col>
+                                                <Col> {
+                                                bx.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(bx.amount,bx.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={bx.billNo}  currentReadingDate={bx.currentReadingDate}
+                                                currentReading={bx.currentReading} previousReadingDate={bx.previousReadingDate} previousReading={bx.previousReading}
+                                                readingDifference={bx.readingDifference} unit={bx.unit} amount={bx.amount} paymentStatus={bx.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
+                                                  }
+                                                </Col>
 
                                             </Row>
                                         </div>
