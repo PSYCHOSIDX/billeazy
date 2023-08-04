@@ -147,7 +147,7 @@ function AdminPage(){
                                                     Address
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" pattern="" placeholder="address" /* id="address" */ name="address" value={address} onChange={e=>setAddress(e.target.value)} />
+                                                    <Form.Control type="text" pattern="[a-zA-Z ,./']+" placeholder="address" /* id="address" */ name="address" value={address} onChange={e=>setAddress(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
