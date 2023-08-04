@@ -7,14 +7,17 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import '../components/component-styles/admin-page.css'
 import '../components/component-styles/navbar.css';
+import '../components/component-styles/invoice.css';
 import { UserAuth } from '../context/UserAuthContext'
 import {db} from '../firebaseConfig';
 import {collection, getDocs, query, orderBy, where, addDoc} from 'firebase/firestore';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-
-
+import logo from '../assets/logo.png'
+//print to pdf
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 
 
@@ -22,6 +25,7 @@ import Modal from 'react-bootstrap/Modal';
 function CustomerBillPage() {
     const [key, setKey] = useState('all');
     const [name, setName]= useState();
+    const [phone, setPhone]= useState();
     const [caNo, setcaNo]= useState();
     const [meter, setmeter]= useState();
     const [bill , setBill] = useState([0]);
@@ -35,32 +39,188 @@ function CustomerBillPage() {
 
 
 //modal for invoice
-function InvoiceModal() {
+
+
+
+function InvoiceModal(props) {
+
+ 
+
+        const downloadPdfDocument = () => {
+            const input = document.getElementById("print-page");
+            html2canvas(input)
+                .then((canvas) => {
+                    const imgWidth=209;
+                    const imgHeight=canvas.height * imgWidth/ canvas.width;
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF();
+                    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    pdf.save(`Invoice.pdf`);
+                    
+                })
+        }
+    
+
     const [show, setShow] = useState(false);
   
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-  
+   const [fullscreen, setx] = useState(true)
     return (
       <>
-        <Button className='btn-contact' onClick={handleShow}>
+        <Button id='btn-contact' onClick={handleShow}>
            View
         </Button>
   
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose}  size="lg" className='modal-invoice'>
           <Modal.Header closeButton>
-            <Modal.Title>Invoice Details</Modal.Title>
+            <Modal.Title className='title-modal'> Invoice Information</Modal.Title>
           </Modal.Header>
   
-          <Modal.Body>
+          <Modal.Body className='body-invoice'>
+
+          <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<div className="page-content container" id="print-page" >
+    <div className="page-header text-blue-d2">
+        <h1 className="page-title text-secondary-d1">
+            
+            <small className="page-info">
+                BILL NO : {props.billNo}
+            </small>
+        </h1>
+
+        <div className="page-tools">
+            <div className="action-buttons">
+               
+                <a onClick={downloadPdfDocument} className="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF">
+                    <i className="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+                    Export
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div className="container px-0">
+        <div className="row mt-4">
+            <div className="col-12 col-lg-12">
+                <div className="row">
+                    <div className="col-12">
+                        <div className="text-center text-150">
+                            <img className='logo' src={logo}/>
+                        </div>
+                    </div>
+                </div>
+              
+
+                <hr className="row brc-default-l1 mx-n1 mb-4" />
+
+                <div className="row">
+                    <div className="col-sm-6">
+                        <div>
+                            <span className="text-sm text-grey-m2 align-middle">To: </span>
+                            <span className=" text-blue ">{props.name}</span>
+                        </div>
+                        <div className="text-grey-m2">
+                            <div className="my-1">
+                                Street, City
+                            </div>
+                            <div className="my-1">
+                                North-Goa, Goa, India 
+                            </div>
+                            <div className="my-1"><i className="fa fa-phone fa-flip-horizontal "></i> <b className="text-600">{props.phone}</b></div>
+                        </div>
+                    </div>
+                   
+
+                    <div className="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                        <hr className="d-sm-none" />
+                        <div className="text-grey-m2">
+                            <div className="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                Invoice
+                            </div>
+
+                            <div className="my-2"> <span className="text-600 text-90">CA NO :</span> {props.caNo}</div>
+
+                            <div className="my-2"> <span className="text-600 text-90">METER NO :</span> {props.meter}</div>
+
+                            <div className="my-2"> <span className="text-600 text-90">Status:</span> <span className="badge ">{props.paymentStatus}</span></div>
+                        </div>
+                    </div>
+            
+                </div>
+ 
+    
+                    
+            <div className="table-responsive">
+                <table className="table table-striped table-borderless border-0 border-b-2 brc-default-l1">
+                    <thead className="bg-none bgc-default-tp1">
+                        <tr className="text-white">
+                            <th className="opacity-2"></th>
+                            <th>Previous Reading Date</th>
+                            <th>Previous Reading</th>
+                            <th>Current Reading Date</th>
+                            <th>Current Reading</th>
+                            <th>Unit Type</th>
+                            <th width="140">Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody className="text-95 text-secondary-d3">
+                        <tr></tr>
+                        <tr>
+                            <td> </td>
+                            <td>{props.previousReadingDate}</td>
+                            <td>{props.previousReading}</td>
+                            <td>{props.currentReadingDate}</td>
+                            <td>{props.currentReading}</td>
+                            <td>{props.unit}</td>
+                            <td>₹{props.amount}</td>
+                            
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+           
+
+                    <div className="row mt-3">
+                        <div className="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0 white">
+                         **  Bill Eazy Payment Invoice **
+                        </div>
+
+                        <div className="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
+                            
+
+                        
+
+                            <div className="row my-2 align-items-center bgc-primary-l3 p-2 white">
+                                <div className="col-7 text-right">
+                                    Total Amount
+                                </div>
+                                <div className="col-5">
+                                    <span className="text-150 text-success-d3 opacity-2 white">₹{props.amount}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div>
+                        <span className="text-secondary-d1 text-105">Thank you for your business</span>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
   
           </Modal.Body>
   
           <Modal.Footer>
   
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
+           
             
           </Modal.Footer>
         </Modal>
@@ -141,7 +301,8 @@ useEffect(() => {
         newData.map((m)=>(
             setName(m.consumerName),
             setcaNo(m.consumerAccNo),
-            setmeter(m.meterNo)
+            setmeter(m.meterNo),
+            setPhone(m.telephoneNo)
         ))
       
       };
@@ -209,10 +370,14 @@ useEffect(() => {
                                                 <Col>{b.readingDifference}</Col>
                                                 <Col>{b.unit}</Col>
                                                 <Col>{b.amount}</Col>
-                                                <Col>{b.paymentStatus}</Col>
+                                                
 
                                                 
-                                                <Col> {b.paymentStatus==='paid' ? <InvoiceModal/> : null }</Col>
+                                                <Col> {b.paymentStatus==='paid' ? <InvoiceModal billNo={b.billNo}  currentReadingDate={b.currentReadingDate}
+                                                currentReading={b.currentReading} previousReadingDate={b.previousReadingDate} previousReading={b.previousReading}
+                                                readingDifference={b.readingDifference} unit={b.unit} amount={b.amount} paymentStatus={b.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}
+
+                                                /> : null }</Col>
 
                                             </Row>
                                         </div>
@@ -229,7 +394,6 @@ useEffect(() => {
                                         <div className="ListHeadings shadow-none p-2">
                                             <Row>
                                                 <Col>Bill Id</Col>
-
                                                 <Col>Current reading date</Col>
                                                 <Col>Current reading</Col>
                                                 <Col>Previous reading date</Col>
@@ -248,7 +412,6 @@ useEffect(() => {
                                             <Stack gap={2}>
                                         <div className="pxillsList pxg-light shadow-sm p-2">
                                             <Row>
-                                            
                                                 <Col>{px.billNo}</Col>
                                                 <Col>{px.currentReadingDate}</Col>
                                                 <Col>{px.currentReading}</Col>
@@ -257,8 +420,6 @@ useEffect(() => {
                                                 <Col>{px.readingDifference}</Col>
                                                 <Col>{px.unit}</Col>
                                                 <Col>{px.amount}</Col>
-                                                <Col>{px.paymentStatus}</Col>
-                                                 
                                                 <Col> {px.paymentStatus==='paid' ? <InvoiceModal/> : null }</Col>
 
                                             </Row>
@@ -302,9 +463,9 @@ useEffect(() => {
                                                 <Col>{bx.readingDifference}</Col>
                                                 <Col>{bx.unit}</Col>
                                                 <Col>{bx.amount}</Col>
-                                                <Col>{bx.paymentStatus}</Col>
+                                            
                                                  
-                                                <Col> {bx.paymentStatus==='paid' ? <InvoiceModal/> : null }</Col>
+                                                <Col> {bx.paymentStatus==='paid' ? <InvoiceModal /> : null }</Col>
 
                                             </Row>
                                         </div>
