@@ -90,6 +90,7 @@ const AddCustomerConnection= () => {
               await addDoc(collection(db, `users/${userId}/details`), {
                 consumerAccNo: linkInfo.consumerAccNo,
                 consumerName: linkInfo.consumerName,
+                telephoneNo: linkInfo.telephoneNo,
                 address: linkInfo.address,
                 meterNo: linkInfo.meterNo,
                 email: linkInfo.email ,
