@@ -27,13 +27,13 @@ function CustomerBillPage() {
 
 useEffect(() => {
     const getBills = async () => {
-      const q = query(billsCollectionRef, where("email", "==", user.email));
+      const q = query(billsCollectionRef, where('email', '==', user.email));
       const data = await getDocs(q);
       const newData = data.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
       }));
-      console.log("rendered bills"+ newData);
+      console.log("rendered bills ");
       setBill(newData);
     
     };
@@ -85,6 +85,7 @@ useEffect(() => {
                 <div>
                     <div  className=''>
                         <Tabs
+                        
                             id="controlled-tab-example"
                             activeKey={key}
                             defaultActiveKey="all"
@@ -122,7 +123,7 @@ useEffect(() => {
                                                 <Col>{b.readingDifference}</Col>
                                                 <Col>{b.amount}</Col>
                                                 <Col>{b.paymentStatus}</Col>
-                                                <Col><a class="bn60" href="/">Report</a></Col>
+                                                <Col><a className='btn-contact'> View</a></Col>
 
                                             </Row>
                                         </div>
@@ -133,7 +134,7 @@ useEffect(() => {
                                     
                                 </div>
                             </Tab>
-                            <Tab eventKey="pending" title="Pending">
+                            <Tab eventKey="pending" title="Pending" >
                                 <div>
                                     <Stack>
                                         <div className="ListHeadings shadow-none p-2">
@@ -169,7 +170,7 @@ useEffect(() => {
                                     </Stack>
                                 </div>
                             </Tab>
-                            <Tab eventKey="paid" title="Paid">
+                            <Tab eventKey="paid" title="Paid" >
                                 <Stack>
                                     <div className="ListHeadings shadow-none p-2">
                                         <Row>
