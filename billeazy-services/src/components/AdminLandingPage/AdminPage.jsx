@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
-import { doc,setDoc,addDoc } from '@firebase/firestore';
+import { doc,setDoc,addDoc,collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 function AdminPage(){
@@ -30,13 +30,15 @@ function AdminPage(){
     const [meterNo,setMeterNo] = useState("");
     const [tarrifCategory,setTarrifCategory] = useState("");
     const [tension,setTension] = useState("");
-    const [sanctionedLoad,setSanctionedLoad] = useState("")
+    const [sanctionedLoad,setSanctionedLoad] = useState(0)
     const [link_otp,setLink_otp] = useState(null);
 
     const [aName,setAName] = useState("");
     const [agentId,setAgentId] = useState(`${Math.ceil(Math.random()*Math.pow(10,12))}`);
     const [aTelephoneNo,setATelephoneNo] = useState("");
     const [aEmail,setAEmail] = useState("");
+
+    const navigate = useNavigate();
 
     const handleConsumerRegister = async e =>{
         //add data validation here
@@ -50,6 +52,7 @@ function AdminPage(){
             energizationDate,
             meterNo,
             tarrifCategory,
+            tension,
             sanctionedLoad,
             link_otp 
         };
@@ -144,7 +147,7 @@ function AdminPage(){
                                                     Address
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" placeholder="address" /* id="address" */ name="address" value={address} onChange={e=>setAddress(e.target.value)} />
+                                                    <Form.Control type="text" pattern="" placeholder="address" /* id="address" */ name="address" value={address} onChange={e=>setAddress(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
@@ -153,7 +156,7 @@ function AdminPage(){
                                                     Telephone Number
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" placeholder="telephone no" /* id="telephoneNo" */ name="cTelephoneNo" value={cTelephoneNo} onChange={e=>setCTelephoneNo(e.target.value)} />
+                                                    <Form.Control type="text" pattern="^[0-9]{10}\z"placeholder="telephone no" /* id="telephoneNo" */ name="cTelephoneNo" value={cTelephoneNo} onChange={e=>setCTelephoneNo(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
