@@ -29,6 +29,7 @@ function AdminPage(){
     const [energizationDate,setEnergizationDate] = useState("");
     const [meterNo,setMeterNo] = useState("");
     const [tarrifCategory,setTarrifCategory] = useState("");
+    const [tension,setTension] = useState("");
     const [sanctionedLoad,setSanctionedLoad] = useState("")
     const [link_otp,setLink_otp] = useState(null);
 
@@ -54,7 +55,7 @@ function AdminPage(){
         };
 
         try{
-            await addDoc(doc(db, "consumers"), {
+            await addDoc(collection(db, "consumers"), {
               ...newConsumer
             });
 
@@ -74,7 +75,7 @@ function AdminPage(){
         };
 
         try{
-            await addDoc(doc(db, "employees"), {
+            await addDoc(collection(db, "employees"), {
               ...newAgent
             });
 
@@ -183,15 +184,27 @@ function AdminPage(){
                                                     </Col>
                                                 </Form.Group>
 
-                                                <Form.Group as={Row} className="mb-3" controlId="FormElementSecurityDeposit">
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementTarrifCategory">
                                                     <Form.Label column sm={4}>
-                                                    Security Deposit
+                                                    Tarrif Category
                                                     </Form.Label>
                                                     <Col sm={8}>
                                                         <Form.Select /* id="tarrifCategory" */ name="tarrifCategory" value ={tarrifCategory} onChange={e=>setTarrifCategory(e.target.value)}>
                                                             <option value={"domestic"}>Domestic</option>
                                                             <option value={"commercial"}>Commercial</option>
                                                             <option value={"industrial"}>Industrial</option>
+                                                        </Form.Select>
+                                                    </Col>
+                                                </Form.Group>
+
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementTension">
+                                                    <Form.Label column sm={4}>
+                                                    Tension
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                        <Form.Select /* id="tension" */ name="tension" value ={tension} onChange={e=>setTension(e.target.value)}>
+                                                            <option value={"lt"}>Low Tension</option>
+                                                            <option value={"ht"}>High Tension</option>
                                                         </Form.Select>
                                                     </Col>
                                                 </Form.Group>
