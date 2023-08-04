@@ -10,6 +10,14 @@ import '../components/component-styles/navbar.css';
 import { UserAuth } from '../context/UserAuthContext'
 import {db} from '../firebaseConfig';
 import {collection, getDocs, query, orderBy, where, addDoc} from 'firebase/firestore';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
+
+
+
+
+
 
 function CustomerBillPage() {
     const [key, setKey] = useState('all');
@@ -25,6 +33,42 @@ function CustomerBillPage() {
     const consumersCollectionRef = collection(db,`users/${userId}/details`);
     const billsCollectionRef = collection(db,`bills`);
 
+
+//modal for invoice
+function InvoiceModal() {
+    const [show, setShow] = useState(false);
+  
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+  
+    return (
+      <>
+        <Button className='btn-contact' onClick={handleShow}>
+           View
+        </Button>
+  
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Invoice Details</Modal.Title>
+          </Modal.Header>
+  
+          <Modal.Body>
+  
+          </Modal.Body>
+  
+          <Modal.Footer>
+  
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+  
+
 //get all bills
 
 useEffect(() => {
@@ -35,7 +79,7 @@ useEffect(() => {
           ...doc.data(),
           id: doc.id,
       }));
-      console.log("rendered bills ");
+      console.log("rendered all bills ");
       setBill(newData);
     
     };
@@ -144,9 +188,10 @@ useEffect(() => {
                                                 <Col>Previous reading date</Col>
                                                 <Col>Previous reading</Col>
                                                 <Col>Consumption</Col>
+                                                <Col>Unit type</Col>
                                                 <Col>Amount Payable</Col>
                                                 <Col>Status</Col>
-                                                <Col>Issue</Col>
+                                                
                                             </Row>
                                         </div>
                                     </Stack>
@@ -162,9 +207,12 @@ useEffect(() => {
                                                 <Col>{b.previousReadingDate}</Col>
                                                 <Col>{b.previousReading}</Col>
                                                 <Col>{b.readingDifference}</Col>
+                                                <Col>{b.unit}</Col>
                                                 <Col>{b.amount}</Col>
                                                 <Col>{b.paymentStatus}</Col>
-                                                <Col><a className='btn-contact'> View</a></Col>
+
+                                                
+                                                <Col> {b.paymentStatus==='paid' ? <InvoiceModal/> : null }</Col>
 
                                             </Row>
                                         </div>
@@ -175,7 +223,7 @@ useEffect(() => {
                                     
                                 </div>
                             </Tab>
-                            <Tab eventKey="pending" title="Pending" >
+                            <Tab eventKey="paid" title="Paid Bills" >
                                 <div>
                                     <Stack>
                                         <div className="ListHeadings shadow-none p-2">
@@ -187,6 +235,7 @@ useEffect(() => {
                                                 <Col>Previous reading date</Col>
                                                 <Col>Previous reading</Col>
                                                 <Col>Consumption</Col>
+                                                <Col>Unit type</Col>
                                                 <Col>Amount Payable</Col>
                                                 <Col>Status</Col>
                                             </Row>
@@ -206,9 +255,11 @@ useEffect(() => {
                                                 <Col>{px.previousReadingDate}</Col>
                                                 <Col>{px.previousReading}</Col>
                                                 <Col>{px.readingDifference}</Col>
+                                                <Col>{px.unit}</Col>
                                                 <Col>{px.amount}</Col>
                                                 <Col>{px.paymentStatus}</Col>
-                                                <Col><a className='btn-contact'> View</a></Col>
+                                                 
+                                                <Col> {px.paymentStatus==='paid' ? <InvoiceModal/> : null }</Col>
 
                                             </Row>
                                         </div>
@@ -219,7 +270,7 @@ useEffect(() => {
                                     
                                 </div>
                             </Tab>
-                            <Tab eventKey="paid" title="Paid" >
+                            <Tab eventKey="pending" title="Pending Bills" >
                                 <Stack>
                                     <div className="ListHeadings shadow-none p-2">
                                         <Row>
@@ -230,6 +281,7 @@ useEffect(() => {
                                             <Col>Previous reading date</Col>
                                             <Col>Previous reading</Col>
                                             <Col>Consumption</Col>
+                                            <Col>Unit type</Col>
                                             <Col>Amount Payable</Col>
                                             <Col>Status</Col>
                                         </Row>
@@ -248,9 +300,11 @@ useEffect(() => {
                                                 <Col>{bx.previousReadingDate}</Col>
                                                 <Col>{bx.previousReading}</Col>
                                                 <Col>{bx.readingDifference}</Col>
+                                                <Col>{bx.unit}</Col>
                                                 <Col>{bx.amount}</Col>
                                                 <Col>{bx.paymentStatus}</Col>
-                                                <Col><a className='btn-contact'> View</a></Col>
+                                                 
+                                                <Col> {bx.paymentStatus==='paid' ? <InvoiceModal/> : null }</Col>
 
                                             </Row>
                                         </div>
