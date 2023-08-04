@@ -47,7 +47,7 @@ const paymentUpdate = async (billNo , payx) => {
   
     const q = query(billsCollectionRef,where('billNo', '==', billNo));
   const data = (await getDocs(q)).docs[0].ref;
-console.log("pay :"+payID)
+
      try{
      
         console.log('triggered update')
