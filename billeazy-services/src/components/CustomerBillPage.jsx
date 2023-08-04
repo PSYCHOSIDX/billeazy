@@ -17,6 +17,8 @@ function CustomerBillPage() {
     const [caNo, setcaNo]= useState();
     const [meter, setmeter]= useState();
     const [bill , setBill] = useState([0]);
+    const [billPayed , setBillPayed] = useState([0]);
+    const [billPending , setBillPending] = useState([0]);
     const {user} = UserAuth();
     const userId = user.uid;
 
@@ -27,19 +29,58 @@ function CustomerBillPage() {
 
 useEffect(() => {
     const getBills = async () => {
-      const q = query(billsCollectionRef, where("email", "==", user.email));
+      const q = query(billsCollectionRef, where('email', '==', user.email));
       const data = await getDocs(q);
       const newData = data.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
       }));
-      console.log("rendered bills"+ newData);
+      console.log("rendered bills ");
       setBill(newData);
     
     };
   
   
       getBills()
+    }, [])
+
+//paid bills
+    useEffect(() => {
+        const getPaidBills = async () => {
+          const q = query(billsCollectionRef, where('email', '==', user.email));
+          const qx = query(billsCollectionRef, where('paymentStatus', '==', 'paid'));
+          const data = await getDocs(qx);
+          const newData = data.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+          }));
+          console.log("rendered payed bills ");
+          setBillPayed(newData);
+        
+        };
+      
+      
+          getPaidBills()
+        }, [])
+
+
+// pending bills
+useEffect(() => {
+    const getPendingBills = async () => {
+      const q = query(billsCollectionRef, where('email', '==', user.email));
+      const qx = query(billsCollectionRef, where('paymentStatus', '==', 'pending'));
+      const data = await getDocs(qx);
+      const newData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+      }));
+      console.log("rendered pending bills ");
+      setBillPending(newData);
+    
+    };
+  
+  
+      getPendingBills()
     }, [])
 
 
@@ -85,6 +126,7 @@ useEffect(() => {
                 <div>
                     <div  className=''>
                         <Tabs
+                        
                             id="controlled-tab-example"
                             activeKey={key}
                             defaultActiveKey="all"
@@ -122,7 +164,7 @@ useEffect(() => {
                                                 <Col>{b.readingDifference}</Col>
                                                 <Col>{b.amount}</Col>
                                                 <Col>{b.paymentStatus}</Col>
-                                                <Col><a class="bn60" href="/">Report</a></Col>
+                                                <Col><a className='btn-contact'> View</a></Col>
 
                                             </Row>
                                         </div>
@@ -133,7 +175,7 @@ useEffect(() => {
                                     
                                 </div>
                             </Tab>
-                            <Tab eventKey="pending" title="Pending">
+                            <Tab eventKey="pending" title="Pending" >
                                 <div>
                                     <Stack>
                                         <div className="ListHeadings shadow-none p-2">
@@ -152,24 +194,32 @@ useEffect(() => {
                                     </Stack>
 
 
-                                    <Stack gap={2}>
-                                        <div className="BillsList bg-light shadow-sm p-2">
+                                    {
+                                        billPayed.map((px)=>(
+                                            <Stack gap={2}>
+                                        <div className="pxillsList pxg-light shadow-sm p-2">
                                             <Row>
-                                                <Col>0000</Col>
+                                            
+                                                <Col>{px.billNo}</Col>
+                                                <Col>{px.currentReadingDate}</Col>
+                                                <Col>{px.currentReading}</Col>
+                                                <Col>{px.previousReadingDate}</Col>
+                                                <Col>{px.previousReading}</Col>
+                                                <Col>{px.readingDifference}</Col>
+                                                <Col>{px.amount}</Col>
+                                                <Col>{px.paymentStatus}</Col>
+                                                <Col><a className='btn-contact'> View</a></Col>
 
-                                                <Col>dd/mm/yy</Col>
-                                                <Col>0000</Col>
-                                                <Col>dd/mm/yy</Col>
-                                                <Col>0000</Col>
-                                                <Col>00</Col>
-                                                <Col>--</Col>
-                                                <Col>Pending</Col>
                                             </Row>
                                         </div>
+                                       
                                     </Stack>
+                                        ))
+                                    }
+                                    
                                 </div>
                             </Tab>
-                            <Tab eventKey="paid" title="Paid">
+                            <Tab eventKey="paid" title="Paid" >
                                 <Stack>
                                     <div className="ListHeadings shadow-none p-2">
                                         <Row>
@@ -186,21 +236,29 @@ useEffect(() => {
                                     </div>
                                 </Stack>
 
-                                <Stack gap={2}>
-                                    <div className="BillsList bg-light shadow-sm p-2">
-                                        <Row>
-                                            <Col>0000</Col>
+                                {
+                                        billPending.map((bx)=>(
+                                            <Stack gap={2}>
+                                        <div className="BillsList bg-light shadow-sm p-2">
+                                            <Row>
+                                            
+                                                <Col>{bx.billNo}</Col>
+                                                <Col>{bx.currentReadingDate}</Col>
+                                                <Col>{bx.currentReading}</Col>
+                                                <Col>{bx.previousReadingDate}</Col>
+                                                <Col>{bx.previousReading}</Col>
+                                                <Col>{bx.readingDifference}</Col>
+                                                <Col>{bx.amount}</Col>
+                                                <Col>{bx.paymentStatus}</Col>
+                                                <Col><a className='btn-contact'> View</a></Col>
 
-                                            <Col>dd/mm/yy</Col>
-                                            <Col>0000</Col>
-                                            <Col>dd/mm/yy</Col>
-                                            <Col>0000</Col>
-                                            <Col>00</Col>
-                                            <Col>--</Col>
-                                            <Col>Pending</Col>
-                                        </Row>
-                                    </div>
-                                </Stack>
+                                            </Row>
+                                        </div>
+                                       
+                                    </Stack>
+                                        ))
+                                    }
+                                    
                             </Tab>
 
                         </Tabs>
