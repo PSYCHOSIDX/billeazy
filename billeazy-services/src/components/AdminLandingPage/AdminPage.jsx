@@ -43,12 +43,12 @@ function AdminPage(){
     const handleConsumerRegister = async e =>{
         //add data validation here
         const newConsumer = {
-            cName,
+            name : cName,
             consumerAccNo,
             instNo,
             address,
-            cTelephoneNo,
-            cEmail,
+            telephoneNo : cTelephoneNo,
+            email : cEmail,
             energizationDate,
             meterNo,
             tarrifCategory,
@@ -70,10 +70,10 @@ function AdminPage(){
     const handleAgentRegister = async e =>{
         //add data validation here
         const newAgent = {
-            aName,
+            name : aName,
             agentId,
-            aTelephoneNo,
-            aEmail,
+            telephoneNo : aTelephoneNo,
+            email : aEmail,
             link_otp 
         };
 
@@ -121,7 +121,7 @@ function AdminPage(){
                                                     Name
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" placeholder="consumer name" /* id="consumerName" */ name="cName" value={cName} onChange={e=>setCName(e.target.value)}/>
+                                                    <Form.Control type="text" pattern="^[A-Za-z .']+\z" placeholder="consumer name" /* id="consumerName" */ name="cName" value={cName} onChange={e=>setCName(e.target.value)}/>
                                                     </Col>
                                                 </Form.Group>
 
@@ -147,7 +147,7 @@ function AdminPage(){
                                                     Address
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" pattern="[a-zA-Z ,./']+" placeholder="address" /* id="address" */ name="address" value={address} onChange={e=>setAddress(e.target.value)} />
+                                                    <Form.Control type="text" pattern="^[a-zA-Z ,./']\z+" placeholder="address" /* id="address" */ name="address" value={address} onChange={e=>setAddress(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
@@ -183,7 +183,7 @@ function AdminPage(){
                                                     Meter Number
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" pattern="^[A-Z]{4}[0-9]{8}\z" placeholder="meter number" /* id="meterNo" */ name="meterNo" value={meterNo} onChange={e=>setMeterNo(e.target.value)} />
+                                                    <Form.Control type="text" pattern="^[A-Z]{2}[0-9]{5}\z" placeholder="e.g SA01011" /* id="meterNo" */ name="meterNo" value={meterNo} onChange={e=>setMeterNo(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
@@ -217,7 +217,7 @@ function AdminPage(){
                                                     Sanctioned Load
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="number" placeholder="sanctioned load" /* id="sanctionedLoad" */ name="sanctionedLoad" value={sanctionedLoad} onChange={e=>setSanctionedLoad(e.target.value)} />
+                                                    <Form.Control type="number" placeholder="e.g 3.5" /* id="sanctionedLoad" */ name="sanctionedLoad" value={sanctionedLoad} onChange={e=>setSanctionedLoad(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
@@ -258,7 +258,7 @@ function AdminPage(){
                                                     Name
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                    <Form.Control type="text" placeholder="agent name" /* id="agentName" */ name="aName" value={aName} onChange={e=>setAName(e.target.value)}/>
+                                                    <Form.Control type="text" pattern="^[A-Za-z .']+\z" placeholder="agent name" /* id="agentName" */ name="aName" value={aName} onChange={e=>setAName(e.target.value)}/>
                                                     </Col>
                                                 </Form.Group>
 
