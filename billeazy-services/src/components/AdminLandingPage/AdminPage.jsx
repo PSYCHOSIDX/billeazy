@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
-import { doc,setDoc } from '@firebase/firestore';
+import { doc,setDoc,addDoc } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 function AdminPage(){
@@ -22,7 +22,7 @@ function AdminPage(){
 
     const [cName,setCName] = useState("");
     const [consumerAccNo,setConsumerAccNo] = useState(`${Math.ceil(Math.random()*Math.pow(10,12))}`);
-    const [instNo,setInstNo] = useState(Math.ceil(Math.random()*Math.pow(10,6)).toString());
+    const [instNo,setInstNo] = useState(`${Math.ceil(Math.random()*Math.pow(10,6)).toString()}`);
     const [address,setAddress] = useState("");
     const [cTelephoneNo,setCTelephoneNo] = useState("");
     const [cEmail,setCEmail] = useState("");
@@ -39,7 +39,6 @@ function AdminPage(){
 
     const handleConsumerRegister = async e =>{
         //add data validation here
-        setLink_otp(Math.ceil(Math.random()*Math.pow(10,6)));
         const newConsumer = {
             cName,
             consumerAccNo,
@@ -55,7 +54,7 @@ function AdminPage(){
         };
 
         try{
-            await setDoc(doc(db, "consumers", `${consumerAccNo}`), {
+            await addDoc(doc(db, "consumers"), {
               ...newConsumer
             });
 
@@ -66,7 +65,6 @@ function AdminPage(){
 
     const handleAgentRegister = async e =>{
         //add data validation here
-        setLink_otp(Math.ceil(Math.random()*Math.pow(10,6)));
         const newAgent = {
             aName,
             agentId,
@@ -76,7 +74,7 @@ function AdminPage(){
         };
 
         try{
-            await setDoc(doc(db, "employees", `${ageentId}`), {
+            await addDoc(doc(db, "employees"), {
               ...newAgent
             });
 
@@ -95,12 +93,16 @@ function AdminPage(){
                     <Col sm={6}>
                         <Row>
                             <Col>
-                            <Button className='AdminActionButtons' variant="outline-primary" onClick={()=>navigate("/admin/generate-bill")}>
+                            <Button className='AdminActionButtons' variant="outline-primary" onClick={()=> navigate("/admin/generate-bill")}>
                                     Generate Bill
                             </Button>
                             </Col>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" onClick={handleShowConsumer}>
+                                <Button className='AdminActionButtons' variant="outline-primary" onClick={function(e){  setConsumerAccNo(`${Math.ceil(Math.random()*Math.pow(10,12))}`);
+                                                                                                                        setInstNo(`${Math.ceil(Math.random()*Math.pow(10,6)).toString()}`); 
+                                                                                                                        setLink_otp(Math.ceil(Math.random()*Math.pow(10,6))); 
+                                                                                                                        handleShowConsumer();
+                                                                                                                        }}>
                                     Register Consumer
                                 </Button>
                                 <Modal show={showC} onHide={handleCloseConsumer}>
@@ -225,7 +227,9 @@ function AdminPage(){
                                 </Modal>
                             </Col>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" onClick={handleShowAgent}>Register Agent</Button>
+                                <Button className='AdminActionButtons' variant="outline-primary" onClick={function(e){  setAgentId(`${Math.ceil(Math.random()*Math.pow(10,12))}`);
+                                                                                                                        setLink_otp(Math.ceil(Math.random()*Math.pow(10,6))); 
+                                                                                                                        handleShowAgent();}}>Register Agent</Button>
                                 <Modal show={showA} onHide={handleCloseAgent}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Register Agent</Modal.Title>
