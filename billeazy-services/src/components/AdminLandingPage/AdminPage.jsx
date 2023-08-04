@@ -28,8 +28,8 @@ function AdminPage(){
     const [cEmail,setCEmail] = useState("");
     const [energizationDate,setEnergizationDate] = useState("");
     const [meterNo,setMeterNo] = useState("");
-    const [tarrifCategory,setTarrifCategory] = useState("");
-    const [tension,setTension] = useState("");
+    const [tariffCategory,setTariffCategory] = useState("domestic");
+    const [tension,setTension] = useState("lt");
     const [sanctionedLoad,setSanctionedLoad] = useState(0)
     const [link_otp,setLink_otp] = useState(null);
 
@@ -51,7 +51,7 @@ function AdminPage(){
             email : cEmail,
             energizationDate,
             meterNo,
-            tarrifCategory,
+            tariffCategory,
             tension,
             sanctionedLoad,
             link_otp 
@@ -192,7 +192,7 @@ function AdminPage(){
                                                     Tarrif Category
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                        <Form.Select /* id="tarrifCategory" */ name="tarrifCategory" value ={tarrifCategory} onChange={e=>setTarrifCategory(e.target.value)}>
+                                                        <Form.Select /* id="tarrifCategory" */ name="tariffCategory" value ={tariffCategory} onChange={e=>setTariffCategory(e.target.value)}>
                                                             <option value={"domestic"}>Domestic</option>
                                                             <option value={"commercial"}>Commercial</option>
                                                             <option value={"industrial"}>Industrial</option>
@@ -206,7 +206,7 @@ function AdminPage(){
                                                     </Form.Label>
                                                     <Col sm={8}>
                                                         <Form.Select /* id="tension" */ name="tension" value ={tension} onChange={e=>setTension(e.target.value)}>
-                                                            <option value={"lt"}>Low Tension</option>
+                                                            <option defaultValue value={"lt"}>Low Tension</option>
                                                             <option value={"ht"}>High Tension</option>
                                                         </Form.Select>
                                                     </Col>
