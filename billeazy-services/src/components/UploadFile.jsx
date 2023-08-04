@@ -1,6 +1,6 @@
 import Papa from "papaparse";
 import { useState, useCallback  } from "react";
-import {getFirestore, addDoc, collection} from '@firebase/firestore';
+import {getFirestore, addDoc, collection, getDoc,doc} from '@firebase/firestore';
 import app from "../firebaseConfig";
 import Dropzone from "./DropZone";
 import { UserAuth } from "../context/UserAuthContext";
@@ -10,6 +10,7 @@ import NavbarLogin from "./NavbarLogin";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
+import { auth } from "../firebaseConfig";
 
 import "./component-styles/upload-file.css"
 
@@ -17,13 +18,11 @@ import "./component-styles/upload-file.css"
 const allowedExtensions = ["csv"];
 const db = getFirestore(app);
 const colRef = collection(db,"Meter Reading");
-const reqFields=['Meter_No', 'Unit', 'Current_Reading_Date', 'Current_Reading', 
-        'Prev_Reading_Date', 'Prev_Reading', 'Reading_Difference', 'Consumption', 'Reading_Remark'];
+const reqFields=['Meter_No', 'Current_Reading_Date', 'Current_Reading','Reading_Remark'];
 
 const UploadFile = () =>{
   const {user} = UserAuth();
    // This state will store the parsed data
-  
    const [cols,setCols] = useState([]);
    const [data, setData] = useState([]);
 
@@ -97,36 +96,44 @@ const UploadFile = () =>{
     reader.readAsText(file);
 };
 
-const onAcceptHandler = () =>{
- 
-  // setData(data.slice(0, -1));
-  // console.log(data);
+const onAcceptHandler =  () =>{
+    // console.log(auth.currentUser.email)x
     data.forEach(row => {
+      // getDocs(db,"Meter Readings",)
       addDoc(colRef,
        {
        "meterNo": row.Meter_No,
        "unit": row.Unit,
        "currentReadingDate": row.Current_Reading_Date,
        "currentReading" :row.Current_Reading ,
-       "prevReadingDate" : row.Prev_Reading_Date,
-       "prevReading" : row.Prev_Reading,
-       "readingDifference" : row.Reading_Difference,
+      //  "prevReadingDate" : row.Prev_Reading_Date,
+      //  "prevReading" : row.Prev_Reading,
+      //  "readingDifference" : row.Reading_Difference,
       //  "MF" : row.MF,
-       "consumption" : row.Consumption,
+      //  "consumption" : row.Consumption,
        "readingRemark" : row.Reading_Remark,
        "billGenerated" : false  
      });
    });
-   setCols([]);
-   setData([]);
-   setError("Data pushed successfully")
-   setShow(false);
+   if (auth.currentUser) {
+    console.log(auth.currentUser.email);
+    const employeeRef = collection(db,"uploads")
+    addDoc(employeeRef,{
+      email: auth.currentUser.email,
+      date: Date.now(),
+      noEntries: data.length
+    } );
+  }
+    
+    setCols([]);
+    setData([]);
+    setError("Data pushed successfully")
+    setShow(false);
   }
   
-   
-
 return (
   <div>
+    
     {user ? <NavbarAdminLogout/> : <NavbarLogin/>}
     <div className="upload-area">
       {/* <label htmlFor="csvInput" style={{ display: "block" }}>
@@ -146,14 +153,14 @@ return (
       <div className="preview-table"style={{ marginTop: "3rem" }}>
 
           {error ?? error }
-          <Table striped bordered>
-           <thead> <tr>{cols.map(col =><th key={col}>{col}</th>)}</tr></thead>
+         {data.length && <Table striped bordered>
+           <thead> <tr>{reqFields.map(col =><th key={col}>{col}</th>)}</tr></thead>
            <tbody>{data.map((row,idx) => 
             <tr key={idx}>{
-              cols.map(c => <td key={row[c]}>{row[c]}</td>)
+              reqFields.map(c => <td key={row[c]}>{row[c]}</td>)
             }</tr>)}
             </tbody> 
-          </Table>
+          </Table>}
         {file ?<Button variant="outline-primary" className="m-5" onClick={()=> setShow(true)}>Upload</Button>:null}
           
       <Modal show={show} onHide={()=> setShow(false)}>
