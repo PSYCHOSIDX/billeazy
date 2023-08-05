@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import '../component-styles/meter-reading.css'
 import { useNavigate } from 'react-router-dom';
+import '../../global-styles/global.css'
 
 const reqFields = ['Meter_No', 'Unit', 'Current_Reading_Date', 'Current_Reading', 'Reading_Remark'];
 
@@ -271,7 +272,7 @@ const MeterReading = () => {
 
   return (
     <>
-      <h3>Pending Meter Readings</h3>
+      <h3 className='alerty'>Pending Meter Readings</h3>
       {readings.length ?
         <div className='meter-readings-table'>
           <Table striped bordered>
@@ -292,12 +293,12 @@ const MeterReading = () => {
               }</tr>)}
             </tbody>
           </Table>
-        </div> : <div>No results found...</div>}
+        </div> : <div className='alertx'>No results found...</div>}
 
       <Button onClick={() => {
         onGenerateBill(readings)
         navigate("/admin")
-      }} className='AdminActionButtons' variant="outline-primary">Generate Bills</Button>
+      }} className='AdminActionButtons' variant="outline-primary" id='btn-contact'>Generate Bills</Button>
     </>
   )
 }
