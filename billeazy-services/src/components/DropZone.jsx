@@ -7,7 +7,8 @@ const Dropzone = ({ onDrop, accept }) => {
   // Initializing useDropzone hooks with options
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept
+    accept,
+    multiple: false
   });
 
   /* 
