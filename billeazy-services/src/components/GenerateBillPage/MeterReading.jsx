@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { db } from '../../firebaseConfig';
-import { collection, getDocs, limit, orderBy, query, where, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, limit, orderBy, query, where, addDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import '../component-styles/meter-reading.css'
@@ -150,10 +150,10 @@ const onGenerateBill = async (readings) => {
       const tariffRef = getTariff.docs[0].ref;
 
       //   console.log(`${tariffRef.lpath}/tariff/${consumerRef.tariffCategory}/tension/`);
-      const getRates = await getDocs(query(collection(db, `${tariffRef.path}/tariff/${consumerRef.tariffCategory}/tension`), where("tension", "==", `${consumerRef.tension}`)));
+      const getRates = await getDoc(doc(db, `${tariffRef.path}/tariff/${consumerRef.tariffCategory}/tension/${consumerRef.tension}`));
 
       //   console.log(getRates);
-      const rates = getRates.docs[0].data();
+      const rates = getRates.data();
 
       const getPrevBill = await getDocs(query(collection(db, "bills"), where("meterNo", "==", `${doc.meterNo}`), orderBy("date", "desc")));
 
