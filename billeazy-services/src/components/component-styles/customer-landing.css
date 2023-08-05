@@ -65,7 +65,6 @@
   padding: 1rem 5rem;
   background: linear-gradient(45deg, #8641e1, #42EE49);
   color: white;
-  margin: 1%;
   margin-left: 40%;
 }
 .call-box .holder .btn-action:hover {
@@ -108,7 +107,7 @@
   }
   .call-box .holder .btn-action {
     margin-left: 15%;
-    padding: 1rem 9rem;
+    padding: 2rem 9rem;
   }
   .call-box .holder .customer-text {
     font-size: 2rem;
@@ -116,9 +115,6 @@
   }
 }
 @media screen and (max-width: 500px) {
-  .call-box {
-    overflow-x: hidden;
-  }
   .call-box .line-imgx {
     position: absolute;
     margin-top: -9rem;
@@ -155,7 +151,7 @@
   margin-top: 0;
 }
 .features .card-holder-features .cards {
-  padding: 2.9rem 2rem;
+  padding: 2.4rem 2rem;
   margin: 1rem;
   color: white;
   text-align: center;
@@ -176,9 +172,10 @@
 @media screen and (max-width: 720px) {
   .features .card-holder-features {
     flex-direction: row;
+    height: auto;
   }
   .features .card-holder-features .cards {
-    padding: 1.5rem 1.5rem;
+    padding: 1.4rem 1.5rem;
     margin: 0.4rem;
   }
   .features .card-holder-features .cards .fea {
@@ -212,6 +209,7 @@
 }
 .work .card-holder-features .cards h5 {
   font-size: 1rem;
+  text-align: center;
 }
 .work .card-holder-features .cards .fea {
   font-size: 2rem;
@@ -234,5 +232,6 @@
   }
   .work .card-holder-features .cards h5 {
     font-size: 1rem;
+    text-align: center;
   }
 }/*# sourceMappingURL=customer-landing.css.map */

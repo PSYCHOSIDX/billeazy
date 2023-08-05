@@ -75,9 +75,8 @@
             padding: 1rem 5rem;
             background: linear-gradient(45deg, #8641e1,#42EE49);
             color: white;
-            margin: 1%;
+            
            margin-left: 40%;
-          
            &:hover{
             background: black;
             cursor: pointer;
@@ -122,9 +121,10 @@
             overflow-x: hidden;
         }
         .holder{
+            
             .btn-action{
                 margin-left: 15%;
-                padding: 1rem 9rem;
+                padding: 2rem 9rem;
             }
             .customer-text{
                 font-size: 2rem;
@@ -138,7 +138,7 @@
 @media screen and (max-width:500px) {
 
     .call-box{
-        overflow-x: hidden;
+        
         .line-imgx{
             position: absolute;
             margin-top: -9rem;
@@ -148,8 +148,10 @@
             overflow-x: hidden;
         }
         .holder{
+            
             .btn-action{
                 margin-left: 15%;
+                
                 padding: 1rem 6rem;
             }
             .customer-text{
@@ -185,7 +187,7 @@
             margin-top: 0;
         }
         .cards{
-            padding: 2.9rem 2rem;
+            padding: 2.4rem 2rem;
             margin: 1rem;
             color: white;
             h5{
@@ -215,9 +217,9 @@
         
     .card-holder-features{
         flex-direction: row;
-
+        height: auto;
         .cards{
-            padding: 1.5rem 1.5rem;
+            padding: 1.4rem 1.5rem;
             margin: 0.4rem;
             .fea{
                 font-size: 1rem;
@@ -255,6 +257,7 @@
             color: white;
             h5{
                 font-size: 1rem;
+                text-align: center;
             }
             text-align: center;
             background-color: #42ee4800;
@@ -287,6 +290,7 @@
 
             h5{
                 font-size: 1rem;
+                text-align: center;
             }
         }
     }
