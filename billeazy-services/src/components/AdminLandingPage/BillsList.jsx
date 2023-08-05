@@ -11,29 +11,31 @@ import { db } from '../../firebaseConfig';
 
 function BillsList() {
     const [key, setKey] = useState('all');
-    const [pendingReports, setPendingReports] = useState(null);
-    
+    const [pendingTickets, setPendingTickets] = useState(null);
+    const [resolvedTickets, setResolvedTickets] = useState(null);
 
-    const handleGetReports = async e => {
-        const getPendingReports = await getDocs(query(collection(db, "reports"), where("status", "==", "pending")));
-        console.log(getPendingReports);
-        setPendingReports(getPendingReports.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-        console.log(pendingReports)
+
+    const handleGetTickets = async e => {
+        const getPendingTickets = await getDocs(query(collection(db, "tickets"), where("status", "==", "pending")));
+        setPendingTickets(getPendingTickets.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+        const getResolvedTickets = await getDocs(query(collection(db, "tickets"), where("status", "==", "resolved")));
+        setResolvedTickets(getResolvedTickets.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     }
 
     const handleResolution = async (id) => {
-        await updateDoc(doc(db, "reports", id), {
+        await updateDoc(doc(db, "tickets", id), {
             status: "resolved"
         });
-        setPendingReports([]);
+        handleGetTickets()
     }
 
     useEffect(() => {
-        handleGetReports();
+        handleGetTickets();
     }, [])
     useEffect(() => {
-        console.log(pendingReports);
-    }, [pendingReports])
+        console.log(pendingTickets);
+    }, [pendingTickets])
 
     return (
         <div>
@@ -141,39 +143,85 @@ function BillsList() {
                             </div>
                         </Stack>
                     </Tab>
-                    <Tab eventKey="consumertickets" title="Consumer Tickets">
+                    <Tab eventKey="pendingtickets" title="Pending Tickets">
                         <div>
-                            {pendingReports?.length > 0 ? (
-                                pendingReports.map(report => {
-                                    if (report.status == "pending") {
-                                        return (
-                                            <Stack gap={2}>
-                                                <div className="BillsList bg-light shadow-sm p-2">
-                                                    <Row>
-                                                        <Col>{report.id}</Col>
-                                                        <Col>{report.billId}</Col>
-                                                        <Col>{report.email}</Col>
-                                                        <Col>{report.description}</Col>
-                                                        <Col><Button className='AdminResolve' variant="outline-primary" onClick={() =>
-                                                            handleResolution(report.id)
-                                                        }>Resolve</Button>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </Stack>
-                                        )
-                                    }
+                            <Stack className='list-heading'>
+                                <div className="ListHeadings shadow-none p-2">
+                                    <Row>
+                                        <Col>Ticket ID</Col>
+                                        <Col>Bill Number</Col>
+                                        <Col>Consumer E-mail</Col>
+                                        <Col>Description</Col>
+                                        <Col>Action</Col>
+                                    </Row>
+                                </div>
+                            </Stack>
+                            {pendingTickets?.length > 0 ? (
+                                pendingTickets.map(ticket => {
+                                    return (
+                                        <div className="BillsList bg-light shadow-sm p-2">
+                                            <Row>
+                                                <Col>{ticket.id}</Col>
+                                                <Col>{ticket.billId}</Col>
+                                                <Col>{ticket.email}</Col>
+                                                <Col>{ticket.description}</Col>
+                                                <Col><Button className='AdminResolve' variant="outline-primary" onClick={() =>
+                                                    handleResolution(ticket.id)
+                                                }>Resolve</Button>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    )
                                 })
                             ) : (
                                 <Stack gap={2}>
                                     <div className="BillsList bg-light shadow-sm p-2">
                                         <Row>
-                                            <Col>No Pending Reports</Col>
+                                            <Col>No Pending Tickets</Col>
                                         </Row>
                                     </div>
                                 </Stack>
                             )
-                        }
+                            }
+                        </div>
+                    </Tab>
+                    <Tab eventKey="resolvedtickets" title="Resolved Tickets">
+                        <div>
+                            <Stack className='list-heading'>
+                                <div className="ListHeadings shadow-none p-2">
+                                    <Row>
+                                        <Col>Ticket ID</Col>
+                                        <Col>Bill Number</Col>
+                                        <Col>Consumer E-mail</Col>
+                                        <Col>Description</Col>
+                                        <Col>Status</Col>
+                                    </Row>
+                                </div>
+                            </Stack>
+                            {resolvedTickets?.length > 0 ? (
+                                resolvedTickets.map(ticket => {
+                                    return (
+                                        <div className="BillsList bg-light shadow-sm p-2">
+                                            <Row>
+                                                <Col>{ticket.id}</Col>
+                                                <Col>{ticket.billId}</Col>
+                                                <Col>{ticket.email}</Col>
+                                                <Col>{ticket.description}</Col>
+                                                <Col>Resolved</Col>
+                                            </Row>
+                                        </div>
+                                    )
+                                })
+                            ) : (
+                                <Stack gap={2}>
+                                    <div className="BillsList bg-light shadow-sm p-2">
+                                        <Row>
+                                            <Col>No Resolved Tickets</Col>
+                                        </Row>
+                                    </div>
+                                </Stack>
+                            )
+                            }
                         </div>
                     </Tab>
                     <Tab eventKey="agents" title="Employees">
