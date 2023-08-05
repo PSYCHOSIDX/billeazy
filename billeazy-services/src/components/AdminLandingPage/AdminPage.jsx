@@ -44,12 +44,10 @@ function AdminPage() {
 
     const navigate = useNavigate();
 
-
-
     const onSubmit = async (e) => {
         console.log('triggered');
-        await e.preventDefault();
-    const res = await fetch("../../api/sendMessage", {
+        
+    const res = await fetch("../../../api/sendMessage", {
         
         method: "POST",
         headers: {
