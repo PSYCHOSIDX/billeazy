@@ -7,7 +7,7 @@
   export default async (req, res) => 
   {
     res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Type","application/json");
 
     client.messages.create({
         from: process.env.REACT_APP_TWILLIO_PH,
