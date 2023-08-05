@@ -47,7 +47,7 @@ function BillsList() {
                     onSelect={(k) => setKey(k)}
                     className="mb-3"
                 >
-                    <Tab eventKey="all" title="All">
+                    <Tab eventKey="all" title="Customers">
                         <div className='list-container'>
                             <Stack className='list-heading'>
                                 <div className="ListHeadings shadow-none p-2">
@@ -106,6 +106,24 @@ function BillsList() {
                                 </div>
                             </Stack>
                         </div>
+                    </Tab>
+
+                    <Tab eventKey="agents" title="Employees">
+                        <Stack gap={2}>
+                            <div className="BillList bg-light shadow-sm p-2">
+                                <Row>
+                                    <Col>0000</Col>
+                                    <Col>0000</Col>
+                                    <Col>dd/mm/yy</Col>
+                                    <Col>0000</Col>
+                                    <Col>dd/mm/yy</Col>
+                                    <Col>0000</Col>
+                                    <Col>00</Col>
+                                    <Col>--</Col>
+                                    <Col>Pending</Col>
+                                </Row>
+                            </div>
+                        </Stack>
                     </Tab>
                     <Tab eventKey="pending" title="Pending">
                         <div>
@@ -224,23 +242,7 @@ function BillsList() {
                             }
                         </div>
                     </Tab>
-                    <Tab eventKey="agents" title="Employees">
-                        <Stack gap={2}>
-                            <div className="BillList bg-light shadow-sm p-2">
-                                <Row>
-                                    <Col>0000</Col>
-                                    <Col>0000</Col>
-                                    <Col>dd/mm/yy</Col>
-                                    <Col>0000</Col>
-                                    <Col>dd/mm/yy</Col>
-                                    <Col>0000</Col>
-                                    <Col>00</Col>
-                                    <Col>--</Col>
-                                    <Col>Pending</Col>
-                                </Row>
-                            </div>
-                        </Stack>
-                    </Tab>
+                    
                 </Tabs>
             </div>
         </div>

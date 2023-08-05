@@ -23,3 +23,44 @@ body{
     text-align: center;
     font-weight: 900;
 }
+
+
+
+.alertx{
+    margin: 2%;
+    color: #42EE49;
+    text-align: left;
+    font-weight: 900;
+}
+
+.alerty{
+    margin: 2%;
+    color: #6E25CB;
+    text-align: left;
+    font-weight: 900;
+}
+
+      
+#btn-contact {
+    all: unset;
+    background-color: #42EE49;
+    padding: 0.5rem 3.2rem;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-weight: 900;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    box-shadow: none;
+    text-decoration: none;
+    margin: auto;
+    cursor: pointer;
+    margin-left: 0%;
+  }
+  #btn-contact:active {
+    background-color: rgb(165, 165, 165);
+  }
+  #btn-contact:hover {
+    background-color: #222222;
+    color: rgb(255, 255, 255);
+  }

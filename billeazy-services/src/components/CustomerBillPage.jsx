@@ -36,9 +36,94 @@ function CustomerBillPage() {
 
     const consumersCollectionRef = collection(db,`users/${userId}/details`);
     const billsCollectionRef = collection(db,`bills`);
-   
+ 
+    
 
-//modal for invoice
+//get all bills
+
+useEffect(() => {
+    const getBills = async () => {
+        const q = query(billsCollectionRef, where('email', '==', user.email));
+        const qx = query(billsCollectionRef, where('paymentStatus', '==', 'paid'||'pending'));
+        const data = await getDocs(qx);
+      const newData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+      }));
+      console.log("rendered all bills ");
+      setBill(newData);
+    
+    };
+  
+  
+      getBills()
+    }, [ ])
+
+//paid bills
+    useEffect(() => {
+        const getPaidBills = async () => {
+          const q = query(billsCollectionRef, where('email', '==', user.email));
+          const qx = query(billsCollectionRef, where('paymentStatus', '==', 'paid'));
+          const data = await getDocs(qx);
+          const newData = data.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+          }));
+          console.log("rendered payed bills ");
+          setBillPayed(newData);
+        
+        };
+      
+      
+          getPaidBills()
+        }, [])
+
+
+// pending bills
+useEffect(() => {
+    const getPendingBills = async () => {
+      const q = query(billsCollectionRef, where('email', '==', user.email));
+      const qx = query(billsCollectionRef, where('paymentStatus', '==', 'pending'));
+      const data = await getDocs(qx);
+      const newData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+      }));
+      console.log("rendered pending bills ");
+      setBillPending(newData);
+    
+    };
+  
+  
+      getPendingBills()
+    }, [])
+
+
+// get consumer details
+    useEffect(() => {
+      const getUser = async () => {
+        const q = query(consumersCollectionRef, where("usertype", "==", "consumer"));
+        const data = await getDocs(q);
+        const newData = data.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+        }));
+        console.log("rendered consumer")
+        newData.map((m)=>(
+            setName(m.consumerName),
+            setcaNo(m.consumerAccNo),
+            setmeter(m.meterNo),
+            setPhone(m.telephoneNo)
+        ))
+      
+      };
+    
+    
+        getUser()
+      },[])
+
+
+
 
 //payments
 
@@ -69,8 +154,8 @@ const handlePayment =(amount, billNo) =>{
       alert('please enter a valid amount');
     } else {
       var options = {
-        key: "rzp_test_9eZaqsKPvDfZne" ,
-        key_secret: "n1fKRJ7EaVa8q6uMmHtnssH8" ,
+        key: process.env.REACT_APP_RAYZORPAY_KEYID ,
+        key_secret: process.env.REACT_APP_RAYZORPAY_SECRET ,
         amount: amount*100 ,
         currency:"INR",
         name:"Bill Eazy",
@@ -102,6 +187,8 @@ const handlePayment =(amount, billNo) =>{
    } 
   }
 
+
+//modal for invoice
 
 function InvoiceModal(props) {
 
@@ -152,13 +239,7 @@ function InvoiceModal(props) {
         </h1>
 
         <div className="page-tools">
-            <div className="action-buttons">
-               
-                <a onClick={downloadPdfDocument} className="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF">
-                    <i className="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
-                    Export
-                </a>
-            </div>
+            
         </div>
     </div>
 
@@ -281,7 +362,13 @@ function InvoiceModal(props) {
   
           <Modal.Footer>
   
-           
+          <div className="action-buttons">
+               
+               <a onClick={downloadPdfDocument} className="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF">
+                   <i className="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+                   Export
+               </a>
+           </div>
             
           </Modal.Footer>
         </Modal>
@@ -290,87 +377,6 @@ function InvoiceModal(props) {
   }
   
 
-//get all bills
-
-useEffect(() => {
-    const getBills = async () => {
-      const q = query(billsCollectionRef, where('email', '==', user.email));
-      const data = await getDocs(q);
-      const newData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-      }));
-      console.log("rendered all bills ");
-      setBill(newData);
-    
-    };
-  
-  
-      getBills()
-    }, [])
-
-//paid bills
-    useEffect(() => {
-        const getPaidBills = async () => {
-          const q = query(billsCollectionRef, where('email', '==', user.email));
-          const qx = query(billsCollectionRef, where('paymentStatus', '==', 'paid'));
-          const data = await getDocs(qx);
-          const newData = data.docs.map((doc) => ({
-              ...doc.data(),
-              id: doc.id,
-          }));
-          console.log("rendered payed bills ");
-          setBillPayed(newData);
-        
-        };
-      
-      
-          getPaidBills()
-        }, [])
-
-
-// pending bills
-useEffect(() => {
-    const getPendingBills = async () => {
-      const q = query(billsCollectionRef, where('email', '==', user.email));
-      const qx = query(billsCollectionRef, where('paymentStatus', '==', 'pending'));
-      const data = await getDocs(qx);
-      const newData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-      }));
-      console.log("rendered pending bills ");
-      setBillPending(newData);
-    
-    };
-  
-  
-      getPendingBills()
-    }, [])
-
-
-// get consumer details
-    useEffect(() => {
-      const getUser = async () => {
-        const q = query(consumersCollectionRef, where("usertype", "==", "consumer"));
-        const data = await getDocs(q);
-        const newData = data.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-        }));
-        console.log("rendered consumer")
-        newData.map((m)=>(
-            setName(m.consumerName),
-            setcaNo(m.consumerAccNo),
-            setmeter(m.meterNo),
-            setPhone(m.telephoneNo)
-        ))
-      
-      };
-    
-    
-        getUser()
-      },[])
 
     return (
         <>
