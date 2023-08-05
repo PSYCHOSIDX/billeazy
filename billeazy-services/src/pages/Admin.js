@@ -26,8 +26,6 @@ const Admin = () => {
         ...doc.data(),
         id: doc.id,
     }));
-    
-    console.log("hi")
     newData.map((m)=>(setType(m.usertype)))
   
   };
@@ -54,7 +52,7 @@ const Admin = () => {
   return (
     <>
     {user ? <NavbarAdminLogout/> : <NavbarLogin/>}
-    { console.log(usertype)}
+    
     {usertype && (usertype === 'admin'?  <AdminPage/> : <h1 className='alert-admin'> Only Admin Users Can View This Page</h1>) }
    
     <Footer/>
