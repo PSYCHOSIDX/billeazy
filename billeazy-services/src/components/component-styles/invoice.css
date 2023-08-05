@@ -119,4 +119,10 @@
 .modal-invoice .body-invoice .white {
   color: #ffffff;
   font-weight: 600;
+}
+
+.invoice {
+  font-size: 1rem;
+  color: #42EE49;
+  font-weight: 800;
 }/*# sourceMappingURL=invoice.css.map */

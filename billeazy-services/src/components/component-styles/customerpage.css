@@ -110,5 +110,32 @@
         color: rgb(255, 255, 255);
       }
     
+
+          
+    #btn-report {
+      all: unset;
+      background-color: #f32a2a;
+      color: #ffffff;
+      padding: .5rem 2rem;
+      font-family: sans-serif;
+      font-weight: 900;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1rem;
+      box-shadow: none;
+      text-decoration: none;
+      margin: auto;
+      cursor: pointer;
+      margin-left:- 4%;
+      font-size: 1rem;
+      width: auto;
+    }
+    #btn-report:active {
+      background-color: rgb(165, 165, 165);
+    }
+    #btn-report:hover {
+      background-color: #222222;
+      color: rgb(255, 255, 255);
+    }
     
 
