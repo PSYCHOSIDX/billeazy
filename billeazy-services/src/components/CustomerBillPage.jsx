@@ -13,6 +13,7 @@ import {db} from '../firebaseConfig';
 import {collection, getDocs, query, orderBy, where, addDoc, getDoc, updateDoc} from 'firebase/firestore';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Card from 'react-bootstrap/Card';
 
 import logo from '../assets/logo.png'
 //print to pdf
@@ -20,7 +21,7 @@ import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
 import shortid from "shortid";
-
+import '../global-styles/global.css'
 
 function CustomerBillPage() {
     const [key, setKey] = useState('all');
@@ -222,7 +223,7 @@ function InvoiceModal(props) {
   
         <Modal show={show} onHide={handleClose}  size="lg" className='modal-invoice'>
           <Modal.Header closeButton>
-            <Modal.Title className='title-modal'> Invoice Information</Modal.Title>
+            <Modal.Title className='invoice'> <b>INVOICE DETAILS </b></Modal.Title>
           </Modal.Header>
   
           <Modal.Body className='body-invoice'>
@@ -364,8 +365,8 @@ function InvoiceModal(props) {
   
           <div className="action-buttons">
                
-               <a onClick={downloadPdfDocument} className="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF">
-                   <i className="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+               <a onClick={downloadPdfDocument}  id='btn-report' href="#" data-title="PDF">
+                   <i className="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i> <span/>
                    Export
                </a>
            </div>
@@ -378,10 +379,56 @@ function InvoiceModal(props) {
   
 
 
+
+  
+//modal for Reporting
+
+function ReportModal(props) {
+
+
+
+const [show, setShow] = useState(false);
+
+const handleClose = () => setShow(false);
+const handleShow = () => setShow(true);
+const [fullscreen, setx] = useState(true)
+return (
+  <>
+    <Button id='btn-contact' onClick={handleShow}>
+       View
+    </Button>
+
+    <Modal show={show} onHide={handleClose}  size="lg" className='modal-invoice'>
+      <Modal.Header closeButton>
+        <Modal.Title className='title-modal'> Invoice Information</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body className='body-invoice'>
+
+
+
+      </Modal.Body>
+
+      <Modal.Footer>
+
+      <div className="action-buttons">
+           
+           <a className='btn-contact'> Submit </a>
+       </div>
+        
+      </Modal.Footer>
+    </Modal>
+  </>
+);
+}
+
+
     return (
         <>
-           
-            <div className='p-5 '>
+        <Card id='cardx'>
+      <Card.Body>  
+        
+      <div className='p-5 '>
                 <div className='my-3'>
                     <Row>
                        
@@ -396,10 +443,11 @@ function InvoiceModal(props) {
                 </div>
                 <br/>
                 <div>
-                    <div  className=''>
+                    <div  >
                         <Tabs
                         
-                            id="controlled-tab-example"
+                            id="controlled-tab-example "
+                            size="lg sm"
                             activeKey={key}
                             defaultActiveKey="all"
                             onSelect={(k) => setKey(k)}
@@ -559,6 +607,9 @@ function InvoiceModal(props) {
                     </div>
                 </div>
             </div>
+      </Card.Body>
+    </Card>
+           
 
 
         </>
