@@ -3,6 +3,7 @@ import '../global-styles/global.css'
 import { UserAuth } from '../context/UserAuthContext'
 import UploadHistory from '../components/UploadHistory'
 import NavbarAgentLogin from '../components/NavbarAgentLogin'
+import NavbarAgentLogout from '../components/NavbarAgentLogout'
 
 
 const AgentUploadHistory = () => {
@@ -11,7 +12,7 @@ const AgentUploadHistory = () => {
 
   return (
     <>
-    {user ? null : <NavbarAgentLogin/>}
+    {user ? <NavbarAgentLogout/>: <NavbarAgentLogin/>}
     <UploadHistory/>
    
     <Footer/>

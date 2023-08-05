@@ -13,10 +13,10 @@ import { useNavigate } from 'react-router-dom';
 
 import {db} from '../firebaseConfig';
 import {collection, getDocs, query, orderBy, where, addDoc} from 'firebase/firestore';
+import NavbarAgentLogout from '../components/NavbarAgentLogout';
 
 
-
-const AddCustomerConnection= () => {
+const AddAgentConnection= () => {
   const[show, setShow]= useState(0);
   const [userData, setUserData] = useState([0]);
   const [userDetail, setDetail] = useState();
@@ -24,7 +24,7 @@ const AddCustomerConnection= () => {
   const navigate = useNavigate();
   const [pin , setPin] = useState('');
   const [error, setError] = useState("");
-  const consumersCollectionRef = collection(db,"consumers");
+  const angentCollectionRef = collection(db,"employees");
   const {user} = UserAuth();
   const [linkInfo , setLinkInfo] = useState('');
   const userId = user.uid;
@@ -49,7 +49,7 @@ const AddCustomerConnection= () => {
     userList.map((x)=>(setDetail(x)));
  try{
 
-  { userDetail && userDetail.status == 'verified_consumer' ? navigate('/customer') : setShow(1)}
+  { userDetail && userDetail.status == 'verified_agent' ? navigate('/employees/upload') : setShow(1)}
     
   } catch(err){
     console.log(err)
@@ -72,7 +72,7 @@ const AddCustomerConnection= () => {
     setError('');
     try{
       const getOtp = async () => {
-        const q = query(consumersCollectionRef, where("link_otp", "==", parseInt(pin)) );
+        const q = query(angentCollectionRef, where("link_otp", "==", parseInt(pin)) );
       //  const qmain = query(q,where("email", "==", user.email));
         const data = await getDocs(q);
         const newData = data.docs.map((doc) => ({
@@ -88,14 +88,12 @@ const AddCustomerConnection= () => {
           const handleLink = async (e) => {
             try {
               await addDoc(collection(db, `users/${userId}/details`), {
-                consumerAccNo: linkInfo.consumerAccNo,
-                consumerName: linkInfo.name,
+                name: linkInfo.name,
+                agentId: linkInfo.agentId,
                 telephoneNo: linkInfo.telephoneNo,
-                address: linkInfo.address,
-                meterNo: linkInfo.meterNo,
-                email: linkInfo.email ,
-                status: 'verified_consumer',
-                usertype: 'consumer'
+                email: linkInfo.email,
+                status: 'verified_agent',
+                usertype: 'agent'
               });
             console.log("Link Added !");
             alert('Account Linked Successfully');
@@ -126,7 +124,7 @@ const AddCustomerConnection= () => {
     <>
     
     
-      {user ? <NavbarCustomerLogout/> : <NavbarLogin/>}
+      {user ? <NavbarAgentLogout/> : <NavbarLogin/>}
 
       { show === 1  ?
 
@@ -137,7 +135,7 @@ const AddCustomerConnection= () => {
     
     
      <Form xs="auto" className='form-admin' onSubmit={handleSubmit}>
-     <Card.Title className='title'>Customer Connection</Card.Title>
+     <Card.Title className='title'>Agent Connection</Card.Title>
     
   
        <Form.Group className="mb-3 none " controlId="formBasicPassword">
@@ -165,4 +163,4 @@ const AddCustomerConnection= () => {
   )
 }
 
-export default AddCustomerConnection
+export default AddAgentConnection

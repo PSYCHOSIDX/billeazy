@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import '../global-styles/global.css'
 import { fetchUserData } from '../utils/fetchUser'
 
+import { Link, useNavigate} from "react-router-dom";
 import AgentLanding from '../components/AgentLandingPage/AgentLanding'
 import AgentFeatures from '../components/AgentLandingPage/AgentFeatures'
 import AgentWorkFlow from '../components/AgentLandingPage/AgentWorkFlow'
@@ -12,29 +13,10 @@ import NavbarCustomerLogout from '../components/NavbarCustomerLogout'
 import { UserAuth } from '../context/UserAuthContext'
 
 const Agent = () => {
-  const { user } = UserAuth();
-  const [userData, setUserData] = useState();
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    if (user) {
-      (async () => {
-        const fetchedData = await fetchUserData(user)
-        setUserData(fetchedData)
-        setLoading(false);
-      })();
-    }
-  }, [user])
-
-  useEffect(() => {
-    if (userData) {
-      console.log("userData updated:", userData);
-    }
-  }, [userData]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  if (userData?.usertype == 'admin' || userData?.usertype == 'employee') {
+  const {user} = UserAuth();
+  const navigate = useNavigate();
+    (user&& navigate('/addemployeelink') )
+  
     return (
       <>
         {user ? <NavbarAgentLogout /> : <NavbarAgentLogin />}
@@ -45,15 +27,8 @@ const Agent = () => {
       </>
     )
   }
-  else {
-    return (
-      <><NavbarCustomerLogout />
-        <h1>You cannot access this page</h1>
-        <Footer />
-      </>
-    )
-  }
 
-}
+
+
 
 export default Agent

@@ -59,8 +59,12 @@ function Profile({ name, ...props }) {
             <h5>{user.email}</h5>
   
   
-             <Link className='link' to='/admin'>
-                <Button as="input" id='update-button-x' type="button" value="Home"/> 
+             <Link className='link' to='/employees/upload'>
+                <Button as="input" id='update-button-x' type="button" value="Upload Meter Data"/> 
+            </Link>
+
+            <Link className='link' to='/employees/uploadhistory'>
+                <Button as="input" id='update-button-x' type="button" value="Upload History"/> 
             </Link>
            
             
@@ -91,7 +95,7 @@ function NavbarAgentLogout(){
     const handleLogout = async () => {
       try{
         await logout();
-        navigate('/')
+        navigate('/employees')
       } catch(e) {
         console.log(e.message);
       }
@@ -105,7 +109,7 @@ function NavbarAgentLogout(){
 
         <Navbar className='custom-nav'>
         <Container className='container'>
-          <Navbar.Brand href="/admin">
+          <Navbar.Brand href="/employees">
           <img className='logo' src={logo} alt="BillEazy" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" className='n' />
