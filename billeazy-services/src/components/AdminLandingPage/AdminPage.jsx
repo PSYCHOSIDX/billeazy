@@ -38,7 +38,35 @@ function AdminPage() {
     const [aTelephoneNo, setATelephoneNo] = useState("");
     const [aEmail, setAEmail] = useState("");
 
+
+    const [number, setNumber] = useState('');
+    const [body, setBody]= useState('');
+
     const navigate = useNavigate();
+
+
+
+    const onSubmit = async (e) => {
+    const res = await fetch("../../api/sendMessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ to: cTelephoneNo, body: ' Bill Eazy Account Registration  \n'+ cName+' complete your account linking for email id :'+cEmail+'\n with your link otp is :'+link_otp}),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await setNumber("");
+        await setBody("");
+      } else {
+        await setNumber("An Error has occurred.");
+        await setBody("An Error has occurred.");
+      }  
+      alert('Email Info Sent To User');
+    }
+
+
+
 
     const handleConsumerRegister = async e => {
         //add data validation here
@@ -92,17 +120,17 @@ function AdminPage() {
             <div className='my-3'>
                 <Row>
                     <Col sm={6}>
-                        <h2 className='fw-semibold'>Admin Page</h2>
+                        <h2 className='alerty' >Admin Page</h2>
                     </Col>
                     <Col sm={6}>
                         <Row>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" onClick={() => navigate("/admin/generate-bill")}>
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact'onClick={() => navigate("/admin/generate-bill")}>
                                     Generate Bill
                                 </Button>
                             </Col>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" onClick={function (e) {
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
                                     setConsumerAccNo(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
                                     setInstNo(`${Math.ceil(Math.random() * Math.pow(10, 6)).toString()}`);
                                     setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
@@ -234,17 +262,17 @@ function AdminPage() {
                                         </div>
                                     </Modal.Body>
                                     <Modal.Footer>
-                                        <Button variant="secondary" onClick={handleCloseConsumer}>
+                                        <Button variant="secondary" id='btn-contact' onClick={handleCloseConsumer}>
                                             Cancel
                                         </Button>
-                                        <Button variant="primary" onClick={function (event) { handleCloseConsumer(); handleConsumerRegister() }}>
+                                        <Button variant="primary" id='btn-contact' onClick={function (event) { handleCloseConsumer(); handleConsumerRegister() }}>
                                             Register
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
                             </Col>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" onClick={function (e) {
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
                                     setAgentId(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
                                     setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
                                     handleShowAgent();

@@ -5,6 +5,24 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import '../component-styles/meter-reading.css'
 import { useNavigate } from 'react-router-dom';
+import '../../global-styles/global.css'
+const reqFields=['Meter_No', 'Unit', 'Current_Reading_Date', 'Current_Reading', 'Reading_Remark'];
+
+const fetchReadings =async () =>{
+    const readings = []
+    const colRef = collection(db,"Meter Reading");
+    const q = query(colRef, where("billGenerated","==",false));
+    const querySnap = await getDocs(q);
+    console.log("fetched");
+    querySnap.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // console.log(doc.id, " => ", doc.data());
+        readings.push(doc.data())
+    });
+    return readings;
+    // console.log(readings);
+    // return    getDocs(q).then(snap => snap.docs.map(x => x.data()));
+
 
 const reqFields = ['Meter_No', 'Unit', 'Current_Reading_Date', 'Current_Reading', 'Reading_Remark'];
 
@@ -22,6 +40,7 @@ const fetchReadings = async () => {
   return readings;
   // console.log(readings);
   // return    getDocs(q).then(snap => snap.docs.map(x => x.data()));
+
 }
 
 function generateAmount(tariffCategory, tension, readingDifference, sanctionedLoad, rates) {
@@ -256,10 +275,24 @@ const MeterReading = () => {
     });
   }, []);
 
-  return (
-    <>
-      <h3>Pending Meter Readings</h3>
-      {readings.length ?
+  };
+
+const MeterReading = () =>{
+    
+    const [ readings, setReadings] = useState([])
+    const navigate = useNavigate();
+    // console.log(fetchReadings);
+    useEffect(() => {
+        fetchReadings().then(res => {
+            // console.log(res);
+            setReadings(res)});
+      },[]);
+    
+    return(
+        <>
+        <h3 className='alerty'>Pending Meter Readings</h3>
+        {readings.length ?
+
         <div className='meter-readings-table'>
           <Table striped bordered>
             <thead> <tr>{reqFields.map(col => <th key={col}>{col}</th>)}</tr></thead>
@@ -279,13 +312,15 @@ const MeterReading = () => {
               }</tr>)}
             </tbody>
           </Table>
-        </div> : <div>No results found...</div>}
 
-      <Button onClick={() => {
-        onGenerateBill(readings)
-        navigate("/admin")
-      }} className='AdminActionButtons' variant="outline-primary">Generate Bills</Button>
-    </>
-  )
+          </div> : <div className='alertx'>No results found...</div> }
+
+        <Button onClick={()=>{
+            onGenerateBill(readings)
+            navigate("/admin")
+            }} className='AdminActionButtons' variant="outline-primary" id='btn-contact'>Generate Bills</Button>
+        </>
+    )   
+
 }
 export default MeterReading;

@@ -123,7 +123,7 @@ function BillsList() {
                     onSelect={(k) => setKey(k)}
                     className="mb-3"
                 >
-                    <Tab eventKey="all" title="All">
+                    <Tab eventKey="all" title="Customers">
                         <div className='list-container'>
                             <Stack gap={2} className='list-heading'>
                                 <div className="ListHeadings shadow-none p-2">
@@ -195,8 +195,28 @@ function BillsList() {
                             </Stack>
                         </div>
                     </Tab>
+
+                    <Tab eventKey="agents" title="Employees">
+                        <Stack gap={2}>
+                            <div className="BillList bg-light shadow-sm p-2">
+                                <Row>
+                                    <Col>0000</Col>
+                                    <Col>0000</Col>
+                                    <Col>dd/mm/yy</Col>
+                                    <Col>0000</Col>
+                                    <Col>dd/mm/yy</Col>
+                                    <Col>0000</Col>
+                                    <Col>00</Col>
+                                    <Col>--</Col>
+                                    <Col>Pending</Col>
+                                </Row>
+                            </div>
+                        </Stack>
+                    </Tab>
+                    <Tab eventKey="pending" title="Pending">
+
                     <Tab eventKey="paid" title="Paid">
-                        <div>
+           <div>
                             <Stack gap={2} className='list-heading'>
                                 <div className="ListHeadings shadow-none m-2 pb-2">
                                     <Row>
@@ -312,32 +332,9 @@ function BillsList() {
                             }
                         </div>
                     </Tab>
-                    <Tab eventKey="agents" title="Employees">
-                        <div>
-                            <Stack gap={2} className='list-heading'>
-                                <div className="ListHeadings shadow-none m-2 pb-2">
-                                    <Row>
-                                        <Col>Agent ID</Col>
-                                        <Col>Name</Col>
-                                        <Col>Contact No.</Col>
-                                        <Col>Email</Col>
-                                    </Row>
-                                </div>
-                                {
-                                    agentRecords.map((a)=>(
-                                        <div className="records bg-light shadow-sm p-2">
-                                            <Row>
-                                                <Col>{}</Col>
-                                                <Col>{}</Col>
-                                                <Col>{}</Col>
-                                                <Col>{}</Col>
-                                            </Row>
-                                        </div>
-                                    ))
-                                }
-                            </Stack>
-                        </div>
-                    </Tab>
+
+                    
+
                 </Tabs>
             </div>
         </div>

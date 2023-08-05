@@ -100,7 +100,7 @@
         text-decoration: none;
         margin: auto;
         cursor: pointer;
-        margin-left: 0%;
+        margin: 2%;
       }
       #btn-contact:active {
         background-color: rgb(165, 165, 165);
