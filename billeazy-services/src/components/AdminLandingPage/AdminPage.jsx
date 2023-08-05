@@ -9,6 +9,7 @@ import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import'../../../api/sendMessage';
 
 function AdminPage() {
     const [showC, setShowC] = useState(false);
@@ -38,16 +39,16 @@ function AdminPage() {
     const [aTelephoneNo, setATelephoneNo] = useState("");
     const [aEmail, setAEmail] = useState("");
 
-
+     
     const [number, setNumber] = useState('');
     const [body, setBody]= useState('');
 
     const navigate = useNavigate();
 
     const onSubmit = async (e) => {
-        console.log('triggered');
-        
-    const res = await fetch("../../../api/sendMessage", {
+    console.log('triggered');
+    
+    const res = await fetch('../../../api/sendMessage', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +66,7 @@ function AdminPage() {
         await setNumber("An Error has occurred.");
         await setBody("An Error has occurred.");
       }  
-      alert('Email Info Sent To User');
+      alert('Signin Information Sent To User');
     }
 
 
