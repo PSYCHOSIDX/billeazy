@@ -8,7 +8,7 @@ import Admin from "./pages/Admin";
 import UploadFile from "./components/UploadFile";
 
 import AdminLoginPage from "./pages/AdminLoginPage"
-
+import AgentUploadHistory from "./pages/AgentUploadHistory";
 import Customer from "./pages/Customer";
 import CustomerLandingPage from "./pages/CustomerLandingPage";
 import ProtectedCustomerRoutes from "./components/ProtectedAdminRoutes";
@@ -30,7 +30,7 @@ const App = () => {
 
             <Route path='/employees' element={<Agent/>} />
             <Route path='/employees/upload' element={<UploadFile/>} />
-
+            <Route path='/employees/uploadhistory' element={<AgentUploadHistory/>} />
             
             
             {/* <Route path='/rides'  element={<ProtectedRoutes> <Rides/> </ProtectedRoutes>} /> */}

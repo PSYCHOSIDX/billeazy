@@ -7,6 +7,7 @@ import { UserAuth } from '../context/UserAuthContext'
 import AgentLanding from '../components/AgentLandingPage/AgentLanding'
 import AgentFeatures from '../components/AgentLandingPage/AgentFeatures'
 import AgentWorkFlow from '../components/AgentLandingPage/AgentWorkFlow'
+import NavbarAgentLogout from '../components/NavbarAgentLogout'
 
 
 const Agent = () => {
@@ -16,7 +17,7 @@ const Agent = () => {
   return (
     <>
     
-    {user ? null : <NavbarAgentLogin/>}
+    {user ? <NavbarAgentLogout/> : <NavbarAgentLogin/>}
     <AgentLanding/>
     <AgentFeatures/>
     <AgentWorkFlow/>
