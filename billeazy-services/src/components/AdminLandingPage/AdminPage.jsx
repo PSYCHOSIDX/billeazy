@@ -52,7 +52,7 @@ function AdminPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ to: '7028193277', body: ' Bill Eazy '}),
+        body: JSON.stringify({ to: '+91'+cTelephoneNo, body: ' Bill Eazy Account Registration  \n'+ cName+' complete your account linking for email id :'+cEmail+'\n with your link otp is :'+link_otp}),
       });
 
     
