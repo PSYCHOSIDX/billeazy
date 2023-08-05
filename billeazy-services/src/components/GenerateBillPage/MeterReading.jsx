@@ -135,9 +135,9 @@ const onGenerateBill = async (readings) => {
 
 
   for (const doc of readings) {
-    let newBill = {}
+    
     try {
-      
+      let newBill = {}
 
 
       const getConsumer = await getDocs(query(collection(db, "consumers"), where("meterNo", "==", `${doc.meterNo}`)));
@@ -209,14 +209,6 @@ const onGenerateBill = async (readings) => {
         };
 
       }
-    }
-    catch (error) {
-
-      console.log(error);
-
-    }
-
-    try {
 
       await addDoc(collection(db, "bills"), {
 
@@ -227,8 +219,8 @@ const onGenerateBill = async (readings) => {
       await updateDoc(meterRef, {
         billGenerated: true
       })
-
     }
+
     catch (e) {
       console.log(e);
     }
