@@ -13,7 +13,13 @@ function BillsList() {
     const [key, setKey] = useState('all');
     const [pendingTickets, setPendingTickets] = useState(null);
     const [resolvedTickets, setResolvedTickets] = useState(null);
+    const [bill , setBill] = useState([0]);
+    const [billPaid , setBillPaid] = useState([0]);
+    const [billPending , setBillPending] = useState([0]);
+    const [agentRecords , setAgents] = useState([0]);
 
+    const billsCollectionRef = collection(db,`bills`);
+    const agentsCollectionRef = collection(db,`employees`);
 
     const handleGetTickets = async e => {
         const getPendingTickets = await getDocs(query(collection(db, "tickets"), where("status", "==", "pending")));
@@ -37,6 +43,76 @@ function BillsList() {
         console.log(pendingTickets);
     }, [pendingTickets])
 
+    // get agents details
+    useEffect(() => {
+        const getAgents = async () => {
+          const q = query(agentsCollectionRef);
+          const data = await getDocs(q);
+          const newData = data.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+          }));
+          console.log("rendered agents");
+          setAgents(newData);
+        
+        };
+          getAgents()
+        },[])
+
+    //get all bills
+    useEffect(() => {
+        const getBills = async () => {
+        const q = query(billsCollectionRef);
+        const data = await getDocs(q);
+        const newData = data.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+        }));
+        console.log("rendered bills ");
+        setBill(newData);
+        
+        };
+    
+    
+        getBills()
+        }, [])
+
+    //paid bills
+    useEffect(() => {
+        const getPaidBills = async () => {
+          const qx = query(billsCollectionRef, where('paymentStatus', '==', 'paid'));
+          const data = await getDocs(qx);
+          const newData = data.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+          }));
+          console.log("rendered paid bills ");
+          setBillPaid(newData);
+        };
+      
+      
+          getPaidBills()
+        }, [])
+
+
+    // pending bills
+    useEffect(() => {
+        const getPendingBills = async () => {
+        const qx = query(billsCollectionRef, where('paymentStatus', '==', 'pending'));
+        const data = await getDocs(qx);
+        const newData = data.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+        }));
+        console.log("rendered pending bills ");
+        setBillPending(newData);
+        
+        };
+    
+    
+        getPendingBills()
+        }, [])
+
     return (
         <div>
             <div className='my-4'>
@@ -49,11 +125,11 @@ function BillsList() {
                 >
                     <Tab eventKey="all" title="All">
                         <div className='list-container'>
-                            <Stack className='list-heading'>
+                            <Stack gap={2} className='list-heading'>
                                 <div className="ListHeadings shadow-none p-2">
                                     <Row>
-                                        <Col>CA no.</Col>
-                                        <Col>Meter No.</Col>
+                                        {/* <Col>CA no.</Col> */}
+                                        <Col>Bill No.</Col>
                                         <Col>Current reading date</Col>
                                         <Col>Current reading</Col>
                                         <Col>Previous reading date</Col>
@@ -63,85 +139,97 @@ function BillsList() {
                                         <Col>Status</Col>
                                     </Row>
                                 </div>
-                            </Stack>
-                            <Stack gap={2}>
-                                <div className="BillList bg-light shadow-sm p-2">
-                                    <Row>
-                                        <Col>0000</Col>
-                                        <Col>0000</Col>
-                                        <Col>dd/mm/yy</Col>
-                                        <Col>0000</Col>
-                                        <Col>dd/mm/yy</Col>
-                                        <Col>0000</Col>
-                                        <Col>00</Col>
-                                        <Col>--</Col>
-                                        <Col>Pending</Col>
-                                    </Row>
-                                </div>
-                                <div className="BillList bg-light shadow-sm p-2">
-                                    <Row>
-                                        <Col>0000</Col>
-                                        <Col>0000</Col>
-                                        <Col>dd/mm/yy</Col>
-                                        <Col>0000</Col>
-                                        <Col>dd/mm/yy</Col>
-                                        <Col>0000</Col>
-                                        <Col>00</Col>
-                                        <Col>--</Col>
-                                        <Col>Pending</Col>
-                                    </Row>
-                                </div>
-                                <div className="BillList bg-light shadow-sm p-2">
-                                    <Row>
-                                        <Col>0000</Col>
-                                        <Col>0000</Col>
-                                        <Col>dd/mm/yy</Col>
-                                        <Col>0000</Col>
-                                        <Col>dd/mm/yy</Col>
-                                        <Col>0000</Col>
-                                        <Col>00</Col>
-                                        <Col>--</Col>
-                                        <Col>Pending</Col>
-                                    </Row>
-                                </div>
+                                {
+                                    bill.map((b)=>(
+                                        <div className="records bg-light shadow-sm p-2">
+                                            <Row>
+                                                {/* <Col>{}</Col> */}
+                                                <Col>{b.billNo}</Col>
+                                                <Col>{b.currentReadingDate}</Col>
+                                                <Col>{b.currentReading}</Col>
+                                                <Col>{b.previousReadingDate}</Col>
+                                                <Col>{b.previousReading}</Col>
+                                                <Col>{b.readingDifference}</Col>
+                                                <Col>{b.amount}</Col>
+                                                <Col>{b.paymentStatus}</Col>
+                                            </Row>
+                                        </div>
+                                    ))
+                                }
                             </Stack>
                         </div>
                     </Tab>
                     <Tab eventKey="pending" title="Pending">
                         <div>
-                            <Stack gap={2}>
-                                <div className="BillList bg-light shadow-sm p-2">
+                            <Stack gap={2} className='list-heading'>
+                                <div className="ListHeadings shadow-none m-2 pb-2">
                                     <Row>
-                                        <Col>0000</Col>
-                                        <Col>0000</Col>
-                                        <Col>dd/mm/yy</Col>
-                                        <Col>0000</Col>
-                                        <Col>dd/mm/yy</Col>
-                                        <Col>0000</Col>
-                                        <Col>00</Col>
-                                        <Col>--</Col>
-                                        <Col>Pending</Col>
+                                        {/* <Col>CA no.</Col> */}
+                                        <Col>Bill No.</Col>
+                                        <Col>Current reading date</Col>
+                                        <Col>Current reading</Col>
+                                        <Col>Previous reading date</Col>
+                                        <Col>Previous reading</Col>
+                                        <Col>Consumption</Col>
+                                        <Col>Amount Payable</Col>
+                                        <Col>Status</Col>
                                     </Row>
                                 </div>
+                                {
+                                    billPending.map((bx)=>(
+                                        <div className="records bg-light shadow-sm p-2">
+                                            <Row>
+                                                {/* <Col>{}</Col> */}
+                                                <Col>{bx.billNo}</Col>
+                                                <Col>{bx.currentReadingDate}</Col>
+                                                <Col>{bx.currentReading}</Col>
+                                                <Col>{bx.previousReadingDate}</Col>
+                                                <Col>{bx.previousReading}</Col>
+                                                <Col>{bx.readingDifference}</Col>
+                                                <Col>{bx.amount}</Col>
+                                                <Col>{bx.paymentStatus}</Col>
+                                            </Row>
+                                        </div>
+                                    ))
+                                }
                             </Stack>
                         </div>
                     </Tab>
                     <Tab eventKey="paid" title="Paid">
-                        <Stack gap={2}>
-                            <div className="BillList bg-light shadow-sm p-2">
-                                <Row>
-                                    <Col>0000</Col>
-                                    <Col>0000</Col>
-                                    <Col>dd/mm/yy</Col>
-                                    <Col>0000</Col>
-                                    <Col>dd/mm/yy</Col>
-                                    <Col>0000</Col>
-                                    <Col>00</Col>
-                                    <Col>--</Col>
-                                    <Col>Pending</Col>
-                                </Row>
-                            </div>
-                        </Stack>
+                        <div>
+                            <Stack gap={2} className='list-heading'>
+                                <div className="ListHeadings shadow-none m-2 pb-2">
+                                    <Row>
+                                        {/* <Col>CA no.</Col> */}
+                                        <Col>Bill No.</Col>
+                                        <Col>Current reading date</Col>
+                                        <Col>Current reading</Col>
+                                        <Col>Previous reading date</Col>
+                                        <Col>Previous reading</Col>
+                                        <Col>Consumption</Col>
+                                        <Col>Amount Payable</Col>
+                                        <Col>Status</Col>
+                                    </Row>
+                                </div>
+                                {
+                                    billPaid.map((px)=>(
+                                        <div className="records bg-light shadow-sm p-2">
+                                            <Row>
+                                                {/* <Col>{}</Col> */}
+                                                <Col>{px.billNo}</Col>
+                                                <Col>{px.currentReadingDate}</Col>
+                                                <Col>{px.currentReading}</Col>
+                                                <Col>{px.previousReadingDate}</Col>
+                                                <Col>{px.previousReading}</Col>
+                                                <Col>{px.readingDifference}</Col>
+                                                <Col>{px.amount}</Col>
+                                                <Col>{px.paymentStatus}</Col>
+                                            </Row>
+                                        </div>
+                                    ))
+                                }
+                            </Stack>
+                        </div>
                     </Tab>
                     <Tab eventKey="pendingtickets" title="Pending Tickets">
                         <div>
@@ -225,21 +313,30 @@ function BillsList() {
                         </div>
                     </Tab>
                     <Tab eventKey="agents" title="Employees">
-                        <Stack gap={2}>
-                            <div className="BillList bg-light shadow-sm p-2">
-                                <Row>
-                                    <Col>0000</Col>
-                                    <Col>0000</Col>
-                                    <Col>dd/mm/yy</Col>
-                                    <Col>0000</Col>
-                                    <Col>dd/mm/yy</Col>
-                                    <Col>0000</Col>
-                                    <Col>00</Col>
-                                    <Col>--</Col>
-                                    <Col>Pending</Col>
-                                </Row>
-                            </div>
-                        </Stack>
+                        <div>
+                            <Stack gap={2} className='list-heading'>
+                                <div className="ListHeadings shadow-none m-2 pb-2">
+                                    <Row>
+                                        <Col>Agent ID</Col>
+                                        <Col>Name</Col>
+                                        <Col>Contact No.</Col>
+                                        <Col>Email</Col>
+                                    </Row>
+                                </div>
+                                {
+                                    agentRecords.map((a)=>(
+                                        <div className="records bg-light shadow-sm p-2">
+                                            <Row>
+                                                <Col>{}</Col>
+                                                <Col>{}</Col>
+                                                <Col>{}</Col>
+                                                <Col>{}</Col>
+                                            </Row>
+                                        </div>
+                                    ))
+                                }
+                            </Stack>
+                        </div>
                     </Tab>
                 </Tabs>
             </div>
