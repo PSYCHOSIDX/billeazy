@@ -36,23 +36,23 @@ function generateAmount(tariffCategory, tension, readingDifference, sanctionedLo
 
       if (readingDifference <= 100) {
 
-        amount += rates.slab1 * readingDifference;
+        amount += (rates.slab1 + rates.fppca1) * readingDifference;
 
       } else if (readingDifference <= 200) {
 
-        amount += rates.slab1 * 100 + rates.slab2 * (readingDifference - 100);
+        amount += (rates.slab1 + rates.fppca1) * 100 + (rates.slab2 + rates.fppca2) * (readingDifference - 100);
 
       } else if (readingDifference <= 300) {
 
-        amount += rates.slab1 * 100 + rates.slab2 * 100 + rates.slab3 * (readingDifference - 200);
+        amount += (rates.slab1 + rates.fppca1) * 100 + (rates.slab2 + rates.fppca2) * 100 + (rates.slab3 + rates.fppca3) * (readingDifference - 200);
 
       } else if (readingDifference <= 400) {
 
-        amount += rates.slab1 * 100 + rates.slab2 * 100 + rates.slab3 * 100 + rates.slab4 * (readingDifference - 300);
+        amount += (rates.slab1 + rates.fppca1) * 100 + (rates.slab2 + rates.fppca2) * 100 + (rates.slab3 + rates.fppca3) * 100 + (rates.slab4 + rates.fppca4) * (readingDifference - 300);
 
       } else {
 
-        amount += rates.slab1 * 100 + rates.slab2 * 100 + rates.slab3 * 100 + rates.slab4 * 100 + rates.slab5 * (readingDifference - 400);
+        amount += (rates.slab1 + rates.fppca1) * 100 + (rates.slab2 + rates.fppca2) * 100 + (rates.slab3 + rates.fppca3) * 100 + (rates.slab4 + rates.fppca4) * 100 + (rates.slab5 + rates.fppca5) * (readingDifference - 400);
 
       }
 
@@ -60,7 +60,7 @@ function generateAmount(tariffCategory, tension, readingDifference, sanctionedLo
 
       amount = 110 * sanctionedLoad;
 
-      amount += rates.slab1 * readingDifference;
+      amount += (rates.slab1 + rates.fppca1) * readingDifference;
 
     }
 
@@ -72,19 +72,19 @@ function generateAmount(tariffCategory, tension, readingDifference, sanctionedLo
 
       if (readingDifference <= 100) {
 
-        amount += rates.slab1 * readingDifference;
+        amount += (rates.slab1 + rates.fppca1) * readingDifference;
 
       } else if (readingDifference <= 200) {
 
-        amount += rates.slab1 * 100 + rates.slab2 * (readingDifference - 100);
+        amount += (rates.slab1 + rates.fppca1) * 100 + (rates.slab2 + rates.fppca2) * (readingDifference - 100);
 
       } else if (readingDifference <= 400) {
 
-        amount += rates.slab1 * 100 + rates.slab2 * 100 + rates.slab3 * (readingDifference - 200);
+        amount += (rates.slab1 + rates.fppca1) * 100 + (rates.slab2 + rates.fppca2) * 100 + (rates.slab3 + rates.fppca3) * (readingDifference - 200);
 
       } else {
 
-        amount += rates.slab1 * 100 + rates.slab2 * 100 + rates.slab3 * 200 + rates.slab4 * (readingDifference - 400);
+        amount += (rates.slab1 + rates.fppca1) * 100 + (rates.slab2 + rates.fppca2) * 100 + (rates.slab3 + rates.fppca3) * 200 + (rates.slab4 + rates.fppca4) * (readingDifference - 400);
 
       }
 
@@ -92,10 +92,31 @@ function generateAmount(tariffCategory, tension, readingDifference, sanctionedLo
 
       amount = 250 * sanctionedLoad;
 
-      amount += rates.slab1 * readingDifference
+      amount += (rates.slab1 + rates.fppca1) * readingDifference
 
     }
 
+  } else {
+    if (tension == "lt") {
+      amount = 50 * sanctionedLoad;
+
+      if (readingDifference <= 500) {
+
+        amount += (rates.slab1 + rates.fppca1) * readingDifference;
+
+      } else {
+
+        amount += (rates.slab1 + rates.fppca1) * 500 + (rates.slab2 + rates.fppca2) * (readingDifference - 500);
+
+      }
+
+    } else {
+
+      amount = 275 * sanctionedLoad;
+
+      amount += (rates.slab1 + rates.fppca1) * readingDifference;
+
+    }
   }
 
   // setAmount(amount);
@@ -135,7 +156,7 @@ const onGenerateBill = async (readings) => {
 
 
   for (const doc of readings) {
-    
+
     try {
       let newBill = {}
 
