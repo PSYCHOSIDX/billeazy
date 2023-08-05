@@ -48,13 +48,14 @@ function AdminPage() {
         console.log('triggered');
         
     const res = await fetch("../../../api/sendMessage", {
-        
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ to: cTelephoneNo, body: ' Bill Eazy Account Registration  \n'+ cName+' complete your account linking for email id :'+cEmail+'\n with your link otp is :'+link_otp}),
       });
+
+    
       console.log( 'data: '+ cTelephoneNo, cName, link_otp);
       const data = await res.json();
       if (data.success) {
