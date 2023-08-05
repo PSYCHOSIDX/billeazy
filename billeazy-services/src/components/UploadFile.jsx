@@ -13,6 +13,7 @@ import Table from 'react-bootstrap/Table';
 import { auth } from "../firebaseConfig";
 
 import "./component-styles/upload-file.css"
+import NavbarAgentLogout from "./NavbarAgentLogout";
 
 
 const allowedExtensions = ["csv"];
@@ -161,7 +162,7 @@ const UploadFile = () => {
   return (
     <div>
 
-      {user ? <NavbarAdminLogout /> : <NavbarLogin />}
+      {user ? <NavbarAgentLogout/> : <NavbarLogin />}
       <div className="upload-area">
         {/* <label htmlFor="csvInput" style={{ display: "block" }}>
           Upload your CSV file with meter
