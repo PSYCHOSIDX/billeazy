@@ -52,7 +52,33 @@ function AdminPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ to: '+91'+cTelephoneNo, body: ' Bill Eazy Account Registration  \n'+ cName+' complete your account linking for email id :'+cEmail+'\n with your link otp is :'+link_otp}),
+        body: JSON.stringify({ to: '+91'+cTelephoneNo, body: '\n Bill Eazy Account Registration  \n'+ cName+' complete your account linking for email id :'+cEmail+'\n with your link otp :'+link_otp}),
+      });
+
+    
+      console.log( 'data: '+ cTelephoneNo, cName, link_otp);
+      const data = await res.json();
+      if (data.success) {
+        await setNumber("");
+        await setBody("");
+      } else {
+        await setNumber("An Error has occurred.");
+        await setBody("An Error has occurred.");
+      }  
+      alert('Signin Information Sent To User');
+    }
+
+
+
+    const onSubmitAgent = async (e) => {
+        console.log('triggered');
+        
+    const res = await fetch("../../../api/sendMessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ to: '+91'+aTelephoneNo, body: '\n Bill Eazy Account Registration  \n'+ aName+' complete your account linking for email id :'+aEmail+'\n with your link otp  :'+link_otp}),
       });
 
     
@@ -113,6 +139,8 @@ function AdminPage() {
             await addDoc(collection(db, "employees"), {
                 ...newAgent
             });
+            console.log('Sms sent')
+            onSubmitAgent();
 
         } catch (error) {
             console.log(error);
