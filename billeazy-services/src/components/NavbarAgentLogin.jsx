@@ -12,7 +12,7 @@ function NavbarLogin(){
       <Navbar className='custom-nav'>
       <Container className='container'>
         <Navbar.Brand href="/">
-          <img className='logo' src={logo} alt="RydMate" />
+          <img className='logo' src={logo} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className='n' />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -22,7 +22,7 @@ function NavbarLogin(){
        <li > <a href='#work-link'>Working</a></li>
        <li > <a href='#footer-link'>Contact</a></li>
        </ul>
-            <Link to="/login" className='link'>
+            <Link to="/employees" className='link'>
             <a className='btn-contact' >Login</a>
             </Link>
             

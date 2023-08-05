@@ -26,7 +26,7 @@ function Profile({ name, ...props }) {
     const handleLogout = async () => {
       try{
         await logout();
-        navigate('/')
+        navigate('/employees')
       } catch(e) {
         console.log(e.message);
       }
