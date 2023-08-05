@@ -9,7 +9,7 @@ import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import'../../../api/sendMessage';
+import'../../api/sendMessage';
 
 function AdminPage() {
     const [showC, setShowC] = useState(false);
@@ -48,7 +48,7 @@ function AdminPage() {
     const onSubmit = async (e) => {
     console.log('triggered');
     
-    const res = await fetch('../../../api/sendMessage', {
+    const res = await fetch('../../api/sendMessage', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
