@@ -9,7 +9,7 @@ import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import'../../api/sendMessage';
+
 
 function AdminPage() {
     const [showC, setShowC] = useState(false);
