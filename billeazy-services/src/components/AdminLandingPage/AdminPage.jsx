@@ -48,7 +48,7 @@ function AdminPage() {
     const onSubmit = async (e) => {
     console.log('triggered');
     
-    const res = await fetch('../../api/sendMessage', {
+    const res = await fetch("../../api/sendMessage", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
