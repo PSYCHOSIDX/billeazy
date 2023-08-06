@@ -177,9 +177,9 @@ function BillsList() {
                                         <div className="records bg-light shadow-sm p-2">
                                             <Row>
                                                 <Col>{ag.agentId}</Col>
-                                                <Col>{ag.aName}</Col>
-                                                <Col>{ag.aTelephoneNo}</Col>
-                                                <Col>{ag.aEmail}</Col>
+                                                <Col>{ag.name}</Col>
+                                                <Col>{ag.telephoneNo}</Col>
+                                                <Col>{ag.email}</Col>
                                             </Row>
                                         </div>
                                     ))
