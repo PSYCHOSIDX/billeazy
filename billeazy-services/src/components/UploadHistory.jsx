@@ -49,7 +49,7 @@ function UploadHistory() {
                 {uploads.map(upload => {
                     return (<div key={upload.id} className="BillList bg-light shadow-sm p-2">
                         <Row>
-                            <Col>{upload.date}</Col>
+                            <Col>{Date(upload.date)}</Col>
                             <Col>{upload.noEntries}</Col>
                         </Row>
                     </div>)
