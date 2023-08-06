@@ -3,7 +3,7 @@
     height: 100%;
 }
 
-.BillList, .ListHeadings, .forms{
+.records, .ListHeadings, .forms{
     text-align: center;
     font-size: small;
 }
