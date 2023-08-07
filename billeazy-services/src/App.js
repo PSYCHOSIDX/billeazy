@@ -11,9 +11,11 @@ import AdminLoginPage from "./pages/AdminLoginPage"
 import AgentUploadHistory from "./pages/AgentUploadHistory";
 import Customer from "./pages/Customer";
 import CustomerLandingPage from "./pages/CustomerLandingPage";
-import ProtectedCustomerRoutes from "./components/ProtectedCustomerRoutes";
-import ProtectedAdminRoutes from "./components/ProtectedCustomerRoutes";
+
+import ProtectedAdminRoutes from "./components/ProtectedAdminRoutes";
 import ProtectedAgentRoutes from "./components/ProtectedAgentRoutes";
+import ProtectedCustomerRoutes from "./components/ProtectedCustomerRoutes";
+
 import AddCustomerConnection from "./pages/AddCustomerConnection"
 import AddAgentConnection from "./pages/AddAgentConnection";
 import GenerateBill from "./pages/GenerateBill";

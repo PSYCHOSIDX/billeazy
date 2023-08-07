@@ -1,9 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@200&family=Unbounded:wght@200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
 
+.BillsList{
+  text-align: center;
 
+}
 
-
+.fieldxx{
+  width: 90%;
+  margin: auto;
+  padding: .5rem;
+}
+ .parax{
+  color: #42EE49;
+  margin: auto;
+  text-align: center;
+ }
+ .paray{
+  color: #ee4242;
+  margin: auto;
+ text-align: center;
+ }
     #bg-body-tertiary{
         background-color: #42EE49;
     }
@@ -89,7 +106,7 @@
     #btn-contact {
         all: unset;
         background-color: #42EE49;
-        padding: 0.5rem 2.2rem;
+        padding: 0.5rem 1rem;
         color: #ffffff;
         font-family: sans-serif;
         font-weight: 900;
@@ -101,6 +118,7 @@
         margin: auto;
         cursor: pointer;
         margin: 2%;
+        font-size: .8rem;
       }
       #btn-contact:active {
         background-color: rgb(165, 165, 165);
@@ -116,7 +134,7 @@
       all: unset;
       background-color: #f32a2a;
       color: #ffffff;
-      padding: .5rem 2rem;
+      padding: .5rem 1rem;
       font-family: sans-serif;
       font-weight: 900;
       align-items: center;
@@ -127,7 +145,7 @@
       margin: auto;
       cursor: pointer;
       margin-left:- 4%;
-      font-size: 1rem;
+      font-size: .8rem;
       width: auto;
     }
     #btn-report:active {
