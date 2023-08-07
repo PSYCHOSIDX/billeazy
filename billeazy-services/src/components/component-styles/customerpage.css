@@ -10,16 +10,19 @@
   width: 90%;
   margin: auto;
   padding: .5rem;
+  border-radius: .4rem;
+  border: none;
+  border: 1px solid #4B00AB;
 }
  .parax{
   color: #42EE49;
   margin: auto;
-  text-align: center;
+  
  }
  .paray{
   color: #ee4242;
   margin: auto;
- text-align: center;
+
  }
     #bg-body-tertiary{
         background-color: #42EE49;
