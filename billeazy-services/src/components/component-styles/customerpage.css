@@ -28,7 +28,8 @@
  .paray{
   color: #ee4242;
   margin: auto;
-
+  margin: .5rem;
+text-align: center;
  }
     #bg-body-tertiary{
         background-color: #42EE49;
