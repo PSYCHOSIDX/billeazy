@@ -68,4 +68,8 @@ body {
 #btn-contact:hover {
   background-color: #222222;
   color: rgb(255, 255, 255);
+}
+
+#footer-top {
+  margin-top: 200%;
 }/*# sourceMappingURL=global.css.map */
