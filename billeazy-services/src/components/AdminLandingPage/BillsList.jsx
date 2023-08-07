@@ -8,6 +8,11 @@ import Tabs from 'react-bootstrap/Tabs';
 import { useEffect, useState } from 'react';
 import { collection, getDocs, query, updateDoc, doc, where } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
+import { Modal } from 'bootstrap';
+import { Form } from 'react-router-dom';
+import { generateAmount } from '../../utils/billGeneration';
+import { getBillingPeriod } from '../../utils/billGeneration';
+
 
 function BillsList() {
     const [key, setKey] = useState('all');
@@ -17,6 +22,22 @@ function BillsList() {
     const [billPaid , setBillPaid] = useState([0]);
     const [billPending , setBillPending] = useState([0]);
     const [agentRecords , setAgents] = useState([0]);
+
+    //used for ticket resolution
+    const [billData, setBillData] = useState();
+    const [dueDate, setDueDate] = useState();
+    const [currentReadingDate, setCurrentReadingDate] = useState();
+    const [currentReading, setCurrentReading] = useState();
+    const [readingDifference, setReadingDifference] = useState();
+    const [billingPeriod, setBillingPeriod] = useState();
+    const [amount, setAmount] = useState();
+    const [billRef, setBillRef] = useState();
+
+    //used for ticket resolution
+    const [showResolve, setShowResolve] = useState(false);
+    const handleCloseResolve = () => setShowResolve(false);
+    const handleShowResolve = () => setShowResolve(true);
+
 
     const billsCollectionRef = collection(db,`bills`);
     const agentsCollectionRef = collection(db,`employees`);
@@ -29,12 +50,44 @@ function BillsList() {
         setResolvedTickets(getResolvedTickets.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     }
 
-    const handleResolution = async (id) => {
-        await updateDoc(doc(db, "tickets", id), {
-            status: "resolved"
-        });
-        handleGetTickets()
-    }
+    //used for resolution
+    const getBillData = async (billNo) => {
+
+        const getBill = await getDocs(query(collection(db, "bills"), where("billNo", "==", billNo)));
+        setBillData(getBill.docs[0].data());
+        setBillRef(getBill.ref);
+    };
+
+     //used for resolution
+     const updateAmount = async(meterNo) => {
+
+        const getConsumer = await getDocs(query(collection(db, "consumers"), where("meterNo", "==", `${meterNo}`)));
+
+        const consumerRef = getConsumer.docs[0].data();
+
+        const amount = generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad);
+
+        setAmount(amount);
+    };
+    
+    //used for resolution
+    const handleResolution = async(id) => {
+
+        await updateDoc(doc(billRef), {
+                dueDate : dueDate,
+                currentReadingDate : currentReadingDate ,
+                currentReading : currentReading ,
+                readingDifference : readingDifference ,
+                billingPeriod : billingPeriod,
+                amount : amount 
+            });
+        await updateDoc(doc(db, `tickets/${id}`), {
+                status: "resolved"
+            });
+            handleGetTickets()
+    
+    };
+
 
     useEffect(() => {
         handleGetTickets();
@@ -281,9 +334,147 @@ function BillsList() {
                                                 <Col>{ticket.billId}</Col>
                                                 <Col>{ticket.email}</Col>
                                                 <Col>{ticket.description}</Col>
-                                                <Col><Button className='AdminResolve' variant="outline-primary" onClick={() =>
-                                                    handleResolution(ticket.id)
-                                                }>Resolve</Button>
+                                                <Col><Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
+                                                    handleShowResolve(); getBillData(ticket.billNo);
+                                                }}>
+                                                    Resolve
+                                                </Button>
+                                                <Modal show={showResolve} onHide={handleCloseResolve}>
+                                                        <Modal.Header closeButton>
+                                                            <Modal.Title>Resolve Dicrepancy</Modal.Title>
+                                                        </Modal.Header>
+                                                        <Modal.Body>
+
+                                                            {billData?  <div className='forms'>
+                                                                <Form>
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAccNo">
+                                                                        <Form.Label column sm={4}>
+                                                                            Consumer Account Number
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{billData.consumerAccNo}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNo">
+                                                                        <Form.Label column sm={4}>
+                                                                            Meter Number
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{billData.meterNo}</Form.Label>                                                    </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAddress">
+                                                                        <Form.Label column sm={4}>
+                                                                            Bill Number
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{billData.billNo}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementBillDate">
+                                                                        <Form.Label column sm={4}>
+                                                                            Bill Date
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{billData.billDate}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerEmail">
+                                                                        <Form.Label column sm={4}>
+                                                                            Due Date
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Control type="date" /* id="billId" */ name="dueDate" value={billData.dueDate} onChange={e => setDueDate(e.target.value)} />
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerEnergization">
+                                                                        <Form.Label column sm={4}>
+                                                                            Unit
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{billData.unit}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
+                                                                        <Form.Label column sm={4}>
+                                                                            Current Reading Date
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Control type="date" /* id="billId" */ name="currentReadingDate" value={billData.currentReadingDate} onChange={function (e) { setCurrentReadingDate(e.target.value); setBillingPeriod(getBillingPeriod(billData.previousReadingDate,currentReadingDate)); }} />
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
+                                                                        <Form.Label column sm={4}>
+                                                                            Current Reading
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Control type="number" /* id="billId" */ name="currentReading" value={billData.currentReading} onChange={function (e) { setCurrentReading(e.target.value); setReadingDifference(currentReading - billData.previousReading); updateAmount(billData.meterNo,readingDifference); }} />
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
+                                                                        <Form.Label column sm={4}>
+                                                                            Previous Reading Date
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{billData.previousReadingDate}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
+                                                                        <Form.Label column sm={4}>
+                                                                            Previous Reading
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{billData.previousReading}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementSanctionedLoad">
+                                                                        <Form.Label column sm={4}>
+                                                                            Reading Difference
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{readingDifference}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementSanctionedLoad">
+                                                                        <Form.Label column sm={4}>
+                                                                            Billing Period
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{billingPeriod}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementSanctionedLoad">
+                                                                        <Form.Label column sm={4}>
+                                                                            Amount
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{amount}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+                                                                </Form>
+                                                            </div> : <p></p>}
+                                                            
+                                                        </Modal.Body>
+                                                        <Modal.Footer>
+                                                            <Button variant="secondary" id='btn-contact' onClick={handleCloseResolve}>
+                                                                Cancel
+                                                            </Button>
+                                                            <Button variant="primary" id='btn-contact' onClick={function (event) { handleCloseResolve(); handleResolution(ticket.id) }}>
+                                                                Resolve
+                                                            </Button>
+                                                        </Modal.Footer>
+                                                    </Modal>
                                                 </Col>
                                             </Row>
                                         </div>
