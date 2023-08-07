@@ -4,25 +4,18 @@ import '../component-styles/admin-page.css';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import NavbarAdminLogout from '../NavbarAdminLogout';
 import Footer from '../Footer';
 
-
-
 const AddNewRatesModal = () => {
 
     const [showRates, setShowRates] = useState(false);
-    const toggleShowRates = () => setShowRates(val => !val)
     const navigate = useNavigate();
 
     const [ratesDate, setRatesDate] = useState(new Date().toISOString().split('T')[0]);
-    // const [ratesTariffCategory, setRatesTariffCategory] = useState("domestic");
-    // const [ratesTension, setRatesTension] = useState("lt")
     const [domesticRates, setDomesticRates] = useState(
         {
             lt: {
@@ -68,7 +61,6 @@ const AddNewRatesModal = () => {
             }
         }
     );
-    // const [ratesSanctionedLoad, setRatesSanctionedLoad] = useState(3.5);
 
     const handleAddRatesHandler = async () => {
         const rates = {
@@ -128,7 +120,8 @@ const AddNewRatesModal = () => {
                                     setDomesticRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab1: e.target.value
+                                            ...values.lt,
+                                            slab1: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -136,7 +129,8 @@ const AddNewRatesModal = () => {
                                     setDomesticRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab2: e.target.value
+                                            ...values.lt,
+                                            slab2: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -144,7 +138,8 @@ const AddNewRatesModal = () => {
                                     setDomesticRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab3: e.target.value
+                                            ...values.lt,
+                                            slab3: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -152,7 +147,8 @@ const AddNewRatesModal = () => {
                                     setDomesticRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab4: e.target.value
+                                            ...values.lt,
+                                            slab4: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -169,7 +165,8 @@ const AddNewRatesModal = () => {
                                     setDomesticRates(values => ({
                                         ...values,
                                         ht: {
-                                            slab1: e.target.value
+                                            ...values.ht,
+                                            slab1: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -201,7 +198,8 @@ const AddNewRatesModal = () => {
                                     setCommericalRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab1: e.target.value
+                                            ...values.lt,
+                                            slab1: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -209,7 +207,8 @@ const AddNewRatesModal = () => {
                                     setCommericalRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab2: e.target.value
+                                            ...values.lt,
+                                            slab2: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -217,7 +216,8 @@ const AddNewRatesModal = () => {
                                     setCommericalRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab3: e.target.value
+                                            ...values.lt,
+                                            slab3: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -225,7 +225,8 @@ const AddNewRatesModal = () => {
                                     setCommericalRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab4: e.target.value
+                                            ...values.lt,
+                                            slab4: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -242,7 +243,8 @@ const AddNewRatesModal = () => {
                                     setCommericalRates(values => ({
                                         ...values,
                                         ht: {
-                                            slab1: e.target.value
+                                            ...values.ht,
+                                            slab1: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -255,7 +257,7 @@ const AddNewRatesModal = () => {
                                 Tarrif Category
                             </Form.Label>
                             <Col sm={8}>
-                                {/* <Form.Select contentEditable={false} disabled value={ratesTariffCategory} onChange={e => setRatesTariffCategory(e.target.value)}>
+                                {/* <Form.Select contentEditable={false} disabled value={ratesTariffCategory} onChange={e => setRatesTariffCategory(Number(e.target.value))}>
                                         <option value={"domestic"}>Domestic</option>
                                     </Form.Select> */}
                                 <Col sm={8}>
@@ -275,7 +277,8 @@ const AddNewRatesModal = () => {
                                     setIndustrialRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab1: e.target.value
+                                            ...values.lt,
+                                            slab1: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -283,7 +286,8 @@ const AddNewRatesModal = () => {
                                     setIndustrialRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab2: e.target.value
+                                            ...values.lt,
+                                            slab2: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -291,7 +295,8 @@ const AddNewRatesModal = () => {
                                     setIndustrialRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab3: e.target.value
+                                            ...values.lt,
+                                            slab3: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -299,7 +304,8 @@ const AddNewRatesModal = () => {
                                     setIndustrialRates(values => ({
                                         ...values,
                                         lt: {
-                                            slab4: e.target.value
+                                            ...values.lt,
+                                            slab4: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -316,7 +322,8 @@ const AddNewRatesModal = () => {
                                     setIndustrialRates(values => ({
                                         ...values,
                                         ht: {
-                                            slab1: e.target.value
+                                            ...values.ht,
+                                            slab1: Number(e.target.value)
                                         }
                                     }))
                                 }} />
