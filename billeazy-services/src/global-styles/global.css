@@ -13,6 +13,14 @@ body {
   html {
     margin-left: 15%;
     margin-right: 15%;
+    font-family: "Poppeins", sans-serif;
+  }
+}
+@media screen and (max-width: 600px) {
+  html {
+    margin-left: 0%;
+    margin-right: 0%;
+    margin: auto;
   }
 }
 .alert-admin {

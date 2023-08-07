@@ -5,15 +5,21 @@
   text-align: center;
 
 }
+.cc{
+  font-size: 1rem;
+}
 
 .fieldxx{
-  width: 90%;
-  margin: auto;
+  width: 100%;
   padding: .5rem;
   border-radius: .4rem;
   border: none;
   border: 1px solid #4B00AB;
+  text-align: left;
+
 }
+
+
  .parax{
   color: #42EE49;
   margin: auto;
@@ -100,11 +106,33 @@
         color: #4B00AB;
       }
     
-      .table{
-        overflow: scroll;
+      .table-hold{
+        
+        padding: .5rem;
+         text-align: center;
+         
+        
       }
-    
-    
+
+      .green{
+        color: #39cd3e;
+        font-weight: 700;
+        text-align: left;
+        font-size: 1rem;
+        margin-top: -.6rem;
+        margin-bottom: .5rem;
+        margin-left: .3rem;
+      }
+     
+      #header{
+        text-decoration: none;
+        color: #4B00AB;
+      
+      }
+
+      th{
+        color: #4B00AB;
+      }
       
     #btn-contact {
         all: unset;
@@ -160,3 +188,14 @@
     }
     
 
+#thx{
+  background: #3b0062;
+  color: #ffffff;
+  font-weight: 300;
+}
+
+#div{
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  
+  padding: .2rem;
+}
