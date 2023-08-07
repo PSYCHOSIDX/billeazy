@@ -75,6 +75,7 @@ const onGenerateBill = async (readings) => {
 
       const getPrevBill = await getDocs(query(collection(db, "bills"), where("meterNo", "==", `${doc.meterNo}`), orderBy("date", "desc")));
 
+
       //   const prevBill = getPrevBill.docs[0].data();
 
       if (getPrevBill.empty) {
@@ -96,8 +97,8 @@ const onGenerateBill = async (readings) => {
           prevReading: 0,
           billingPeriod: getBillingPeriod(Date.now(),consumerRef.energizationDate) ,  
           readingDifference,
-          overdueAmount: 0,
-          amount,
+          // overdueAmount: 0,
+          amount: Number(amount),
           paymentStatus: "pending"
         }
 
@@ -123,8 +124,8 @@ const onGenerateBill = async (readings) => {
           prevReading: prevBill.currentReadingReading,
           billingPeriod: getBillingPeriod(Date.now(),prevBill.currentReadingDate),
           readingDifference,
-          overdueAmount: prevBill.paymentStatus == "pending" ? prevBill.amount : 0,
-          amount: prevBill.amount + amount,
+          // overdueAmount: prevBill.paymentStatus == "pending" ? prevBill.amount : 0,
+          amount: Number(prevBill.amount + amount),
           paymentStatus: "pending"
         };
 
