@@ -7,8 +7,10 @@ async function generateAmount(tariffCategory, tension, readingDifference, sancti
   const getTariff = await getDocs(query(collection(db, "rates"), orderBy("date", "desc")));
 
   const tariff = getTariff.docs[0].data();
+  console.log(tariff);
 
-  const rates = tariff.tariff[tariffCategory]['tension'][tension];;
+  const rates = tariff.tariff[tariffCategory]['tension'][tension];
+  console.log(rates);
 
   let amount = 0;
 
