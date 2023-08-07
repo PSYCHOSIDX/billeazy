@@ -117,7 +117,7 @@ const onGenerateBill = async (readings) => {
           billingPeriod: getBillingPeriod(prevBill.currentReadingDate, doc.currentReadingDate),
           readingDifference,
           // overdueAmount: prevBill.paymentStatus == "pending" ? prevBill.amount : 0,
-          amount,
+          amount: Number(amount),
           paymentStatus: "pending"
         };
 
