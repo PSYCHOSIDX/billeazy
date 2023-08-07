@@ -51,6 +51,14 @@ Date.prototype.addDays = function (days) {
   return date;
 }
 
+const getBillingPeriod = (start,end) =>{
+  const s = new Date(start);
+  const e = new Date(end);
+  seconds = Number((s-e)/1000);
+  var days= Math.floor(seconds / (3600 * 24));
+  return days;
+}
+
 const onGenerateBill = async (readings) => {
 
   const date = new Date();
@@ -96,6 +104,7 @@ const onGenerateBill = async (readings) => {
           currentReading: doc.currentReading,
           prevReadingDate: "N/A",
           prevReading: 0,
+          billingPeriod: getBillingPeriod(Date.now(),consumerRef.energizationDate) ,  
           readingDifference,
           overdueAmount: 0,
           amount,
@@ -122,6 +131,7 @@ const onGenerateBill = async (readings) => {
           currentReading: doc.currentReading,
           prevReadingDate: prevBill.currentReadingDate,
           prevReading: prevBill.currentReadingReading,
+          billingPeriod: getBillingPeriod(Date.now(),prevBill.currentReadingDate),
           readingDifference,
           overdueAmount: prevBill.paymentStatus == "pending" ? prevBill.amount : 0,
           amount: prevBill.amount + amount,
@@ -138,11 +148,13 @@ const onGenerateBill = async (readings) => {
       const meterRef = (await getDocs(query(collection(db, "Meter Reading"), where("meterNo", "==", newBill.meterNo)))).docs[0].ref;
       await updateDoc(meterRef, {
         billGenerated: true
-      })
+      });
+      alert("Bills added successfully");                  
     }
 
     catch (e) {
       console.log(e);
+      alert("Something went wrong");
     }
 
     // const reads = await getDocs(query(collection(db,"Meter Reading"), where("billGenerated","==",false)))
