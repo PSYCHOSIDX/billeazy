@@ -15,6 +15,7 @@ async function generateAmount(tariffCategory, tension, readingDifference, sancti
   let amount = 0;
 
   if (tariffCategory == "domestic") {
+    console.log("domestic")
 
     if (tension == "lt") {
 
@@ -22,7 +23,7 @@ async function generateAmount(tariffCategory, tension, readingDifference, sancti
 
       if (readingDifference <= 100) {
 
-        amount += (rates.slab1 + rates.fppca1) * readingDifference;
+        amount = amount + (rates.slab1 + rates.fppca1) * readingDifference;
 
       } else if (readingDifference <= 200) {
 
@@ -114,7 +115,7 @@ async function generateAmount(tariffCategory, tension, readingDifference, sancti
 const getBillingPeriod = (start, end) => {
   const s = new Date(start);
   const e = new Date(end);
-  const seconds = Number((s - e) / 1000);
+  const seconds = Number((e - s) / 1000);
   var days = Math.floor(seconds / (3600 * 24));
   return days;
 }
