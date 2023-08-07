@@ -54,8 +54,8 @@ Date.prototype.addDays = function (days) {
 const getBillingPeriod = (start,end) =>{
   const s = new Date(start);
   const e = new Date(end);
-  seconds = Number((s-e)/1000);
-  var days= Math.floor(seconds / (3600 * 24));
+  const seconds = Number((s-e)/1000);
+  const days= Math.floor(seconds / (3600 * 24));
   return days;
 }
 
@@ -72,18 +72,9 @@ const onGenerateBill = async (readings) => {
       //   console.log(getConsumer);
 
       const consumerRef = getConsumer.docs[0].data();
-      const getTariff = await getDocs(query(collection(db, "rates"), orderBy("date", "desc")));
-
-      //   console.log(getTariff);
-      const tariffRef = getTariff.docs[0].ref;
-
-      //   console.log(`${tariffRef.lpath}/tariff/${consumerRef.tariffCategory}/tension/`);
-      const getRates = await getDoc(doc(db, `${tariffRef.path}/tariff/${consumerRef.tariffCategory}/tension/${consumerRef.tension}`));
-
-      //   console.log(getRates);
-      const rates = getRates.data();
 
       const getPrevBill = await getDocs(query(collection(db, "bills"), where("meterNo", "==", `${doc.meterNo}`), orderBy("date", "desc")));
+
 
       //   const prevBill = getPrevBill.docs[0].data();
 
@@ -91,7 +82,7 @@ const onGenerateBill = async (readings) => {
 
         const readingDifference = (Math.floor(doc.currentReading));
 
-        const amount = generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad, rates);
+        const amount = generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad);
 
         newBill = {
           consumerAccNo: consumerRef.consumerAccNo,
@@ -106,8 +97,8 @@ const onGenerateBill = async (readings) => {
           prevReading: 0,
           billingPeriod: getBillingPeriod(Date.now(),consumerRef.energizationDate) ,  
           readingDifference,
-          overdueAmount: 0,
-          amount,
+          // overdueAmount: 0,
+          amount: Number(amount),
           paymentStatus: "pending"
         }
 
@@ -117,7 +108,7 @@ const onGenerateBill = async (readings) => {
 
         const readingDifference = (Math.floor(doc.currentReading) - Math.floor(prevBill.currentReading));
 
-        const amount = generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad, rates);
+        const amount = generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad);
 
         newBill = {
 
@@ -133,8 +124,8 @@ const onGenerateBill = async (readings) => {
           prevReading: prevBill.currentReadingReading,
           billingPeriod: getBillingPeriod(Date.now(),prevBill.currentReadingDate),
           readingDifference,
-          overdueAmount: prevBill.paymentStatus == "pending" ? prevBill.amount : 0,
-          amount: prevBill.amount + amount,
+          // overdueAmount: prevBill.paymentStatus == "pending" ? prevBill.amount : 0,
+          amount: Number(prevBill.amount + amount),
           paymentStatus: "pending"
         };
 
