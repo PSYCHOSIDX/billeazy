@@ -151,26 +151,28 @@ function AdminPage() {
     };
 
     return (
-        <div className='p-5'>
-            <div className='my-3'>
+        <div className='p-2'>
+            <div className='my-3 main'>
                 <Row>
-                    <Col sm={6}>
+                    <Col sm={6} className='textx'>
                         <h2 className='alerty' >Admin Page</h2>
                     </Col>
+                    <br />
+                    <div  className='btn-holder'> 
                     <Col sm={6}>
                         <Row>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={() => navigate("/admin/generate-bill")}>
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={() => navigate("/admin/generate-bill")}>
                                     Generate Bill
                                 </Button>
                             </Col>
                             <Col>
-                            <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={() => navigate("/admin/add-rates")}>
+                            <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={() => navigate("/admin/add-rates")}>
                                     Add New Rates
                                 </Button>
                             </Col>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={function (e) {
                                     setConsumerAccNo(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
                                     setInstNo(`${Math.ceil(Math.random() * Math.pow(10, 6)).toString()}`);
                                     setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
@@ -302,21 +304,21 @@ function AdminPage() {
                                         </div>
                                     </Modal.Body>
                                     <Modal.Footer>f
-                                        <Button variant="secondary" id='btn-contact' onClick={handleCloseConsumer}>
+                                        <Button variant="secondary" id='btn-contactx' onClick={handleCloseConsumer}>
                                             Cancel
                                         </Button>
-                                        <Button variant="primary" id='btn-contact' onClick={function (event) { handleCloseConsumer(); handleConsumerRegister() }}>
+                                        <Button variant="primary" id='btn-contactx' onClick={function (event) { handleCloseConsumer(); handleConsumerRegister() }}>
                                             Register
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
                             </Col>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={function (e) {
                                     setAgentId(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
                                     setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
                                     handleShowAgent();
-                                }}>Register Agent</Button>
+                                }}>Register <br/> Agent</Button>
                                 <Modal show={showA} onHide={handleCloseAgent}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Register Agent</Modal.Title>
@@ -360,14 +362,6 @@ function AdminPage() {
                                                     </Col>
                                                 </Form.Group>
 
-                                                {/* <Form.Group as={Row} className="mb-3" controlId="FormElementAgentPassword">
-                                                    <Form.Label column sm={4}>
-                                                    Password
-                                                    </Form.Label>
-                                                    <Col sm={8}>
-                                                    <Form.Control type="password" placeholder="Password" />
-                                                    </Col>
-                                                </Form.Group> */}
                                             </Form>
                                         </div>
                                     </Modal.Body>
@@ -383,6 +377,9 @@ function AdminPage() {
                             </Col>
                         </Row>
                     </Col>
+                    
+                    </div>
+                    
                 </Row>
             </div>
             <BillsList />
