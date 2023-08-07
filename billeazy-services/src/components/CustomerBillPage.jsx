@@ -10,7 +10,7 @@ import '../components/component-styles/navbar.css';
 import '../components/component-styles/invoice.css';
 import { UserAuth } from '../context/UserAuthContext'
 import {db} from '../firebaseConfig';
-import {collection, getDocs, query, orderBy, where, addDoc, getDoc, updateDoc} from 'firebase/firestore';
+import {collection, getDocs, query, orderBy, where, addDoc, getDoc, updateDoc ,setDoc, doc} from 'firebase/firestore';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
@@ -34,10 +34,10 @@ function CustomerBillPage() {
     const [billPending , setBillPending] = useState([0]);
     const {user} = UserAuth();
     const userId = user.uid;
-
+    const [tickets, setTickets]= useState([0]);
     const consumersCollectionRef = collection(db,`users/${userId}/details`);
     const billsCollectionRef = collection(db,`bills`);
- 
+    const ticketsCollectionRef = collection(db,`tickets`);
     
 
 //get all bills
@@ -77,6 +77,25 @@ useEffect(() => {
       
       
           getPaidBills()
+        }, [])
+
+
+//get all tickets
+    useEffect(() => {
+        const getTickets = async () => {
+          const q = query(ticketsCollectionRef, where('email', '==', user.email));
+          const data = await getDocs(q);
+          const newData = data.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+          }));
+          console.log("rendered payed bills ");
+          setTickets(newData);
+        
+        };
+      
+      
+          getTickets()
         }, [])
 
 
@@ -391,21 +410,47 @@ const [show, setShow] = useState(false);
 
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
-const [fullscreen, setx] = useState(true)
+const[description, setDescription] = useState('');
+const [fullscreen, setx] = useState(true);
+
+
+const pushTicket = async e =>{
+  
+    //add data validation here
+    const newTicket = {
+      billNo: props.billNo,
+      email: user.email,
+      description: description,
+       status:'pending'
+    };
+
+    try{
+        await addDoc(collection(db, "tickets"), {
+          ...newTicket
+        });
+        alert('Ticket Submitted')
+    }catch(error){
+        console.log(error);
+    }
+
+}
+
 return (
   <>
-    <Button id='btn-contact' onClick={handleShow}>
-       View
+    <Button id='btn-report' onClick={handleShow}>
+       Report
     </Button>
 
     <Modal show={show} onHide={handleClose}  size="lg" className='modal-invoice'>
       <Modal.Header closeButton>
-        <Modal.Title className='title-modal'> Invoice Information</Modal.Title>
+        <Modal.Title className='title-modal'> Report </Modal.Title>
       </Modal.Header>
 
-      <Modal.Body className='body-invoice'>
+      <Modal.Body >
 
-
+            <h3>Describe Issue</h3>
+            
+            <input style={{fontSize:12, height:44, margin:'.1rem'}}  className='fieldxx' placeholder='please type issue here' autoComplete='on' type='textarea' onChange={(e)=>setDescription(e.target.value)} required />
 
       </Modal.Body>
 
@@ -413,7 +458,7 @@ return (
 
       <div className="action-buttons">
            
-           <a className='btn-contact'> Submit </a>
+           <a id='btn-contact' onClick={pushTicket}> Raise</a>
        </div>
         
       </Modal.Footer>
@@ -466,7 +511,10 @@ return (
                                                 <Col>Consumption</Col>
                                                 <Col>Unit type</Col>
                                                 <Col>Amount Payable</Col>
-                                                <Col>Status</Col>
+                                                <Col>Payment Status</Col>
+                                                <Col>Action</Col>
+                                                <Col>Report</Col>
+                                                
                                                 
                                             </Row>
                                         </div>
@@ -486,14 +534,17 @@ return (
                                                 <Col>{b.unit}</Col>
                                                 <Col>{b.amount}</Col>
                                                 
-
-                                                
-                                                <Col> {
+                                            <Col> {  b.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </Col>
+                                            <Col> { 
                                                 b.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(b.amount,b.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={b.billNo}  currentReadingDate={b.currentReadingDate}
                                                 currentReading={b.currentReading} previousReadingDate={b.previousReadingDate} previousReading={b.previousReading}
                                                 readingDifference={b.readingDifference} unit={b.unit} amount={b.amount} paymentStatus={b.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
                                                   }
                                                 </Col>
+                                            <Col> <ReportModal billNo={b.billNo}  />
+                                                </Col>
+                                            
+                                              
 
                                             </Row>
                                         </div>
@@ -504,6 +555,7 @@ return (
                                     
                                 </div>
                             </Tab>
+
                             <Tab eventKey="paid" title="Paid Bills" >
                                 <div>
                                     <Stack>
@@ -517,7 +569,10 @@ return (
                                                 <Col>Consumption</Col>
                                                 <Col>Unit type</Col>
                                                 <Col>Amount Payable</Col>
-                                                <Col>Status</Col>
+                                                <Col>Payment Status</Col>
+                                                <Col>Action</Col>
+                                                <Col>Report</Col>
+                                                
                                             </Row>
                                         </div>
                                     </Stack>
@@ -525,7 +580,7 @@ return (
 
                                     {
                                         billPayed.map((px)=>(
-                                            <Stack gap={2}>
+                                            <Stack gap={3}>
                                         <div className="pxillsList pxg-light shadow-sm p-2">
                                             <Row>
                                                 <Col>{px.billNo}</Col>
@@ -536,11 +591,14 @@ return (
                                                 <Col>{px.readingDifference}</Col>
                                                 <Col>{px.unit}</Col>
                                                 <Col>{px.amount}</Col>
-                                                <Col> {
+                                                <Col> {  px.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </Col>
+                                            <Col> { 
                                                 px.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(px.amount,px.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={px.billNo}  currentReadingDate={px.currentReadingDate}
                                                 currentReading={px.currentReading} previousReadingDate={px.previousReadingDate} previousReading={px.previousReading}
                                                 readingDifference={px.readingDifference} unit={px.unit} amount={px.amount} paymentStatus={px.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
                                                   }
+                                                </Col>
+                                            <Col> <ReportModal billNo={px.billNo} />
                                                 </Col>
 
                                             </Row>
@@ -556,16 +614,18 @@ return (
                                 <Stack>
                                     <div className="ListHeadings shadow-none p-2">
                                         <Row>
-                                            <Col>Bill Id</Col>
-
-                                            <Col>Current reading date</Col>
-                                            <Col>Current reading</Col>
-                                            <Col>Previous reading date</Col>
-                                            <Col>Previous reading</Col>
-                                            <Col>Consumption</Col>
-                                            <Col>Unit type</Col>
-                                            <Col>Amount Payable</Col>
-                                            <Col>Status</Col>
+                                                <Col>Bill Id</Col>
+                                                <Col>Current reading date</Col>
+                                                <Col>Current reading</Col>
+                                                <Col>Previous reading date</Col>
+                                                <Col>Previous reading</Col>
+                                                <Col>Consumption</Col>
+                                                <Col>Unit type</Col>
+                                                <Col>Amount Payable</Col>
+                                                <Col>Payment Status</Col>
+                                                <Col>Action</Col>
+                                                <Col>Report</Col>
+                                                
                                         </Row>
                                     </div>
                                 </Stack>
@@ -584,15 +644,15 @@ return (
                                                 <Col>{bx.readingDifference}</Col>
                                                 <Col>{bx.unit}</Col>
                                                 <Col>{bx.amount}</Col>
-                                            
-                                                 
-                                                <Col> {
+                                                <Col> {  bx.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </Col>
+                                            <Col> { 
                                                 bx.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(bx.amount,bx.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={bx.billNo}  currentReadingDate={bx.currentReadingDate}
                                                 currentReading={bx.currentReading} previousReadingDate={bx.previousReadingDate} previousReading={bx.previousReading}
                                                 readingDifference={bx.readingDifference} unit={bx.unit} amount={bx.amount} paymentStatus={bx.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
                                                   }
                                                 </Col>
-
+                                            <Col> <ReportModal billNo={bx.billNo}  />
+                                                </Col>
                                             </Row>
                                         </div>
                                        
@@ -601,6 +661,38 @@ return (
                                     }
                                     
                             </Tab>
+
+
+                            <Tab eventKey="ticket" title="Tickets" >
+                                <Stack>
+                                    <div className="ListHeadings shadow-none p-2">
+                                        <Row>
+                                                <Col>Bill ID</Col>
+                                                <Col>Decription</Col>
+                                                <Col>Status</Col>            
+                                        </Row>
+                                    </div>
+                                </Stack>
+
+                                {
+                                        tickets.map((bx)=>(
+                                            <Stack gap={2}>
+                                        <div className="BillsList bg-light shadow-sm p-2">
+                                            <Row>
+                                            
+                                                <Col>{bx.billNo}</Col>
+                                                <Col>{bx.description}</Col>
+                                                <Col>{ bx.status==='pending'? <p className='paray'>Pending</p>: <p className='parax'>Resolved</p>}</Col>
+                                                
+                                            </Row>
+                                        </div>
+                                       
+                                    </Stack>
+                                        ))
+                                    }
+                                    
+                            </Tab>
+
 
                         </Tabs>
 
