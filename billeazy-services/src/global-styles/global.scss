@@ -5,15 +5,15 @@
 
 body{
     // background: url(../assets/bg2.svg);
-    max-width: 1600px;
+    max-width: 1280px;
     background-size: cover;
     overflow-x: hidden;
 }
 
-@media screen and (min-width:2000px) {
+@media screen and (min-width:1400px) {
     html{
-        margin-left: 20%;
-        margin-right: 10%;
+        margin-left: 15%;
+        margin-right: 15%;
     }
 }
 

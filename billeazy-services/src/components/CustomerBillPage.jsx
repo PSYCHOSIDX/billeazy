@@ -36,29 +36,30 @@ function CustomerBillPage() {
     const userId = user.uid;
     const [tickets, setTickets]= useState([0]);
     const consumersCollectionRef = collection(db,`users/${userId}/details`);
-    const billsCollectionRef = collection(db,`bills`);
+    const billsCollectionRef = collection(db,'bills');
     const ticketsCollectionRef = collection(db,`tickets`);
-    
+    const [search , setSearch] = useState('')
 
 //get all bills
 
 useEffect(() => {
     const getBills = async () => {
         const q = query(billsCollectionRef, where('email', '==', user.email));
-        const qx = query(billsCollectionRef, where('paymentStatus', '==', 'paid'||'pending'));
-        const data = await getDocs(qx);
+        const data = await getDocs(q);
       const newData = data.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
       }));
       console.log("rendered all bills ");
+      console.log(user.email);
+      console.log('all bills :'+bill);
       setBill(newData);
     
     };
   
   
       getBills()
-    }, [ ])
+    },[])
 
 //paid bills
     useEffect(() => {
@@ -83,13 +84,13 @@ useEffect(() => {
 //get all tickets
     useEffect(() => {
         const getTickets = async () => {
-          const q = query(ticketsCollectionRef, where('email', '==', user.email));
+          const q = query(ticketsCollectionRef, where('email', '==',user.email.toString()));
           const data = await getDocs(q);
           const newData = data.docs.map((doc) => ({
               ...doc.data(),
               id: doc.id,
           }));
-          console.log("rendered payed bills ");
+          console.log("rendered tickets ");
           setTickets(newData);
         
         };
@@ -102,8 +103,8 @@ useEffect(() => {
 // pending bills
 useEffect(() => {
     const getPendingBills = async () => {
-      const q = query(billsCollectionRef, where('email', '==', user.email));
-      const qx = query(billsCollectionRef, where('paymentStatus', '==', 'pending'));
+      const q = query(billsCollectionRef, where('email', '==', user.email.toString()));
+      const qx = query(q, where('paymentStatus', '==', 'pending'));
       const data = await getDocs(qx);
       const newData = data.docs.map((doc) => ({
           ...doc.data(),
@@ -486,6 +487,9 @@ return (
                     <h5>CA no. :<span>{caNo}</span></h5>
                     <h5>Meter no. :<span>{meter}</span></h5>
                 </div>
+                 
+            <input style={{fontSize:12, height:44, margin:'.1rem'}}  className='fieldxx' placeholder='Live Search' autoComplete='on' type='text' onChange={(e)=>setSearch(e.target.value)}  />
+                <br/>
                 <br/>
                 <div>
                     <div  >
@@ -520,7 +524,7 @@ return (
                                         </div>
                                     </Stack>
                                     {
-                                        bill.map((b)=>(
+                                        bill.length>0 ? bill.map((b)=>(
                                             <Stack gap={2}>
                                         <div className="BillsList bg-light shadow-sm p-2">
                                             <Row>
@@ -551,6 +555,7 @@ return (
                                        
                                     </Stack>
                                         ))
+                                        :<p className='paray'>No Bills Found</p>
                                     }
                                     
                                 </div>
@@ -579,7 +584,7 @@ return (
 
 
                                     {
-                                        billPayed.map((px)=>(
+                                       billPayed.length>0 ? billPayed.map((px)=>(
                                             <Stack gap={3}>
                                         <div className="pxillsList pxg-light shadow-sm p-2">
                                             <Row>
@@ -605,7 +610,7 @@ return (
                                         </div>
                                        
                                     </Stack>
-                                        ))
+                                        ))  : <p className='paray'> No Paid Bills Found</p>
                                     }
                                     
                                 </div>
@@ -631,7 +636,7 @@ return (
                                 </Stack>
 
                                 {
-                                        billPending.map((bx)=>(
+                                       billPending.length>0 ? billPending.map((bx)=>(
                                             <Stack gap={2}>
                                         <div className="BillsList bg-light shadow-sm p-2">
                                             <Row>
@@ -657,7 +662,7 @@ return (
                                         </div>
                                        
                                     </Stack>
-                                        ))
+                                        ))  : <p className='paray'> No Unpaid Bills Found</p>
                                     }
                                     
                             </Tab>
@@ -675,7 +680,7 @@ return (
                                 </Stack>
 
                                 {
-                                        tickets.map((bx)=>(
+                                    tickets.length >0 ?    tickets.map((bx)=>(
                                             <Stack gap={2}>
                                         <div className="BillsList bg-light shadow-sm p-2">
                                             <Row>
@@ -688,7 +693,7 @@ return (
                                         </div>
                                        
                                     </Stack>
-                                        ))
+                                        )) : <p className='paray'> No Tickets Found</p>
                                     }
                                     
                             </Tab>
