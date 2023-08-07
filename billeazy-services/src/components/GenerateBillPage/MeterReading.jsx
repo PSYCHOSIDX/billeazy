@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/esm/Button';
 import '../component-styles/meter-reading.css'
 import { useNavigate } from 'react-router-dom';
 import '../../global-styles/global.css'
-import { generateAmount } from '../../utils/billGeneration';
+import { generateAmount,getBillingPeriod } from '../../utils/billGeneration';
 
 const reqFields = ['Meter_No', 'Unit', 'Current_Reading_Date', 'Current_Reading', 'Reading_Remark'];
 
@@ -51,14 +51,6 @@ Date.prototype.addDays = function (days) {
   return date;
 }
 
-const getBillingPeriod = (start,end) =>{
-  const s = new Date(start);
-  const e = new Date(end);
-  const seconds = Number((s-e)/1000);
-  const days= Math.floor(seconds / (3600 * 24));
-  return days;
-}
-
 const onGenerateBill = async (readings) => {
 
   const date = new Date();
@@ -95,7 +87,7 @@ const onGenerateBill = async (readings) => {
           currentReading: doc.currentReading,
           prevReadingDate: "N/A",
           prevReading: 0,
-          billingPeriod: getBillingPeriod(Date.now(),consumerRef.energizationDate) ,  
+          billingPeriod: getBillingPeriod(consumerRef.energizationDate, doc.currentReadingDate),
           readingDifference,
           // overdueAmount: 0,
           amount: Number(amount),
@@ -122,10 +114,10 @@ const onGenerateBill = async (readings) => {
           currentReading: doc.currentReading,
           prevReadingDate: prevBill.currentReadingDate,
           prevReading: prevBill.currentReadingReading,
-          billingPeriod: getBillingPeriod(Date.now(),prevBill.currentReadingDate),
+          billingPeriod: getBillingPeriod(prevBill.currentReadingDate, doc.currentReadingDate),
           readingDifference,
           // overdueAmount: prevBill.paymentStatus == "pending" ? prevBill.amount : 0,
-          amount: Number(prevBill.amount + amount),
+          amount,
           paymentStatus: "pending"
         };
 
@@ -140,7 +132,7 @@ const onGenerateBill = async (readings) => {
       await updateDoc(meterRef, {
         billGenerated: true
       });
-      alert("Bills added successfully");                  
+      alert("Bills added successfully");
     }
 
     catch (e) {

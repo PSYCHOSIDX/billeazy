@@ -31,7 +31,7 @@ function BillsList() {
     const [readingDifference, setReadingDifference] = useState();
     const [billingPeriod, setBillingPeriod] = useState();
     const [amount, setAmount] = useState();
-    const [billRef, setBillRef] = useState();
+    const [billPath, setBillPath] = useState();
 
     //used for ticket resolution
     const [showResolve, setShowResolve] = useState(false);
@@ -54,26 +54,36 @@ function BillsList() {
     const getBillData = async (billNo) => {
 
         const getBill = await getDocs(query(collection(db, "bills"), where("billNo", "==", billNo)));
-        setBillData(getBill.docs[0].data());
-        setBillRef(getBill.ref);
+        const billData = getBill.docs[0].data();
+
+        setDueDate(getBill.docs[0].data().dueDate);
+        setCurrentReading(getBill.docs[0].data().currentReading);
+        setCurrentReadingDate(getBill.docs[0].data().currentReadingDate);
+        setReadingDifference(getBill.docs[0].data().readingDifference);
+        setBillingPeriod(getBill.docs[0].data().billingPeriod);
+        setAmount(getBill.docs[0].data().amount);
+
+        setBillData(billData);
+        setBillPath(getBill.docs[0].ref.path);
     };
 
      //used for resolution
-     const updateAmount = async(meterNo) => {
-
+     const updateAmount = async(meterNo,readingDifference) => {
+        
         const getConsumer = await getDocs(query(collection(db, "consumers"), where("meterNo", "==", `${meterNo}`)));
 
         const consumerRef = getConsumer.docs[0].data();
 
-        const amount = generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad);
+        const amount = await generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad);
 
+        console.log(amount);
         setAmount(amount);
     };
     
     //used for resolution
     const handleResolution = async(id) => {
 
-        await updateDoc(doc(billRef), {
+        await updateDoc(doc(db,billPath), {
                 dueDate : dueDate,
                 currentReadingDate : currentReadingDate ,
                 currentReading : currentReading ,
@@ -335,7 +345,7 @@ function BillsList() {
                                                 <Col>{ticket.email}</Col>
                                                 <Col>{ticket.description}</Col>
                                                 <Col><Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
-                                                    handleShowResolve(); getBillData(ticket.billNo);
+                                                    handleShowResolve(); getBillData(ticket.billNo) ;
                                                 }}>
                                                     Resolve
                                                 </Button>
@@ -386,7 +396,7 @@ function BillsList() {
                                                                             Due Date
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Control type="date" /* id="billId" */ name="dueDate" value={billData.dueDate} onChange={e => setDueDate(e.target.value)} />
+                                                                            <Form.Control type="date" /* id="billId" */ name="dueDate" value={dueDate} onChange={e => setDueDate(e.target.value)} />
                                                                         </Col>
                                                                     </Form.Group>
 
@@ -404,7 +414,7 @@ function BillsList() {
                                                                             Current Reading Date
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Control type="date" /* id="billId" */ name="currentReadingDate" value={billData.currentReadingDate} onChange={function (e) { setCurrentReadingDate(e.target.value); setBillingPeriod(getBillingPeriod(billData.previousReadingDate,currentReadingDate)); }} />
+                                                                            <Form.Control type="date" /* id="billId" */ name="currentReadingDate" value={currentReadingDate} onChange={function (e) { setCurrentReadingDate(e.target.value);  if(billData.prevReadingDate == "N/A"){setBillingPeriod(1)} else {setBillingPeriod(getBillingPeriod(billData.prevReadingDate,e.target.value))}; }} />
                                                                         </Col>
                                                                     </Form.Group>
 
@@ -413,7 +423,7 @@ function BillsList() {
                                                                             Current Reading
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Control type="number" /* id="billId" */ name="currentReading" value={billData.currentReading} onChange={function (e) { setCurrentReading(e.target.value); setReadingDifference(currentReading - billData.prevReading); console.log(currentReading); console.log(billData.prevReading); updateAmount(billData.meterNo,readingDifference);}} />
+                                                                            <Form.Control type="number" /* id="billId" */ name="currentReading" value={currentReading} onChange={function (e) { setCurrentReading(Number(e.target.value));  setReadingDifference(e.target.value - billData.prevReading); updateAmount(billData.meterNo,e.target.value - billData.prevReading);}} />
                                                                         </Col>
                                                                     </Form.Group>
 
