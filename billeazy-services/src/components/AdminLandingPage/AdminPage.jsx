@@ -9,15 +9,17 @@ import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import AddNewRatesModal from './AddNewRatesModal';
 
 function AdminPage() {
     const [showC, setShowC] = useState(false);
     const [showA, setShowA] = useState(false);
-    const [showBill, setShowBill] = useState(false);
+    // const [showBill, setShowBill] = useState(false);
     const handleCloseConsumer = () => setShowC(false);
     const handleCloseAgent = () => setShowA(false);
     const handleShowConsumer = () => setShowC(true);
     const handleShowAgent = () => setShowA(true);
+
 
 
     const [cName, setCName] = useState("");
@@ -40,61 +42,62 @@ function AdminPage() {
 
 
     const [number, setNumber] = useState('');
-    const [body, setBody]= useState('');
+    const [body, setBody] = useState('');
 
     const navigate = useNavigate();
 
     const onSubmit = async (e) => {
         console.log('triggered');
-        
-    const res = await fetch("../../../api/sendMessage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ to: '+91'+cTelephoneNo, body: '\n Bill Eazy Account Registration  \n'+ cName+' complete your account linking for email id :'+cEmail+'\n with your link otp :'+link_otp}),
-      });
 
-    
-      console.log( 'data: '+ cTelephoneNo, cName, link_otp);
-      const data = await res.json();
-      if (data.success) {
-        await setNumber("");
-        await setBody("");
-      } else {
-        await setNumber("An Error has occurred.");
-        await setBody("An Error has occurred.");
-      }  
-      alert('Signin Information Sent To User');
+        const res = await fetch("../../../api/sendMessage", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ to: '+91' + cTelephoneNo, body: '\n Bill Eazy Account Registration  \n' + cName + ' complete your account linking for email id :' + cEmail + '\n with your link otp :' + link_otp }),
+        });
+
+
+        console.log('data: ' + cTelephoneNo, cName, link_otp);
+        const data = await res.json();
+        if (data.success) {
+            await setNumber("");
+            await setBody("");
+        } else {
+            await setNumber("An Error has occurred.");
+            await setBody("An Error has occurred.");
+        }
+        alert('Signin Information Sent To User');
     }
 
 
 
     const onSubmitAgent = async (e) => {
         console.log('triggered');
-        
-    const res = await fetch("../../../api/sendMessage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ to: '+91'+aTelephoneNo, body: '\n Bill Eazy Account Registration  \n'+ aName+' complete your account linking for email id :'+aEmail+'\n with your link otp  :'+link_otp}),
-      });
 
-    
-      console.log( 'data: '+ cTelephoneNo, cName, link_otp);
-      const data = await res.json();
-      if (data.success) {
-        await setNumber("");
-        await setBody("");
-      } else {
-        await setNumber("An Error has occurred.");
-        await setBody("An Error has occurred.");
-      }  
-      alert('Signin Information Sent To User');
+        const res = await fetch("../../../api/sendMessage", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ to: '+91' + aTelephoneNo, body: '\n Bill Eazy Account Registration  \n' + aName + ' complete your account linking for email id :' + aEmail + '\n with your link otp  :' + link_otp }),
+        });
+
+
+        console.log('data: ' + cTelephoneNo, cName, link_otp);
+        const data = await res.json();
+        if (data.success) {
+            await setNumber("");
+            await setBody("");
+        } else {
+            await setNumber("An Error has occurred.");
+            await setBody("An Error has occurred.");
+        }
+        alert('Signin Information Sent To User');
     }
 
 
+   
 
 
     const handleConsumerRegister = async e => {
@@ -118,8 +121,8 @@ function AdminPage() {
             await addDoc(collection(db, "consumers"), {
                 ...newConsumer
             });
-             console.log('Sms sent')
-             onSubmit();
+            console.log('Sms sent')
+            onSubmit();
         } catch (error) {
             console.log(error);
         }
@@ -157,8 +160,13 @@ function AdminPage() {
                     <Col sm={6}>
                         <Row>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact'onClick={() => navigate("/admin/generate-bill")}>
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={() => navigate("/admin/generate-bill")}>
                                     Generate Bill
+                                </Button>
+                            </Col>
+                            <Col>
+                            <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={() => navigate("/admin/add-rates")}>
+                                    Add New Rates
                                 </Button>
                             </Col>
                             <Col>
@@ -293,7 +301,7 @@ function AdminPage() {
                                             </Form>
                                         </div>
                                     </Modal.Body>
-                                    <Modal.Footer>
+                                    <Modal.Footer>f
                                         <Button variant="secondary" id='btn-contact' onClick={handleCloseConsumer}>
                                             Cancel
                                         </Button>
