@@ -8,8 +8,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import { useEffect, useState } from 'react';
 import { collection, getDocs, query, updateDoc, doc, where } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import { Modal } from 'bootstrap';
-import { Form } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { generateAmount } from '../../utils/billGeneration';
 import { getBillingPeriod } from '../../utils/billGeneration';
 
@@ -344,7 +344,6 @@ function BillsList() {
                                                             <Modal.Title>Resolve Dicrepancy</Modal.Title>
                                                         </Modal.Header>
                                                         <Modal.Body>
-
                                                             {billData?  <div className='forms'>
                                                                 <Form>
                                                                     <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAccNo">
@@ -414,7 +413,7 @@ function BillsList() {
                                                                             Current Reading
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Control type="number" /* id="billId" */ name="currentReading" value={billData.currentReading} onChange={function (e) { setCurrentReading(e.target.value); setReadingDifference(currentReading - billData.previousReading); updateAmount(billData.meterNo,readingDifference); }} />
+                                                                            <Form.Control type="number" /* id="billId" */ name="currentReading" value={billData.currentReading} onChange={function (e) { setCurrentReading(e.target.value); setReadingDifference(currentReading - billData.prevReading); console.log(currentReading); console.log(billData.prevReading); updateAmount(billData.meterNo,readingDifference);}} />
                                                                         </Col>
                                                                     </Form.Group>
 
@@ -423,7 +422,7 @@ function BillsList() {
                                                                             Previous Reading Date
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Label>{billData.previousReadingDate}</Form.Label>
+                                                                            <Form.Label>{billData.prevReadingDate}</Form.Label>
                                                                         </Col>
                                                                     </Form.Group>
 
@@ -432,7 +431,7 @@ function BillsList() {
                                                                             Previous Reading
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Label>{billData.previousReading}</Form.Label>
+                                                                            <Form.Label>{billData.prevReading}</Form.Label>
                                                                         </Col>
                                                                     </Form.Group>
 
