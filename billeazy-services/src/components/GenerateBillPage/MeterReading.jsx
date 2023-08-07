@@ -54,8 +54,8 @@ Date.prototype.addDays = function (days) {
 const getBillingPeriod = (start,end) =>{
   const s = new Date(start);
   const e = new Date(end);
-  seconds = Number((s-e)/1000);
-  var days= Math.floor(seconds / (3600 * 24));
+  const seconds = Number((s-e)/1000);
+  const days= Math.floor(seconds / (3600 * 24));
   return days;
 }
 
