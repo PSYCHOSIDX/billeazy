@@ -211,14 +211,15 @@
 
 
 #btn-contactx {
-    
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     all: unset;
     background-color: #42EE49;
-    padding: 1rem 2.5rem;
+    padding: 1rem 2rem;
     margin: 2%;
     color: #ffffff;
     font-size: .8rem;
-    border-radius: .5rem;
+    border-radius: .9rem;
+    justify-content: center;
   }
 
 
@@ -245,7 +246,7 @@
         }
     }
     #btn-contactx{
-        background-color: #6a10b3;padding: 0;
+        background-color: #4d137d;padding: 0;
         display: flex;
         flex-direction: column-reverse;
         width: 8rem;height: 1.4rem;
@@ -255,5 +256,6 @@
         color: #ffffff;
         font-weight: 800;
         margin: 0%;
+        justify-content: center;
     }
 }
