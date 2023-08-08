@@ -318,26 +318,26 @@ function InvoiceModal(props) {
  
     
                     
-            <div className="table-responsive">
-                <table className="table table-striped table-borderless border-0 border-b-2 brc-default-l1">
+            <div className="table-responsive" >
+                <Table responsive striped='columns'>
                     <thead className="bg-none bgc-default-tp1">
                         <tr className="text-white">
-                            <th className="opacity-2"></th>
-                            <th>Previous Reading Date</th>
-                            <th>Previous Reading</th>
-                            <th>Current Reading Date</th>
-                            <th>Current Reading</th>
-                            <th>Unit Type</th>
-                            <th width="140">Amount</th>
+                       
+                            <th id='thx'>Previous Reading Date</th>
+                            <th id='thx'>Previous Reading</th>
+                            <th id='thx'>Current Reading Date</th>
+                            <th id='thx'>Current Reading</th>
+                            <th id='thx'>Unit Type</th>
+                            <th width="140" id='thx'>Amount</th>
                         </tr>
                     </thead>
 
                     <tbody className="text-95 text-secondary-d3">
                         <tr></tr>
                         <tr>
-                            <td> </td>
-                            <td>{props.previousReadingDate}</td>
-                            <td>{props.previousReading}</td>
+                            
+                            <td>{props.prevReadingDate}</td>
+                            <td>{props.prevReading}</td>
                             <td>{props.currentReadingDate}</td>
                             <td>{props.currentReading}</td>
                             <td>{props.unit}</td>
@@ -345,7 +345,7 @@ function InvoiceModal(props) {
                             
                         </tr> 
                     </tbody>
-                </table>
+                </Table>
             </div>
            
 
@@ -532,7 +532,7 @@ return (
                               {
                                   bill.length>0 ? bill.filter((item)=>{
   
-                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.prevReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
                                     }).map((b)=>(
                                       
                                   
@@ -541,8 +541,8 @@ return (
                                           <td>{b.billNo}</td>
                                           <td>{b.currentReadingDate}</td>
                                           <td>{b.currentReading}</td>
-                                          <td>{b.previousReadingDate}</td>
-                                          <td>{b.previousReading}</td>
+                                          <td>{b.prevReadingDate}</td>
+                                          <td>{b.prevReading}</td>
                                           <td>{b.readingDifference}</td>
                                           <td>{b.unit}</td>
                                           <td>{b.amount}</td>
@@ -550,7 +550,7 @@ return (
                                       <td> {  b.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </td>
                                       <td> { 
                                           b.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(b.amount,b.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={b.billNo}  currentReadingDate={b.currentReadingDate}
-                                          currentReading={b.currentReading} previousReadingDate={b.previousReadingDate} previousReading={b.previousReading}
+                                          currentReading={b.currentReading} prevReadingDate={b.prevReadingDate} prevReading={b.prevReading}
                                           readingDifference={b.readingDifference} unit={b.unit} amount={b.amount} paymentStatus={b.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
                                             }
                                           </td>
@@ -602,7 +602,7 @@ return (
                               {
                                   billPayed.length>0 ? billPayed.filter((item)=>{
   
-                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.prevReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
                                     }).map((bc)=>(
                                       
                                   
@@ -611,8 +611,8 @@ return (
                                           <td>{bc.billNo}</td>
                                           <td>{bc.currentReadingDate}</td>
                                           <td>{bc.currentReading}</td>
-                                          <td>{bc.previousReadingDate}</td>
-                                          <td>{bc.previousReading}</td>
+                                          <td>{bc.prevReadingDate}</td>
+                                          <td>{bc.prevReading}</td>
                                           <td>{bc.readingDifference}</td>
                                           <td>{bc.unit}</td>
                                           <td>{bc.amount}</td>
@@ -620,7 +620,7 @@ return (
                                       <td> {  bc.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </td>
                                       <td> { 
                                           bc.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(bc.amount,bc.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={bc.billNo}  currentReadingDate={bc.currentReadingDate}
-                                          currentReading={bc.currentReading} previousReadingDate={bc.previousReadingDate} previousReading={bc.previousReading}
+                                          currentReading={bc.currentReading} prevReadingDate={bc.prevReadingDate} prevReading={bc.prevReading}
                                           readingDifference={bc.readingDifference} unit={bc.unit} amount={bc.amount} paymentStatus={bc.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
                                             }
                                           </td>
@@ -668,7 +668,7 @@ return (
                               {
                                   billPending.length>0 ? billPending.filter((item)=>{
   
-                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.prevReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
                                     }).map((bc)=>(
                                       
                                   
@@ -677,8 +677,8 @@ return (
                                           <td>{bc.billNo}</td>
                                           <td>{bc.currentReadingDate}</td>
                                           <td>{bc.currentReading}</td>
-                                          <td>{bc.previousReadingDate}</td>
-                                          <td>{bc.previousReading}</td>
+                                          <td>{bc.prevReadingDate}</td>
+                                          <td>{bc.prevReading}</td>
                                           <td>{bc.readingDifference}</td>
                                           <td>{bc.unit}</td>
                                           <td>{bc.amount}</td>
@@ -686,7 +686,7 @@ return (
                                       <td> {  bc.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </td>
                                       <td> { 
                                           bc.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(bc.amount,bc.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={bc.billNo}  currentReadingDate={bc.currentReadingDate}
-                                          currentReading={bc.currentReading} previousReadingDate={bc.previousReadingDate} previousReading={bc.previousReading}
+                                          currentReading={bc.currentReading} prevReadingDate={bc.prevReadingDate} prevReading={bc.prevReading}
                                           readingDifference={bc.readingDifference} unit={bc.unit} amount={bc.amount} paymentStatus={bc.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
                                             }
                                           </td>
@@ -725,7 +725,7 @@ return (
                                     {
                                     tickets.length >0 ?    tickets.filter((item)=>{
         
-                                        return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                        return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.prevReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
                                       }).map((bx)=>(
                                     <tr>
                                         

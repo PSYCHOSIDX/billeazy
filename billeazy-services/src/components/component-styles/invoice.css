@@ -4,7 +4,7 @@
 }
 
 .modal-invoice .body-invoice {
-  background-color: #000000;
+  background-color: #53199a;
   padding: auto;
 }
 .modal-invoice .body-invoice .text-secondary-d1 {
@@ -108,7 +108,7 @@
   vertical-align: bottom !important;
 }
 .modal-invoice .body-invoice .logo {
-  width: 20%;
+  width: 25%;
 }
 .modal-invoice .body-invoice .badge {
   background-color: rgb(82, 255, 47);
