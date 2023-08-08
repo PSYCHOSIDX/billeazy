@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../firebaseConfig';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import '../global-styles/global.css'
+import { getYYYMMDD } from '../utils/dateConverters';
+import { Table } from 'react-bootstrap';
 
 function UploadHistory() {
     const [uploads, setUploads] = useState([]);
@@ -37,26 +39,28 @@ function UploadHistory() {
 
     } else {
         // console.log(uploads);
+        
         returnData = (<>
-            <Stack>
-                <div className="ListHeadings shadow-none p-2">
-                    <Row>
-                        <Col >Upload date and Time</Col>
-                        <Col>No. of records</Col>
-                    </Row>
-                </div>
-            </Stack>
-            <Stack gap={2}>
+
+        <Table responsive bordered  className='table-hold'>
+            <thead>
+                    <tr>
+                        <th id='thx'>Upload date and Time</th>
+                        <th id='thx'>No. of records</th>
+                    </tr>
+            </thead>
+            <tbody gap={2}>
                 {uploads.map(upload => 
-                     (<div key={upload.id} className="BillList bg-light shadow-sm p-2">
-                        <Row>
-                            <Col>{Date(upload.date)}</Col>
-                            <Col>{upload.noEntries}</Col>
-                        </Row>
-                    </div>)
+                     (<tr key={upload.id} className="BillList bg-light shadow-sm p-2">
+                            <td>{getYYYMMDD(upload.date)}</td>
+                            <td>{upload.noEntries}</td>
+                    </tr>)
                 )}
-            </Stack>
+            </tbody>
+            </Table>
         </>)
+
+                          
     }
     return (
         <div className='m-5'>
