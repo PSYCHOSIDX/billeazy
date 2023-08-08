@@ -216,8 +216,8 @@ function BillsList() {
                                                 <Col>{b.billNo}</Col>
                                                 <Col>{b.currentReadingDate}</Col>
                                                 <Col>{b.currentReading}</Col>
-                                                <Col>{b.previousReadingDate}</Col>
-                                                <Col>{b.previousReading}</Col>
+                                                <Col>{b.prevReadingDate}</Col>
+                                                <Col>{b.prevReading}</Col>
                                                 <Col>{b.readingDifference}</Col>
                                                 <Col>{b.amount}</Col>
                                                 <Col>{b.paymentStatus}</Col>
@@ -294,8 +294,8 @@ function BillsList() {
                                           <td>{bc.billNo}</td>
                                           <td>{bc.currentReadingDate}</td>
                                           <td>{bc.currentReading}</td>
-                                          <td>{bc.previousReadingDate}</td>
-                                          <td>{bc.previousReading}</td>
+                                          <td>{bc.prevReadingDate}</td>
+                                          <td>{bc.prevReading}</td>
                                           <td>{bc.readingDifference}</td>
                                           <td>{bc.unit}</td>
                                           <td>{bc.amount}</td>
@@ -351,8 +351,8 @@ function BillsList() {
                                           <td>{bc.billNo}</td>
                                           <td>{bc.currentReadingDate}</td>
                                           <td>{bc.currentReading}</td>
-                                          <td>{bc.previousReadingDate}</td>
-                                          <td>{bc.previousReading}</td>
+                                          <td>{bc.prevReadingDate}</td>
+                                          <td>{bc.prevReading}</td>
                                           <td>{bc.readingDifference}</td>
                                           <td>{bc.unit}</td>
                                           <td>{bc.amount}</td>
