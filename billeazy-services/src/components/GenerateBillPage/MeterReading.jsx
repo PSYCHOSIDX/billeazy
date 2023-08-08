@@ -65,16 +65,23 @@ const onGenerateBill = async (readings) => {
 
       const consumerRef = getConsumer.docs[0].data();
 
-      const getPrevBill = await getDocs(query(collection(db, "bills"), where("meterNo", "==", `${doc.meterNo}`), orderBy("date", "desc")));
+      console.log(doc.meterNo);
 
+      const getPrevBill = await getDocs(query(collection(db, "bills"), where("meterNo", "==", `${doc.meterNo}`), orderBy("billDate", "desc")));
+
+      console.log(getPrevBill);
 
       //   const prevBill = getPrevBill.docs[0].data();
 
       if (getPrevBill.empty) {
 
-        const readingDifference = (Math.floor(doc.currentReading));
+        const readingDifference = Number(Math.floor(doc.currentReading));
 
-        const amount = generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad);
+        console.log(readingDifference); console.log(consumerRef.sanctionedLoad);
+
+        const amount = await generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad);
+
+        console.log(amount);
 
         newBill = {
           consumerAccNo: consumerRef.consumerAccNo,
@@ -100,7 +107,8 @@ const onGenerateBill = async (readings) => {
 
         const readingDifference = (Math.floor(doc.currentReading) - Math.floor(prevBill.currentReading));
 
-        const amount = generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad);
+        const amount = await generateAmount(consumerRef.tariffCategory, consumerRef.tension, readingDifference, consumerRef.sanctionedLoad);
+
 
         newBill = {
 
@@ -113,7 +121,7 @@ const onGenerateBill = async (readings) => {
           currentReadingDate: doc.currentReadingDate,
           currentReading: doc.currentReading,
           prevReadingDate: prevBill.currentReadingDate,
-          prevReading: prevBill.currentReadingReading,
+          prevReading: prevBill.currentReading,
           billingPeriod: getBillingPeriod(prevBill.currentReadingDate, doc.currentReadingDate),
           readingDifference,
           amount: Number(amount),
