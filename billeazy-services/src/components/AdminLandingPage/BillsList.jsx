@@ -37,8 +37,8 @@ function BillsList() {
     const [showResolve, setShowResolve] = useState(false);
     const handleCloseResolve = () => setShowResolve(false);
     const handleShowResolve = () => setShowResolve(true);
-
-    const [search , setSearch] = useState('')
+    const [customer, setCustomers]= useState([0]);
+    const [search , setSearch] = useState('');
     const billsCollectionRef = collection(db,`bills`);
     const agentsCollectionRef = collection(db,`employees`);
 
@@ -178,6 +178,25 @@ function BillsList() {
         getPendingBills()
         }, [])
 
+
+
+
+        useEffect(() => {
+            const getCustomers = async () => {
+            const qx = query(collection(db, 'consumers'));
+            const data = await getDocs(qx);
+            const newData = data.docs.map((doc) => ({
+                ...doc.data(),
+                id: doc.id,
+            }));
+            console.log("rendered pending bills ");
+            setCustomers(newData)
+            
+            };
+    
+            getCustomers()
+            }, [])
+
     return (
 
         <>
@@ -193,39 +212,39 @@ function BillsList() {
                     className="mb-3"
                 >
                     <Tab eventKey="all" title="Customers">
-                        <div className='list-container'>
-                            <Stack gap={2} className='list-heading'>
-                                <div className="ListHeadings shadow-none m-2 pb-2">
-                                    <Row>
-                                        {/* <Col>CA no.</Col> */}
-                                        <Col>Bill No.</Col>
-                                        <Col>Current reading date</Col>
-                                        <Col>Current reading</Col>
-                                        <Col>Previous reading date</Col>
-                                        <Col>Previous reading</Col>
-                                        <Col>Consumption</Col>
-                                        <Col>Amount Payable</Col>
-                                        <Col>Status</Col>
-                                    </Row>
-                                </div>
+                    <div id='div'>
+                            <Table responsive bordered  className='table-hold'>
+                                    <thead >
+                                        <tr id='header'>
+                                        <th  id='thx'>CA No</th>
+                                        <th  id='thx'>Meter No</th>
+                                        <th  id='thx'>Name</th >
+                                        <th  id='thx'>Telephone No</th >
+                                        <th  id='thx'>Email</th>
+                                        <th  id='thx'>Address</th>
+                                        <th id='thx'>Energization Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                 {
-                                    bill.map((b)=>(
-                                        <div className="records bg-light shadow-sm p-2">
-                                            <Row>
-                                                {/* <Col>{}</Col> */}
-                                                <Col>{b.billNo}</Col>
-                                                <Col>{b.currentReadingDate}</Col>
-                                                <Col>{b.currentReading}</Col>
-                                                <Col>{b.prevReadingDate}</Col>
-                                                <Col>{b.prevReading}</Col>
-                                                <Col>{b.readingDifference}</Col>
-                                                <Col>{b.amount}</Col>
-                                                <Col>{b.paymentStatus}</Col>
-                                            </Row>
-                                        </div>
+                                   customer.length>0 ? customer.map((ag)=>(
+                                        <tr className="records bg-light shadow-sm p-2">
+                                            
+                                                <td>{ag.consumerAccNo}</td>
+                                                <td>{ag.meterNo}</td>
+                                                <td>{ag.name}</td>
+                                                <td>{ag.telephoneNo}</td>
+                                                <td>{ag.email}</td>
+                                                <td>{ag.address}</td>
+                                                <td>{ag.energizationDate}</td>
+                                            
+                                        </tr>
                                     ))
-                                }
-                            </Stack>
+                                : <p className='paray'> No Employees Found</p>
+                            }
+                            </tbody>
+                            </Table>
+                           
                         </div>
                     </Tab>
                     <Tab eventKey="agents" title="Employees">
