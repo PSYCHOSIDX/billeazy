@@ -52,16 +52,16 @@ const AddAgentConnection= () => {
     //console.log('hello :'+ userList);
     userList.map((x)=>(setDetail(x)));
  try{
-  toast('Verifying ..', {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    });
+  // toast('Verifying ..', {
+  //   position: "top-center",
+  //   autoClose: 5000,
+  //   hideProgressBar: false,
+  //   closeOnClick: true,
+  //   pauseOnHover: true,
+  //   draggable: true,
+  //   progress: undefined,
+  //   theme: "light",
+  //   });
   { userDetail && userDetail.status == 'verified_agent' ? navigate('/employees/upload') : setShow(1)}
     
   } catch(err){

@@ -52,16 +52,16 @@ const AddCustomerConnection = () => {
       console.log('hello :' + userList);
       userList.map((x) => (setDetail(x)));
       try {
-        toast('Verifying ..', {
-          position: "top-right",
-          autoClose: 10000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          });
+        // toast('Verifying ..', {
+        //   position: "top-right",
+        //   autoClose: 10000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "light",
+        //   });
 
         { userDetail && userDetail.status == 'verified_consumer' ? navigate('/customer') : setShow(1) }
 
