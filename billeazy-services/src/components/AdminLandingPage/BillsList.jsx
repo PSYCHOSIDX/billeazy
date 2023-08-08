@@ -36,6 +36,8 @@ function BillsList() {
     const [amount, setAmount] = useState();
     const [billPath, setBillPath] = useState();
 
+    const [consumerData, setConsumerData] = useState();
+
     //used for ticket resolution
     const [showResolve, setShowResolve] = useState(false);
     const handleCloseResolve = () => setShowResolve(false);
@@ -56,20 +58,26 @@ function BillsList() {
     }
 
     //used for resolution
-    const getBillData = async (billNo) => {
+    const getData = async (billNo) => {
 
         const getBill = await getDocs(query(collection(db, "bills"), where("billNo", "==", billNo)));
         const billData = getBill.docs[0].data();
-
-        setDueDate(getBill.docs[0].data().dueDate);
-        setCurrentReading(getBill.docs[0].data().currentReading);
-        setCurrentReadingDate(getBill.docs[0].data().currentReadingDate);
-        setReadingDifference(getBill.docs[0].data().readingDifference);
-        setBillingPeriod(getBill.docs[0].data().billingPeriod);
-        setAmount(getBill.docs[0].data().amount);
-
+        
         setBillData(billData);
+
+        setDueDate(billData.dueDate);
+        setCurrentReading(billData.currentReading);
+        setCurrentReadingDate(billData.currentReadingDate);
+        setReadingDifference(billData.readingDifference);
+        setBillingPeriod(billData.billingPeriod);
+        setAmount(billData.amount);
+        
         setBillPath(getBill.docs[0].ref.path);
+
+        const getConsumer = await getDocs(query(collection(db, "consumers"), where("meterNo", "==", billData.meterNo)));
+        const consumerData = getConsumer.docs[0].data();
+
+        setConsumerData(consumerData);
     };
 
      //used for resolution
@@ -459,7 +467,7 @@ function BillsList() {
                                                 <td>{ticket.email}</td>
                                                 <td>{ticket.description}</td>
                                                 <td><Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
-                                                    handleShowResolve(); getBillData(ticket.billNo) ;
+                                                    handleShowResolve(); getData(ticket.billNo) ;
                                                 }}>
                                                     Resolve
                                                 </Button>
@@ -511,7 +519,7 @@ function BillsList() {
                                                                             Due Date
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Control type="date" /* id="billId" */ name="dueDate" value={dueDate} onChange={e => setDueDate(e.target.value)} />
+                                                                            <Form.Control type="date" min={billData.dueDate}/* id="billId" */ name="dueDate" value={dueDate} onChange={e => setDueDate(e.target.value)} />
                                                                         </Col>
                                                                     </Form.Group>
 
@@ -529,7 +537,7 @@ function BillsList() {
                                                                             Current Reading Date
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Control type="date" /* id="billId" */ name="currentReadingDate" value={currentReadingDate} onChange={function (e) { setCurrentReadingDate(e.target.value);  if(billData.prevReadingDate == "N/A"){setBillingPeriod(1)} else {setBillingPeriod(getBillingPeriod(billData.prevReadingDate,e.target.value))}; }} />
+                                                                            <Form.Control type="date" min={billData.prevReadingDate}/* id="billId" */ name="currentReadingDate" value={currentReadingDate} onChange={function (e) { setCurrentReadingDate(e.target.value);  if(billData.prevReadingDate == "N/A"){setBillingPeriod(getBillingPeriod(consumerData.energizationDate,e.target.value))} else {setBillingPeriod(getBillingPeriod(billData.prevReadingDate,e.target.value))}; }} />
                                                                         </Col>
                                                                     </Form.Group>
 
@@ -538,7 +546,7 @@ function BillsList() {
                                                                             Current Reading
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Control type="number" /* id="billId" */ name="currentReading" value={currentReading} onChange={function (e) { setCurrentReading(Number(e.target.value));  setReadingDifference(e.target.value - billData.prevReading); updateAmount(billData.meterNo,e.target.value - billData.prevReading);}} />
+                                                                            <Form.Control type="number" min={0}/* id="billId" */ name="currentReading" value={currentReading} onChange={function (e) { setCurrentReading(Number(e.target.value));  setReadingDifference(e.target.value - billData.prevReading); updateAmount(billData.meterNo,e.target.value - billData.prevReading);}} />
                                                                         </Col>
                                                                     </Form.Group>
 
@@ -587,7 +595,7 @@ function BillsList() {
                                                                         </Col>
                                                                     </Form.Group>
                                                                 </Form>
-                                                            </div> : <p></p>}
+                                                            </div> : <></>}
                                                             
                                                         </Modal.Body>
                                                         <Modal.Footer>
