@@ -90,7 +90,7 @@ function BillsList() {
                 currentReading : currentReading ,
                 readingDifference : readingDifference ,
                 billingPeriod : billingPeriod,
-                amount : amount 
+                amount : Number(amount).toFixed(2) 
             });
             await updateDoc(doc(db, `tickets/${id}`), {
                 status: "resolved"
