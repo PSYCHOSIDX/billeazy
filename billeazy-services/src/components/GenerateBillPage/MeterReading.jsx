@@ -7,6 +7,8 @@ import '../component-styles/meter-reading.css'
 import { useNavigate } from 'react-router-dom';
 import '../../global-styles/global.css'
 import { generateAmount,getBillingPeriod } from '../../utils/billGeneration';
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const reqFields = ['Meter_No', 'Unit', 'Current_Reading_Date', 'Current_Reading', 'Reading_Remark'];
 
@@ -97,7 +99,7 @@ const onGenerateBill = async (readings) => {
           billingPeriod: getBillingPeriod(consumerRef.energizationDate, doc.currentReadingDate),
           readingDifference,
           // overdueAmount: 0,
-          amount: Number(amount),
+          amount: Number(amount).toFixed(2),
           paymentStatus: "pending"
         }
 
@@ -124,7 +126,7 @@ const onGenerateBill = async (readings) => {
           prevReading: prevBill.currentReading,
           billingPeriod: getBillingPeriod(prevBill.currentReadingDate, doc.currentReadingDate),
           readingDifference,
-          amount: Number(amount),
+          amount: Number(amount).toFixed(2),
           paymentStatus: "pending"
         };
 
@@ -139,12 +141,30 @@ const onGenerateBill = async (readings) => {
       await updateDoc(meterRef, {
         billGenerated: true
       });
-      alert("Bills added successfully");
+      toast.success('Bill Generated Successfully!', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     }
 
     catch (e) {
       console.log(e);
-      alert("Something went wrong");
+      toast.error('Bill Not Generated!', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     }
 
     // const reads = await getDocs(query(collection(db,"Meter Reading"), where("billGenerated","==",false)))
@@ -172,6 +192,18 @@ const MeterReading = () => {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <h3 className='alerty'>Pending Meter Readings</h3>
       {readings.length ?
         <div className='meter-readings-table'>

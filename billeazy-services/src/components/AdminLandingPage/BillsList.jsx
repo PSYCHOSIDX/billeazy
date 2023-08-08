@@ -13,6 +13,7 @@ import { Form } from 'react-bootstrap';
 import { generateAmount } from '../../utils/billGeneration';
 import { getBillingPeriod } from '../../utils/billGeneration';
 import Table from 'react-bootstrap/Table';
+import {ToastContainer,toast} from 'react-toastify';
 
 function BillsList() {
     const [key, setKey] = useState('all');
@@ -82,19 +83,42 @@ function BillsList() {
     
     //used for resolution
     const handleResolution = async(id) => {
-
-        await updateDoc(doc(db,billPath), {
+        try{
+            await updateDoc(doc(db,billPath), {
                 dueDate : dueDate,
                 currentReadingDate : currentReadingDate ,
                 currentReading : currentReading ,
                 readingDifference : readingDifference ,
                 billingPeriod : billingPeriod,
-                amount : amount 
+                amount : Number(amount).toFixed(2) 
             });
-        await updateDoc(doc(db, `tickets/${id}`), {
+            await updateDoc(doc(db, `tickets/${id}`), {
                 status: "resolved"
             });
+            toast.success('Ticket Resolved!', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
             handleGetTickets()
+        } catch (e) {
+            toast.error('Ticket Resolution Failed!', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }
+        
     
     };
 
@@ -200,6 +224,18 @@ function BillsList() {
     return (
 
         <>
+        <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+        />
          <input style={{fontSize:12, height:44, margin:'.1rem'}}  className='fieldxx' placeholder='Live Search Bill Number ' autoComplete='on' type='text' onChange={(e)=>setSearch(e.target.value)}  />
                 <br/>
          <div>
