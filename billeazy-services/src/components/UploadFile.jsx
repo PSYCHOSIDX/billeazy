@@ -14,6 +14,7 @@ import { auth } from "../firebaseConfig";
 
 import "./component-styles/upload-file.css"
 import NavbarAgentLogout from "./NavbarAgentLogout";
+import { getYYYMMDD } from "../utils/dateConverters";
 
 
 const allowedExtensions = ["csv"];
@@ -129,13 +130,8 @@ const UploadFile = () => {
           {
             "meterNo": row.Meter_No,
             "unit": row.Unit,
-            "currentReadingDate": row.Current_Reading_Date,
+            "currentReadingDate": getYYYMMDD(row.Current_Reading_Date),
             "currentReading": row.Current_Reading,
-            //  "prevReadingDate" : row.Prev_Reading_Date,
-            //  "prevReading" : row.Prev_Reading,
-            //  "readingDifference" : row.Reading_Difference,
-            //  "MF" : row.MF,
-            //  "consumption" : row.Consumption,
             "readingRemark": row.Reading_Remark,
             "billGenerated": false
           });
