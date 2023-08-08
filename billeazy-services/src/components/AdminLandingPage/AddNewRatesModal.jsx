@@ -23,6 +23,7 @@ const AddNewRatesModal = () => {
                 slab2: 2,
                 slab3: 3,
                 slab4: 4,
+                slab5: 5,
                 tension: 'lt'
             },
             ht: {
@@ -51,8 +52,6 @@ const AddNewRatesModal = () => {
             lt: {
                 slab1: 1,
                 slab2: 2,
-                slab3: 3,
-                slab4: 4,
                 tension: 'lt'
             },
             ht: {
@@ -109,13 +108,12 @@ const AddNewRatesModal = () => {
                                 </Col>
                             </Col>
                         </Form.Group>
-
                         <Form.Group as={Row} className="mb-3" controlId="FormElementTension">
                             <Form.Label column sm={4}>
                                 Low Tension
                             </Form.Label>
                             <Col sm={8}>
-
+                                
                                 <Form.Control type="number" placeholder="e.g 3.5" value={domesticRates.lt.slab1} onChange={e => {
                                     setDomesticRates(values => ({
                                         ...values,
@@ -149,6 +147,15 @@ const AddNewRatesModal = () => {
                                         lt: {
                                             ...values.lt,
                                             slab4: Number(e.target.value)
+                                        }
+                                    }))
+                                }} />
+                                <Form.Control type="number" placeholder="e.g 3.5" value={domesticRates.lt.slab5} onChange={e => {
+                                    setDomesticRates(values => ({
+                                        ...values,
+                                        lt: {
+                                            ...values.lt,
+                                            slab5: Number(e.target.value)
                                         }
                                     }))
                                 }} />
@@ -257,9 +264,6 @@ const AddNewRatesModal = () => {
                                 Tarrif Category
                             </Form.Label>
                             <Col sm={8}>
-                                {/* <Form.Select contentEditable={false} disabled value={ratesTariffCategory} onChange={e => setRatesTariffCategory(Number(e.target.value))}>
-                                        <option value={"domestic"}>Domestic</option>
-                                    </Form.Select> */}
                                 <Col sm={8}>
                                     <Form.Label>Industrial</Form.Label>
                                 </Col>
@@ -288,24 +292,6 @@ const AddNewRatesModal = () => {
                                         lt: {
                                             ...values.lt,
                                             slab2: Number(e.target.value)
-                                        }
-                                    }))
-                                }} />
-                                <Form.Control type="number" placeholder="e.g 3.5" value={industrialRates.lt.slab3} onChange={e => {
-                                    setIndustrialRates(values => ({
-                                        ...values,
-                                        lt: {
-                                            ...values.lt,
-                                            slab3: Number(e.target.value)
-                                        }
-                                    }))
-                                }} />
-                                <Form.Control type="number" placeholder="e.g 3.5" value={industrialRates.lt.slab4} onChange={e => {
-                                    setIndustrialRates(values => ({
-                                        ...values,
-                                        lt: {
-                                            ...values.lt,
-                                            slab4: Number(e.target.value)
                                         }
                                     }))
                                 }} />
