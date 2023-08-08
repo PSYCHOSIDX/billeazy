@@ -113,7 +113,7 @@ function AdminPage() {
             meterNo,
             tariffCategory,
             tension,
-            sanctionedLoad,
+            sanctionedLoad : Number (sanctionedLoad),
             link_otp
         };
 
