@@ -288,7 +288,7 @@ function AdminPage() {
                                                         Sanctioned Load
                                                     </Form.Label>
                                                     <Col sm={8}>
-                                                        <Form.Control type="number" placeholder="e.g 3.5" /* id="sanctionedLoad" */ name="sanctionedLoad" value={sanctionedLoad} onChange={e => setSanctionedLoad(e.target.value)} />
+                                                        <Form.Control type="number" min={0} placeholder="e.g 3.5" /* id="sanctionedLoad" */ name="sanctionedLoad" value={sanctionedLoad} onChange={e => setSanctionedLoad(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
 
