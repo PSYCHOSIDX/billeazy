@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../firebaseConfig';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import '../global-styles/global.css'
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { getYYYMMDD } from '../utils/dateConverters';
 import { Table } from 'react-bootstrap';
 
@@ -24,6 +27,17 @@ function UploadHistory() {
                 }))
                 setUploads(data)
                 setLoading(false);
+
+                toast.success('Data Fetched Successfully', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
             }
         })()
 
@@ -62,7 +76,19 @@ function UploadHistory() {
 
                           
     }
-    return (
+    return (<>
+        <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
         <div className='m-5'>
             <h2 className='fw-semibold alertx'>Agent Upload History</h2>
             <div className='mx-5 px-5 my-3 alerty'>
@@ -71,6 +97,7 @@ function UploadHistory() {
                     : returnData}
             </div>
         </div>
+        </>
     );
 }
 

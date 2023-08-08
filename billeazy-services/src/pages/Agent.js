@@ -11,14 +11,40 @@ import AgentWorkFlow from '../components/AgentLandingPage/AgentWorkFlow'
 import NavbarAgentLogout from '../components/NavbarAgentLogout'
 import NavbarCustomerLogout from '../components/NavbarCustomerLogout'
 import { UserAuth } from '../context/UserAuthContext'
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Agent = () => {
   const {user} = UserAuth();
   const navigate = useNavigate();
     (user&& navigate('/addemployeelink') )
+    
+  { !user&&toast('Welcome To BillEazy Employee Portal', {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+  }
   
     return (
       <>
+        <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
         {user ? <NavbarAgentLogout /> : <NavbarAgentLogin />}
         <AgentLanding />
         <AgentFeatures />

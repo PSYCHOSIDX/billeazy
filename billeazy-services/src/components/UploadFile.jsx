@@ -16,6 +16,8 @@ import "./component-styles/upload-file.css"
 import NavbarAgentLogout from "./NavbarAgentLogout";
 import { getYYYMMDD } from "../utils/dateConverters";
 
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const allowedExtensions = ["csv"];
 const db = getFirestore(app);
@@ -47,7 +49,7 @@ const UploadFile = () => {
   }, []);
   const handleFileChange = (files) => {
     setError("");
-    // console.log(files);
+    
     // Check if user has entered the file
     if (files.length) {
       const inputFile = files[0];
@@ -57,7 +59,17 @@ const UploadFile = () => {
       // we show the error
       const fileExtension = inputFile?.type.split("/")[1];
       if (!allowedExtensions.includes(fileExtension)) {
-        setError("Please input a csv file");
+        toast.error('Please input a csv file', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+        //setError("Please input a csv file");
         return;
       }
       // If input type is correct set the state
@@ -75,47 +87,57 @@ const UploadFile = () => {
           return columns.includes(value);
         })
         if (!valid) {
-          setError("All columns not present in csv");
+          //setError("All columns not present in csv");
+          toast.error('All columns not present in csv', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
           return;
         }
         setCols(columns);
         setData(parsedData);
         setError("Data Preview")
-        console.log("added data");
+     
       };
       reader.readAsText(inputFile);
     }
   };
-  const handleParse = () => {
+  // const handleParse = () => {
 
-    // If user clicks the parse button without
-    // a file we show a error
-    console.log(file);
-    if (!file) return setError("Enter a valid file");
-    // Initialize a reader which allows user
-    // to read any file or blob.
-    const reader = new FileReader();
-    // Event listener on reader when the file
-    // loads, we parse it and set the data.
-    reader.onload = async ({ target }) => {
-      const csv = Papa.parse(target.result, { header: true });
-      const parsedData = csv?.data
-      const columns = Object.keys(parsedData[0]);
-      // console.log(parsedData);
-      const valid = reqFields.every(value => {
-        return columns.includes(value);
-      })
-      if (!valid) {
-        setError("All columns not present in csv");
-        return;
-      }
-      setCols(columns);
-      setData(parsedData);
-      setError("Data Preview")
-      console.log("added data");
-    };
-    reader.readAsText(file);
-  };
+  //   // If user clicks the parse button without
+  //   // a file we show a error
+   
+  //   if (!file) return setError("Enter a valid file");
+  //   // Initialize a reader which allows user
+  //   // to read any file or blob.
+  //   const reader = new FileReader();
+  //   // Event listener on reader when the file
+  //   // loads, we parse it and set the data.
+  //   reader.onload = async ({ target }) => {
+  //     const csv = Papa.parse(target.result, { header: true });
+  //     const parsedData = csv?.data
+  //     const columns = Object.keys(parsedData[0]);
+  //     // console.log(parsedData);
+  //     const valid = reqFields.every(value => {
+  //       return columns.includes(value);
+  //     })
+  //     if (!valid) {
+  //       setError("All columns not present in csv");
+  //       return;
+  //     }
+  //     setCols(columns);
+  //     setData(parsedData);
+  //     setError("Data Preview")
+     
+  //   };
+  //   reader.readAsText(file);
+  // };
 
   const onAcceptHandler = () => {
     // console.log(auth.currentUser.email)x
@@ -140,7 +162,7 @@ const UploadFile = () => {
 
     });
     if (auth.currentUser) {
-      console.log(auth.currentUser.email);
+    
       const employeeRef = collection(db, "uploads")
       addDoc(employeeRef, {
         email: auth.currentUser.email,
@@ -151,13 +173,35 @@ const UploadFile = () => {
 
     setCols([]);
     setData([]);
-    setError("Data pushed successfully")
+    //setError("Data pushed successfully")
+    toast.success('Data pushed successfully', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+    
     setShow(false);
   }
 
   return (
     <div>
-
+       <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {user ? <NavbarAgentLogout/> : <NavbarLogin />}
       <div className="upload-area">
         {/* <label htmlFor="csvInput" style={{ display: "block" }}>
@@ -177,7 +221,7 @@ const UploadFile = () => {
         <div className="preview-table" style={{ marginTop: "3rem" }}>
 
           {error && <h4>{error}</h4>}
-          {data.length && <Table striped bordered>
+          {data.length && <Table striped responsive bordered >
             <thead> <tr>{reqFields.map(col => <th key={col}>{col}</th>)}</tr></thead>
             <tbody>{data.map((row, idx) =>
               <tr key={idx}>{
@@ -185,17 +229,17 @@ const UploadFile = () => {
               }</tr>)}
             </tbody>
           </Table>}
-          {file ? <Button variant="outline-primary" className="m-5" onClick={() => setShow(true)}>Upload</Button> : null}
+          {file ? <Button variant="outline-primary" className="m-5" id='btn-contact' onClick={() => setShow(true)}>Upload</Button> : null}
 
           <Modal show={show} onHide={() => setShow(false)}>
             <Modal.Header closeButton>
               <Modal.Title>Add to database?</Modal.Title>
             </Modal.Header>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShow(false)}>
+              <Button variant="secondary" id='btn-contact' onClick={() => setShow(false)}>
                 Close
               </Button>
-              <Button variant="primary" onClick={onAcceptHandler}>
+              <Button variant="primary" id='btn-contact' onClick={onAcceptHandler}>
                 Add
               </Button>
             </Modal.Footer>

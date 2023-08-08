@@ -16,6 +16,10 @@ import {collection, getDocs, query, orderBy, where, addDoc} from 'firebase/fires
 import NavbarAgentLogout from '../components/NavbarAgentLogout';
 
 
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const AddAgentConnection= () => {
   const[show, setShow]= useState(0);
   const [userData, setUserData] = useState([0]);
@@ -48,7 +52,16 @@ const AddAgentConnection= () => {
     //console.log('hello :'+ userList);
     userList.map((x)=>(setDetail(x)));
  try{
-
+  toast('Verifying ..', {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
   { userDetail && userDetail.status == 'verified_agent' ? navigate('/employees/upload') : setShow(1)}
     
   } catch(err){
@@ -95,8 +108,16 @@ const AddAgentConnection= () => {
                 status: 'verified_agent',
                 usertype: 'agent'
               });
-            console.log("Link Added !");
-            alert('Account Linked Successfully');
+              toast.success('Account Linked Successfully !', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
             } catch (error) {
               console.log(error.message);
             }
@@ -104,7 +125,16 @@ const AddAgentConnection= () => {
           }
           handleLink();
         } else {
-          alert('Link Failed')
+          toast.error('Account Link Failure !', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
         }
       
       };
@@ -122,7 +152,18 @@ const AddAgentConnection= () => {
   return (
 
     <>
-    
+     <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     
       {user ? <NavbarAgentLogout/> : <NavbarLogin/>}
 

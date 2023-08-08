@@ -26,6 +26,9 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { RiMenu2Line} from 'react-icons/ri';
 
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 // This is profile finction this contains all sidebar
@@ -114,10 +117,30 @@ function NavbarCustomerLogout(){
  
   const handleLogout = async () => {
     try{
-      await logout();
+     
+      toast.success('Logging out !!', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        await logout();
       navigate('/')
     } catch(e) {
-      console.log(e.message);
+      toast.error('Logout Failed', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
     }
   }
 
@@ -126,6 +149,18 @@ function NavbarCustomerLogout(){
   
   return (
     <>
+       <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <Navbar className='custom-nav'>
       <Container className='container'>
         <Navbar.Brand href="/customer">
