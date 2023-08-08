@@ -186,7 +186,7 @@
   }
 }
 .work {
-  background-color: #4B00AB;
+  background: -webkit-linear-gradient(30deg, #42EE49, #691ecb);
 }
 .work .coloredx {
   text-align: center;

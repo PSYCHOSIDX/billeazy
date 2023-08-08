@@ -1,3 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:wght@200&family=Unbounded:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
+.BillsList{
+  text-align: center;
+
+}
+.cc{
+  font-size: 1rem;
+}
+
+.fieldxx{
+  width: 100%;
+  padding: .5rem;
+  border-radius: .4rem;
+  border: none;
+  border: 1px solid #4B00AB;
+  text-align: left;
+
+}
+
+
+ .parax{
+  color: #42EE49;
+  margin: auto;
+  
+ }
+ .paray{
+  color: #ee4242;
+  margin: auto;
+  margin: 1rem;
+
+ }
+    #bg-body-tertiary{
+        background-color: #42EE49;
+    }
+    
+    
+    .navbar-nav {
+        
+        justify-content: end;
+        
+       
+    }
+    
+    #jhfjfh{
+      font-family: Nico Moji ;
+    }
+    #rtx a{
+        position: absolute;
+        right: 50px;
+    }
+    #navbar-backgroundcolor nav{
+        background-color: black;
+    }
+    #dropdown-button button{
+        position: absolute;
+        left: 750px;
+    }
+    
+    #dropdown-button ul{
+        position: absolute;
+        left: 700px;
+    }
+    #fontcolor a{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly ;
+        color: white;
+    }
+    
+    /* #mtrca-number h4{
+        padding-bottom: 25px;
+    }
+    
+    #mtrca-number span{
+        padding-left: 25px;
+    } */
+    
+    /* *{
+        text-align: left;
+    } */
+    
+    .bn60 {
+        background-color: #190c8d;
+        color: #ffffff;
+        font-size: 0.9em;
+        font-weight: 600;
+        position: relative;
+        outline: none;
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        height: 35px;
+        width: 80px;
+        
+      }
+    
+      .title{
+        text-align: left;
+        width: 100%;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 200;
+        font-size: 2rem;
+        color: #4B00AB;
+      }
+    
+      .table-hold{
+        
+        padding: .5rem;
+         text-align: center;
+         
+        
+      }
+
+      .green{
+        color: #39cd3e;
+        font-weight: 700;
+        text-align: left;
+        font-size: 1rem;
+        margin-top: -.6rem;
+        margin-bottom: .5rem;
+        margin-left: .3rem;
+      }
+     
+      #header{
+        text-decoration: none;
+        color: #4B00AB;
+      
+      }
+
+      th{
+        color: #4B00AB;
+      }
+      
+    #btn-contact {
+        all: unset;
+        background-color: #42EE49;
+        padding: 0.5rem 5rem;
+        color: #ffffff;
+        font-family: sans-serif;
+        font-weight: 900;
+        align-items: center;
+        justify-content: center;
+        border-radius: 1rem;
+    
+        cursor: pointer;
+        font-size: .8rem;
+      }
+      #btn-contact:active {
+        background-color: rgb(165, 165, 165);
+      }
+      #btn-contact:hover {
+        background-color: #222222;
+        color: rgb(255, 255, 255);
+      }
+    
+
+          
+    #btn-report {
+      all: unset;
+      background-color: #f32a2a;
+      color: #ffffff;
+      padding: .5rem 1rem;
+      font-family: sans-serif;
+      font-weight: 900;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1rem;
+      box-shadow: none;
+      text-decoration: none;
+      margin: auto;
+      cursor: pointer;
+      margin-left:- 4%;
+      font-size: .8rem;
+      width: auto;
+    }
+    #btn-report:active {
+      background-color: rgb(165, 165, 165);
+    }
+    #btn-report:hover {
+      background-color: #222222;
+      color: rgb(255, 255, 255);
+    }
+    
+
+#thx{
+  background: #3b0062;
+  color: #ffffff;
+  font-weight: 300;
+}
+
+#div{
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  
+  padding: .2rem;
+}
+
 .AdminActionButtons{
     width: 90%;
     height: 100%;
@@ -6,4 +206,54 @@
 .records, .ListHeadings, .forms{
     text-align: center;
     font-size: small;
+}
+
+
+
+#btn-contactx {
+    
+    all: unset;
+    background-color: #42EE49;
+    padding: 1rem 2.5rem;
+    margin: 2%;
+    color: #ffffff;
+    font-size: .8rem;
+    border-radius: .5rem;
+  }
+
+
+  #btn-contactx:active {
+    background-color: rgb(165, 165, 165);
+  }
+  #btn-contactx:hover {
+    background-color: #222222;
+    color: rgb(255, 255, 255);
+  }
+
+
+
+
+
+@media screen and (max-width:900px) {
+    .btn-holder{
+        width: 100%;
+        display: flex;
+        flex-direction: column-reverse;
+        font-size: 1rem;
+        &:hover{
+            color:#39cd3e
+        }
+    }
+    #btn-contactx{
+        background-color: #6a10b3;padding: 0;
+        display: flex;
+        flex-direction: column-reverse;
+        width: 8rem;height: 1.4rem;
+        padding: .8rem;
+        border: 1px solid #ffffff;
+        text-align: center;
+        color: #ffffff;
+        font-weight: 800;
+        margin: 0%;
+    }
 }

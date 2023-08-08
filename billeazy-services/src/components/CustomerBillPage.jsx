@@ -14,7 +14,7 @@ import {collection, getDocs, query, orderBy, where, addDoc, getDoc, updateDoc ,s
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
-
+import Table from 'react-bootstrap/Table';
 import logo from '../assets/logo.png'
 //print to pdf
 import html2canvas from "html2canvas";
@@ -36,29 +36,30 @@ function CustomerBillPage() {
     const userId = user.uid;
     const [tickets, setTickets]= useState([0]);
     const consumersCollectionRef = collection(db,`users/${userId}/details`);
-    const billsCollectionRef = collection(db,`bills`);
+    const billsCollectionRef = collection(db,'bills');
     const ticketsCollectionRef = collection(db,`tickets`);
-    
+    const [search , setSearch] = useState('')
 
 //get all bills
 
 useEffect(() => {
     const getBills = async () => {
         const q = query(billsCollectionRef, where('email', '==', user.email));
-        const qx = query(billsCollectionRef, where('paymentStatus', '==', 'paid'||'pending'));
-        const data = await getDocs(qx);
+        const data = await getDocs(q);
       const newData = data.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
       }));
       console.log("rendered all bills ");
+      console.log(user.email);
+      console.log('all bills :'+bill);
       setBill(newData);
     
     };
   
   
       getBills()
-    }, [ ])
+    },[])
 
 //paid bills
     useEffect(() => {
@@ -83,13 +84,13 @@ useEffect(() => {
 //get all tickets
     useEffect(() => {
         const getTickets = async () => {
-          const q = query(ticketsCollectionRef, where('email', '==', user.email));
+          const q = query(ticketsCollectionRef, where('email', '==',user.email.toString()));
           const data = await getDocs(q);
           const newData = data.docs.map((doc) => ({
               ...doc.data(),
               id: doc.id,
           }));
-          console.log("rendered payed bills ");
+          console.log("rendered tickets ");
           setTickets(newData);
         
         };
@@ -102,8 +103,8 @@ useEffect(() => {
 // pending bills
 useEffect(() => {
     const getPendingBills = async () => {
-      const q = query(billsCollectionRef, where('email', '==', user.email));
-      const qx = query(billsCollectionRef, where('paymentStatus', '==', 'pending'));
+      const q = query(billsCollectionRef, where('email', '==', user.email.toString()));
+      const qx = query(q, where('paymentStatus', '==', 'pending'));
       const data = await getDocs(qx);
       const newData = data.docs.map((doc) => ({
           ...doc.data(),
@@ -253,8 +254,11 @@ function InvoiceModal(props) {
     <div className="page-header text-blue-d2">
         <h1 className="page-title text-secondary-d1">
             
-            <small className="page-info">
-                BILL NO : {props.billNo}
+            <small className="page-info cc">
+                BILL NO : {props.billNo} 
+                <div className="my-1">
+                    <b className='parax'> Issued By Goa Electricity Department - North Goa , Goa</b>
+                </div>
             </small>
         </h1>
 
@@ -473,7 +477,7 @@ return (
         <Card id='cardx'>
       <Card.Body>  
         
-      <div className='p-5 '>
+      <div className='table-hold'>
                 <div className='my-3'>
                     <Row>
                        
@@ -483,9 +487,12 @@ return (
                     </Row>
                 </div>
                 <div id="mtrca-number">
-                    <h5>CA no. :<span>{caNo}</span></h5>
-                    <h5>Meter no. :<span>{meter}</span></h5>
+                    <h5 className='green' ><b >CA NO : <span>{caNo}</span> </b></h5>
+                    <h5 className='green'> <b >METER NO : <span>{meter}</span>  </b> </h5>
                 </div>
+                 
+            <input style={{fontSize:12, height:44, margin:'.1rem'}}  className='fieldxx' placeholder='Live Search Bill Number ' autoComplete='on' type='text' onChange={(e)=>setSearch(e.target.value)}  />
+                <br/>
                 <br/>
                 <div>
                     <div  >
@@ -499,198 +506,239 @@ return (
                             className="mb-3"
                         >
                             <Tab eventKey="all" title="All">
-                                <div>
-                                    <Stack>
-                                        <div className="ListHeadings shadow-none p-2">
-                                            <Row>
-                                                <Col>Bill Id</Col>
-                                                <Col>Current reading date</Col>
-                                                <Col>Current reading</Col>
-                                                <Col>Previous reading date</Col>
-                                                <Col>Previous reading</Col>
-                                                <Col>Consumption</Col>
-                                                <Col>Unit type</Col>
-                                                <Col>Amount Payable</Col>
-                                                <Col>Payment Status</Col>
-                                                <Col>Action</Col>
-                                                <Col>Report</Col>
-                                                
-                                                
-                                            </Row>
-                                        </div>
-                                    </Stack>
-                                    {
-                                        bill.map((b)=>(
-                                            <Stack gap={2}>
-                                        <div className="BillsList bg-light shadow-sm p-2">
-                                            <Row>
-                                            
-                                                <Col>{b.billNo}</Col>
-                                                <Col>{b.currentReadingDate}</Col>
-                                                <Col>{b.currentReading}</Col>
-                                                <Col>{b.previousReadingDate}</Col>
-                                                <Col>{b.previousReading}</Col>
-                                                <Col>{b.readingDifference}</Col>
-                                                <Col>{b.unit}</Col>
-                                                <Col>{b.amount}</Col>
-                                                
-                                            <Col> {  b.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </Col>
-                                            <Col> { 
-                                                b.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(b.amount,b.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={b.billNo}  currentReadingDate={b.currentReadingDate}
-                                                currentReading={b.currentReading} previousReadingDate={b.previousReadingDate} previousReading={b.previousReading}
-                                                readingDifference={b.readingDifference} unit={b.unit} amount={b.amount} paymentStatus={b.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
-                                                  }
-                                                </Col>
-                                            <Col> <ReportModal billNo={b.billNo}  />
-                                                </Col>
-                                            
-                                              
+                                <div id='div'>
+                                <Table responsive  striped  bordered className='table-hold'>
+                                      
+                                      <thead>
+                                          <tr id='thx'>
+                                          
+                                          <th  id='thx'>Bill Id</th>
+                                          <th  id='thx'>Current reading date</th>
+                                          <th  id='thx'>Current reading</th>
+                                          <th id='thx'>Previous reading date</th>
+                                          <th id='thx'>Previous reading</th>
+                                          <th id='thx'>Consumption</th>
+                                          <th id='thx'>Unit type</th>
+                                          <th id='thx'>Amount Payable</th>
+                                          <th id='thx'>Payment Status</th>
+                                          <th id='thx'>Action</th>
+                                          <th id='thx'>Report</th>
 
-                                            </Row>
-                                        </div>
-                                       
-                                    </Stack>
-                                        ))
-                                    }
-                                    
+                                          </tr>
+                                          
+                                      </thead>
+                                 
+                              
+                              {
+                                  bill.length>0 ? bill.filter((item)=>{
+  
+                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                    }).map((b)=>(
+                                      
+                                  
+                                      <tr>
+                                      
+                                          <td>{b.billNo}</td>
+                                          <td>{b.currentReadingDate}</td>
+                                          <td>{b.currentReading}</td>
+                                          <td>{b.previousReadingDate}</td>
+                                          <td>{b.previousReading}</td>
+                                          <td>{b.readingDifference}</td>
+                                          <td>{b.unit}</td>
+                                          <td>{b.amount}</td>
+                                          
+                                      <td> {  b.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </td>
+                                      <td> { 
+                                          b.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(b.amount,b.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={b.billNo}  currentReadingDate={b.currentReadingDate}
+                                          currentReading={b.currentReading} previousReadingDate={b.previousReadingDate} previousReading={b.previousReading}
+                                          readingDifference={b.readingDifference} unit={b.unit} amount={b.amount} paymentStatus={b.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
+                                            }
+                                          </td>
+                                      <td> <ReportModal billNo={b.billNo}  />
+                                          </td>
+                                      
+                                        
+
+                                      </tr>
+                                
+                                 
+                            
+                                  ))
+                                  :<p className='paray'>No Bills Found</p>
+                              }
+                                </Table>
+                      
                                 </div>
+                                   
+
+                                
                             </Tab>
 
                             <Tab eventKey="paid" title="Paid Bills" >
-                                <div>
-                                    <Stack>
-                                        <div className="ListHeadings shadow-none p-2">
-                                            <Row>
-                                                <Col>Bill Id</Col>
-                                                <Col>Current reading date</Col>
-                                                <Col>Current reading</Col>
-                                                <Col>Previous reading date</Col>
-                                                <Col>Previous reading</Col>
-                                                <Col>Consumption</Col>
-                                                <Col>Unit type</Col>
-                                                <Col>Amount Payable</Col>
-                                                <Col>Payment Status</Col>
-                                                <Col>Action</Col>
-                                                <Col>Report</Col>
-                                                
-                                            </Row>
-                                        </div>
-                                    </Stack>
+                                <div id='div'>
+                                   
+                                <Table responsive  striped  bordered className='table-hold'>
+                                      
+                                      <thead>
+                                          <tr id='thx'>
+                                          
+                                          <th  id='thx'>Bill Id</th>
+                                          <th  id='thx'>Current reading date</th>
+                                          <th  id='thx'>Current reading</th>
+                                          <th id='thx'>Previous reading date</th>
+                                          <th id='thx'>Previous reading</th>
+                                          <th id='thx'>Consumption</th>
+                                          <th id='thx'>Unit type</th>
+                                          <th id='thx'>Amount Payable</th>
+                                          <th id='thx'>Payment Status</th>
+                                          <th id='thx'>Action</th>
+                                          <th id='thx'>Report</th>
 
+                                          </tr>
+                                          
+                                      </thead>
+                                 
+                              
+                              {
+                                  billPayed.length>0 ? billPayed.filter((item)=>{
+  
+                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                    }).map((bc)=>(
+                                      
+                                  
+                                      <tr>
+                                      
+                                          <td>{bc.billNo}</td>
+                                          <td>{bc.currentReadingDate}</td>
+                                          <td>{bc.currentReading}</td>
+                                          <td>{bc.previousReadingDate}</td>
+                                          <td>{bc.previousReading}</td>
+                                          <td>{bc.readingDifference}</td>
+                                          <td>{bc.unit}</td>
+                                          <td>{bc.amount}</td>
+                                          
+                                      <td> {  bc.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </td>
+                                      <td> { 
+                                          bc.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(bc.amount,bc.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={bc.billNo}  currentReadingDate={bc.currentReadingDate}
+                                          currentReading={bc.currentReading} previousReadingDate={bc.previousReadingDate} previousReading={bc.previousReading}
+                                          readingDifference={bc.readingDifference} unit={bc.unit} amount={bc.amount} paymentStatus={bc.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
+                                            }
+                                          </td>
+                                      <td> <ReportModal billNo={bc.billNo}  />
+                                          </td>
+                                      
+                                        
 
-                                    {
-                                        billPayed.map((px)=>(
-                                            <Stack gap={3}>
-                                        <div className="pxillsList pxg-light shadow-sm p-2">
-                                            <Row>
-                                                <Col>{px.billNo}</Col>
-                                                <Col>{px.currentReadingDate}</Col>
-                                                <Col>{px.currentReading}</Col>
-                                                <Col>{px.previousReadingDate}</Col>
-                                                <Col>{px.previousReading}</Col>
-                                                <Col>{px.readingDifference}</Col>
-                                                <Col>{px.unit}</Col>
-                                                <Col>{px.amount}</Col>
-                                                <Col> {  px.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </Col>
-                                            <Col> { 
-                                                px.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(px.amount,px.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={px.billNo}  currentReadingDate={px.currentReadingDate}
-                                                currentReading={px.currentReading} previousReadingDate={px.previousReadingDate} previousReading={px.previousReading}
-                                                readingDifference={px.readingDifference} unit={px.unit} amount={px.amount} paymentStatus={px.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
-                                                  }
-                                                </Col>
-                                            <Col> <ReportModal billNo={px.billNo} />
-                                                </Col>
-
-                                            </Row>
-                                        </div>
-                                       
-                                    </Stack>
-                                        ))
-                                    }
+                                      </tr>
+                                
+                                 
+                            
+                                  ))
+                                  :<p className='paray'>No Paid Bills Found</p>
+                              }
+                                </Table>
+                      
                                     
                                 </div>
                             </Tab>
                             <Tab eventKey="pending" title="Pending Bills" >
-                                <Stack>
-                                    <div className="ListHeadings shadow-none p-2">
-                                        <Row>
-                                                <Col>Bill Id</Col>
-                                                <Col>Current reading date</Col>
-                                                <Col>Current reading</Col>
-                                                <Col>Previous reading date</Col>
-                                                <Col>Previous reading</Col>
-                                                <Col>Consumption</Col>
-                                                <Col>Unit type</Col>
-                                                <Col>Amount Payable</Col>
-                                                <Col>Payment Status</Col>
-                                                <Col>Action</Col>
-                                                <Col>Report</Col>
-                                                
-                                        </Row>
-                                    </div>
-                                </Stack>
+                               <div id='div'>
+                               <Table responsive  striped  bordered className='table-hold'>
+                                      
+                                      <thead>
+                                          <tr id='thx'>
+                                          
+                                          <th  id='thx'>Bill Id</th>
+                                          <th  id='thx'>Current reading date</th>
+                                          <th  id='thx'>Current reading</th>
+                                          <th id='thx'>Previous reading date</th>
+                                          <th id='thx'>Previous reading</th>
+                                          <th id='thx'>Consumption</th>
+                                          <th id='thx'>Unit type</th>
+                                          <th id='thx'>Amount Payable</th>
+                                          <th id='thx'>Payment Status</th>
+                                          <th id='thx'>Action</th>
+                                          <th id='thx'>Report</th>
 
-                                {
-                                        billPending.map((bx)=>(
-                                            <Stack gap={2}>
-                                        <div className="BillsList bg-light shadow-sm p-2">
-                                            <Row>
-                                            
-                                                <Col>{bx.billNo}</Col>
-                                                <Col>{bx.currentReadingDate}</Col>
-                                                <Col>{bx.currentReading}</Col>
-                                                <Col>{bx.previousReadingDate}</Col>
-                                                <Col>{bx.previousReading}</Col>
-                                                <Col>{bx.readingDifference}</Col>
-                                                <Col>{bx.unit}</Col>
-                                                <Col>{bx.amount}</Col>
-                                                <Col> {  bx.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </Col>
-                                            <Col> { 
-                                                bx.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(bx.amount,bx.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={bx.billNo}  currentReadingDate={bx.currentReadingDate}
-                                                currentReading={bx.currentReading} previousReadingDate={bx.previousReadingDate} previousReading={bx.previousReading}
-                                                readingDifference={bx.readingDifference} unit={bx.unit} amount={bx.amount} paymentStatus={bx.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
-                                                  }
-                                                </Col>
-                                            <Col> <ReportModal billNo={bx.billNo}  />
-                                                </Col>
-                                            </Row>
-                                        </div>
-                                       
-                                    </Stack>
-                                        ))
-                                    }
+                                          </tr>
+                                          
+                                      </thead>
+                                 
+                              
+                              {
+                                  billPending.length>0 ? billPending.filter((item)=>{
+  
+                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                    }).map((bc)=>(
+                                      
+                                  
+                                      <tr>
+                                      
+                                          <td>{bc.billNo}</td>
+                                          <td>{bc.currentReadingDate}</td>
+                                          <td>{bc.currentReading}</td>
+                                          <td>{bc.previousReadingDate}</td>
+                                          <td>{bc.previousReading}</td>
+                                          <td>{bc.readingDifference}</td>
+                                          <td>{bc.unit}</td>
+                                          <td>{bc.amount}</td>
+                                          
+                                      <td> {  bc.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </td>
+                                      <td> { 
+                                          bc.paymentStatus === 'pending' ? <input type="button"  onClick={()=>handlePayment(bc.amount,bc.billNo)} value="Pay" id="btn-contact"/> : <InvoiceModal billNo={bc.billNo}  currentReadingDate={bc.currentReadingDate}
+                                          currentReading={bc.currentReading} previousReadingDate={bc.previousReadingDate} previousReading={bc.previousReading}
+                                          readingDifference={bc.readingDifference} unit={bc.unit} amount={bc.amount} paymentStatus={bc.paymentStatus} name={name} caNo={caNo} meter={meter} phone={phone}/>  
+                                            }
+                                          </td>
+                                      <td> <ReportModal billNo={bc.billNo}  />
+                                          </td>
+                                      
+                                        
+
+                                      </tr>
+                                
+                                 
+                            
+                                  ))
+                                  :<p className='paray'>No Pending Bills Found</p>
+                              }
+                                </Table>
                                     
+                               </div>
+                            
                             </Tab>
 
 
-                            <Tab eventKey="ticket" title="Tickets" >
-                                <Stack>
-                                    <div className="ListHeadings shadow-none p-2">
-                                        <Row>
-                                                <Col>Bill ID</Col>
-                                                <Col>Decription</Col>
-                                                <Col>Status</Col>            
-                                        </Row>
-                                    </div>
-                                </Stack>
+                            <Tab eventKey="ticket" title="Tickets" >  
 
-                                {
-                                        tickets.map((bx)=>(
-                                            <Stack gap={2}>
-                                        <div className="BillsList bg-light shadow-sm p-2">
-                                            <Row>
-                                            
-                                                <Col>{bx.billNo}</Col>
-                                                <Col>{bx.description}</Col>
-                                                <Col>{ bx.status==='pending'? <p className='paray'>Pending</p>: <p className='parax'>Resolved</p>}</Col>
-                                                
-                                            </Row>
-                                        </div>
-                                       
-                                    </Stack>
-                                        ))
+                            <div id='div'>
+                            <Table responsive bordered  className='table-hold'>
+                                    <thead >
+                                        <tr id='header'>
+                                        
+                                            <th  id='thx' >Bill ID</th>
+                                            <th  id='thx'>Description</th>
+                                            <th  id='thx'>Ticket Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {
+                                    tickets.length >0 ?    tickets.filter((item)=>{
+        
+                                        return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                      }).map((bx)=>(
+                                    <tr>
+                                        
+                                            <td >{bx.billNo}</td>
+                                            <td >{bx.description}</td>
+                                            <td >{ bx.status==='pending'? <p className='paray'>Pending</p>: <p className='parax'>Resolved</p>}</td>
+                                        </tr>
+                                     )) : <p className='paray'> No Tickets Found</p>
                                     }
-                                    
+                                    </tbody>
+                                    </Table>
+                                </div>          
+                                 
                             </Tab>
 
 

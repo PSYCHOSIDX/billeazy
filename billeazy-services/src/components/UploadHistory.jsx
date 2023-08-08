@@ -4,6 +4,7 @@ import Stack from 'react-bootstrap/Stack';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../firebaseConfig';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import '../global-styles/global.css'
 
 function UploadHistory() {
     const [uploads, setUploads] = useState([]);
@@ -40,7 +41,7 @@ function UploadHistory() {
             <Stack>
                 <div className="ListHeadings shadow-none p-2">
                     <Row>
-                        <Col>Upload date and Time</Col>
+                        <Col >Upload date and Time</Col>
                         <Col>No. of records</Col>
                     </Row>
                 </div>
@@ -59,8 +60,8 @@ function UploadHistory() {
     }
     return (
         <div className='m-5'>
-            <h2 className='fw-semibold'>Agent Upload History</h2>
-            <div className='mx-5 px-5 my-3'>
+            <h2 className='fw-semibold alertx'>Agent Upload History</h2>
+            <div className='mx-5 px-5 my-3 alerty'>
                 {loading ?
                     <div>Loading...</div>
                     : returnData}

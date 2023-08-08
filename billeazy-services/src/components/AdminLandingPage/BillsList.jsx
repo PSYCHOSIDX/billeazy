@@ -12,7 +12,7 @@ import { Modal } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import { generateAmount } from '../../utils/billGeneration';
 import { getBillingPeriod } from '../../utils/billGeneration';
-
+import Table from 'react-bootstrap/Table';
 
 function BillsList() {
     const [key, setKey] = useState('all');
@@ -38,7 +38,7 @@ function BillsList() {
     const handleCloseResolve = () => setShowResolve(false);
     const handleShowResolve = () => setShowResolve(true);
 
-
+    const [search , setSearch] = useState('')
     const billsCollectionRef = collection(db,`bills`);
     const agentsCollectionRef = collection(db,`employees`);
 
@@ -115,7 +115,7 @@ function BillsList() {
                 ...doc.data(),
                 id: doc.id,
             }));
-            console.log("rendered agents");
+         //   console.log("rendered agents:"+ newData);
             setAgents(newData);
         
         };
@@ -179,7 +179,11 @@ function BillsList() {
         }, [])
 
     return (
-        <div>
+
+        <>
+         <input style={{fontSize:12, height:44, margin:'.1rem'}}  className='fieldxx' placeholder='Live Search Bill Number ' autoComplete='on' type='text' onChange={(e)=>setSearch(e.target.value)}  />
+                <br/>
+         <div>
             <div className='my-4'>
                 <Tabs
                     id="controlled-tab-example"
@@ -225,130 +229,182 @@ function BillsList() {
                         </div>
                     </Tab>
                     <Tab eventKey="agents" title="Employees">
-                        <div>
-                            <Stack gap={2} className='list-heading'>
-                                <div className="ListHeadings shadow-none m-2 pb-2">
-                                    <Row>
-                                        <Col>Agent ID</Col>
-                                        <Col>Name</Col>
-                                        <Col>Contact No.</Col>
-                                        <Col>Email</Col>
-                                    </Row>
-                                </div>
+
+                    <div id='div'>
+                            <Table responsive bordered  className='table-hold'>
+                                    <thead >
+                                        <tr id='header'>
+                                        <th  id='thx'>Agent ID</th>
+                                        <th  id='thx'>Name</th >
+                                        <th  id='thx'>Contact No</th >
+                                        <th  id='thx'>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                 {
-                                    agentRecords.map((ag)=>(
-                                        <div className="records bg-light shadow-sm p-2">
-                                            <Row>
-                                                <Col>{ag.agentId}</Col>
-                                                <Col>{ag.name}</Col>
-                                                <Col>{ag.telephoneNo}</Col>
-                                                <Col>{ag.email}</Col>
-                                            </Row>
-                                        </div>
+                                    agentRecords.length>0 ? agentRecords.map((ag)=>(
+                                        <tr className="records bg-light shadow-sm p-2">
+                                            
+                                                <td>{ag.agentId}</td>
+                                                <td>{ag.name}</td>
+                                                <td>{ag.telephoneNo}</td>
+                                                <td>{ag.email}</td>
+                                            
+                                        </tr>
                                     ))
-                                }
-                            </Stack>
+                                : <p className='paray'> No Employees Found</p>
+                            }
+                            </tbody>
+                            </Table>
+                           
                         </div>
                     </Tab>
                     <Tab eventKey="pending" title="Pending Bills">
-                        <div>
-                            <Stack className='list-heading'>
-                                <div className="ListHeadings shadow-none m-2 pb-2">
-                                    <Row>
-                                        {/* <Col>CA no.</Col> */}
-                                        <Col>Bill No.</Col>
-                                        <Col>Current reading date</Col>
-                                        <Col>Current reading</Col>
-                                        <Col>Previous reading date</Col>
-                                        <Col>Previous reading</Col>
-                                        <Col>Consumption</Col>
-                                        <Col>Amount Payable</Col>
-                                        <Col>Status</Col>
-                                    </Row>
-                                </div>
-                                {
-                                    billPending.map((bx)=>(
-                                        <div className="records bg-light shadow-sm p-2">
-                                            <Row>
-                                                {/* <Col>{}</Col> */}
-                                                <Col>{bx.billNo}</Col>
-                                                <Col>{bx.currentReadingDate}</Col>
-                                                <Col>{bx.currentReading}</Col>
-                                                <Col>{bx.previousReadingDate}</Col>
-                                                <Col>{bx.previousReading}</Col>
-                                                <Col>{bx.readingDifference}</Col>
-                                                <Col>{bx.amount}</Col>
-                                                <Col>{bx.paymentStatus}</Col>
-                                            </Row>
-                                        </div>
-                                    ))
-                                }
-                            </Stack>
-                        </div>
+                       <div id='div'>
+                               <Table responsive  striped  bordered className='table-hold'>
+                                      
+                                      <thead>
+                                          <tr id='thx'>
+                                          
+                                          <th  id='thx'>Bill Id</th>
+                                          <th  id='thx'>Current reading date</th>
+                                          <th  id='thx'>Current reading</th>
+                                          <th id='thx'>Previous reading date</th>
+                                          <th id='thx'>Previous reading</th>
+                                          <th id='thx'>Consumption</th>
+                                          <th id='thx'>Unit type</th>
+                                          <th id='thx'>Amount Payable</th>
+                                          <th id='thx'>Payment Status</th>
+                                        
+
+                                          </tr>
+                                          
+                                      </thead>
+                                 
+                              
+                              {
+                                  billPending.length>0 ? billPending.filter((item)=>{
+  
+                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                    }).map((bc)=>(
+                                      
+                                  
+                                      <tr>
+                                      
+                                          <td>{bc.billNo}</td>
+                                          <td>{bc.currentReadingDate}</td>
+                                          <td>{bc.currentReading}</td>
+                                          <td>{bc.previousReadingDate}</td>
+                                          <td>{bc.previousReading}</td>
+                                          <td>{bc.readingDifference}</td>
+                                          <td>{bc.unit}</td>
+                                          <td>{bc.amount}</td>
+                                      <td> {  bc.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </td>
+                                     
+                                      
+                                        
+
+                                      </tr>
+                                
+                                 
+                            
+                                  ))
+                                  :<p className='paray'>No Pending Bills Found</p>
+                              }
+                                </Table>
+                                    
+                               </div>
+                            
                     </Tab>
                     <Tab eventKey="paid" title="Paid Bills">
-                        <div>
-                            <Stack gap={2} className='list-heading'>
-                                <div className="ListHeadings shadow-none m-2 pb-2">
-                                    <Row>
-                                        {/* <Col>CA no.</Col> */}
-                                        <Col>Bill No.</Col>
-                                        <Col>Current reading date</Col>
-                                        <Col>Current reading</Col>
-                                        <Col>Previous reading date</Col>
-                                        <Col>Previous reading</Col>
-                                        <Col>Consumption</Col>
-                                        <Col>Amount Payable</Col>
-                                        <Col>Status</Col>
-                                    </Row>
-                                </div>
-                                {
-                                    billPaid.map((px)=>(
-                                        <div className="records bg-light shadow-sm p-2">
-                                            <Row>
-                                                {/* <Col>{}</Col> */}
-                                                <Col>{px.billNo}</Col>
-                                                <Col>{px.currentReadingDate}</Col>
-                                                <Col>{px.currentReading}</Col>
-                                                <Col>{px.previousReadingDate}</Col>
-                                                <Col>{px.previousReading}</Col>
-                                                <Col>{px.readingDifference}</Col>
-                                                <Col>{px.amount}</Col>
-                                                <Col>{px.paymentStatus}</Col>
-                                            </Row>
-                                        </div>
-                                    ))
-                                }
-                            </Stack>
-                        </div>
+                    <div id='div'>
+                               <Table responsive  striped  bordered className='table-hold'>
+                                      
+                                      <thead>
+                                          <tr id='thx'>
+                                          
+                                          <th  id='thx'>Bill Id</th>
+                                          <th  id='thx'>Current reading date</th>
+                                          <th  id='thx'>Current reading</th>
+                                          <th id='thx'>Previous reading date</th>
+                                          <th id='thx'>Previous reading</th>
+                                          <th id='thx'>Consumption</th>
+                                          <th id='thx'>Unit type</th>
+                                          <th id='thx'>Amount Payable</th>
+                                          <th id='thx'>Payment Status</th>
+                                        
+
+                                          </tr>
+                                          
+                                      </thead>
+                                 
+                              
+                              {
+                                  billPaid.length>0 ? billPaid.filter((item)=>{
+  
+                                      return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                    }).map((bc)=>(
+                                      
+                                  
+                                      <tr>
+                                      
+                                          <td>{bc.billNo}</td>
+                                          <td>{bc.currentReadingDate}</td>
+                                          <td>{bc.currentReading}</td>
+                                          <td>{bc.previousReadingDate}</td>
+                                          <td>{bc.previousReading}</td>
+                                          <td>{bc.readingDifference}</td>
+                                          <td>{bc.unit}</td>
+                                          <td>{bc.amount}</td>
+                                      <td> {  bc.paymentStatus === 'pending' ? <p className='paray'>Pending</p> : <p className='parax'>Paid</p>} </td>
+                                     
+                                      
+                                        
+
+                                      </tr>
+                                
+                                 
+                            
+                                  ))
+                                  :<p className='paray'>No Pending Bills Found</p>
+                              }
+                                </Table>
+                                    
+                               </div>
+                            
                     </Tab>
                     <Tab eventKey="pendingtickets" title="Pending Tickets">
-                        <div>
-                            <Stack className='list-heading'>
-                                <div className="ListHeadings shadow-none p-2">
-                                    <Row>
-                                        <Col>Ticket ID</Col>
-                                        <Col>Bill Number</Col>
-                                        <Col>Consumer E-mail</Col>
-                                        <Col>Description</Col>
-                                        <Col>Action</Col>
-                                    </Row>
-                                </div>
-                            </Stack>
+
+                        <div id='div'>
+                            <Table responsive bordered  className='table-hold'>
+                                <thead>
+                                    <tr id='header'>
+                                        <th id='thx'>Ticket ID</th >
+                                        <th id='thx'>Bill Number</th >
+                                        <th id='thx'>Consumer E-mail</th >
+                                        <th id='thx'>Description</th >
+                                        <th id='thx'>Action</th >
+                                    </tr>
+                                </thead>
+                           
                             {pendingTickets?.length > 0 ? (
-                                pendingTickets.map(ticket => {
+                                pendingTickets.filter((item)=>{
+  
+                                    return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                  }).map(ticket => {
                                     return (
-                                        <div className="BillsList bg-light shadow-sm p-2">
-                                            <Row>
-                                                <Col>{ticket.id}</Col>
-                                                <Col>{ticket.billId}</Col>
-                                                <Col>{ticket.email}</Col>
-                                                <Col>{ticket.description}</Col>
-                                                <Col><Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
+                                        <tbody >
+                                            <tr>
+                                                <td>{ticket.id}</td>
+                                                <td>{ticket.billNo}</td>
+                                                <td>{ticket.email}</td>
+                                                <td>{ticket.description}</td>
+                                                <td><Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
                                                     handleShowResolve(); getBillData(ticket.billNo) ;
                                                 }}>
                                                     Resolve
                                                 </Button>
+                
                                                 <Modal show={showResolve} onHide={handleCloseResolve}>
                                                         <Modal.Header closeButton>
                                                             <Modal.Title>Resolve Dicrepancy</Modal.Title>
@@ -484,66 +540,62 @@ function BillsList() {
                                                             </Button>
                                                         </Modal.Footer>
                                                     </Modal>
-                                                </Col>
-                                            </Row>
-                                        </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     )
                                 })
-                            ) : (
-                                <Stack gap={2}>
-                                    <div className="BillsList bg-light shadow-sm p-2">
-                                        <Row>
-                                            <Col>No Pending Tickets</Col>
-                                        </Row>
-                                    </div>
-                                </Stack>
-                            )
+                            ) : 
+                                            <p className='paray'>No Pending Tickets</p>
+                        
                             }
+                            </Table>
                         </div>
                     </Tab>
+
+
                     <Tab eventKey="resolvedtickets" title="Resolved Tickets">
-                        <div>
-                            <Stack className='list-heading'>
-                                <div className="ListHeadings shadow-none p-2">
-                                    <Row>
-                                        <Col>Ticket ID</Col>
-                                        <Col>Bill Number</Col>
-                                        <Col>Consumer E-mail</Col>
-                                        <Col>Description</Col>
-                                        <Col>Status</Col>
-                                    </Row>
-                                </div>
-                            </Stack>
-                            {resolvedTickets?.length > 0 ? (
-                                resolvedTickets.map(ticket => {
+                    
+                    <div id='div'>
+                            <Table responsive bordered  className='table-hold'>
+                                    <thead >
+                                        <tr id='header'>
+                                        <th id='thx'>Ticket ID</th>
+                                        <th id='thx'>Bill Number</th>
+                                        <th id='thx'>Consumer E-mail</th>
+                                        <th id='thx'>Description</th>
+                                        <th id='thx'>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {resolvedTickets?.length > 0 ? (
+                                resolvedTickets.filter((item)=>{
+  
+                                    return search.toLocaleLowerCase() === '' ? item : item.billNo.toLocaleLowerCase().includes(search.toLocaleLowerCase()) //||  item.currentReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && item.previousReadingDate.toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+                                  }).map(ticket => {
                                     return (
-                                        <div className="BillsList bg-light shadow-sm p-2">
-                                            <Row>
-                                                <Col>{ticket.id}</Col>
-                                                <Col>{ticket.billId}</Col>
-                                                <Col>{ticket.email}</Col>
-                                                <Col>{ticket.description}</Col>
-                                                <Col>Resolved</Col>
-                                            </Row>
-                                        </div>
+                                        <tr>
+                                                <td>{ticket.id}</td>
+                                                <td>{ticket.billNo}</td>
+                                                <td>{ticket.email}</td>
+                                                <td>{ticket.description}</td>
+                                                <td>Resolved</td>
+                                            
+                                        </tr>
                                     )
                                 })
-                            ) : (
-                                <Stack gap={2}>
-                                    <div className="BillsList bg-light shadow-sm p-2">
-                                        <Row>
-                                            <Col>No Resolved Tickets</Col>
-                                        </Row>
-                                    </div>
-                                </Stack>
-                            )
-                            }
-                        </div>
-                    </Tab>
+                            ) : <p className='paray'> No Resolved Tickets Found</p>
+                        }
+                        </tbody>
+                        </Table>
+                    </div>          
+                </Tab>
                     
                 </Tabs>
             </div>
         </div>
+        </>
+       
     );
 }
 

@@ -9,15 +9,17 @@ import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import AddNewRatesModal from './AddNewRatesModal';
 
 function AdminPage() {
     const [showC, setShowC] = useState(false);
     const [showA, setShowA] = useState(false);
-    const [showBill, setShowBill] = useState(false);
+    // const [showBill, setShowBill] = useState(false);
     const handleCloseConsumer = () => setShowC(false);
     const handleCloseAgent = () => setShowA(false);
     const handleShowConsumer = () => setShowC(true);
     const handleShowAgent = () => setShowA(true);
+
 
 
     const [cName, setCName] = useState("");
@@ -40,61 +42,62 @@ function AdminPage() {
 
 
     const [number, setNumber] = useState('');
-    const [body, setBody]= useState('');
+    const [body, setBody] = useState('');
 
     const navigate = useNavigate();
 
     const onSubmit = async (e) => {
         console.log('triggered');
-        
-    const res = await fetch("../../../api/sendMessage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ to: '+91'+cTelephoneNo, body: '\n Bill Eazy Account Registration  \n'+ cName+' complete your account linking for email id :'+cEmail+'\n with your link otp :'+link_otp}),
-      });
 
-    
-      console.log( 'data: '+ cTelephoneNo, cName, link_otp);
-      const data = await res.json();
-      if (data.success) {
-        await setNumber("");
-        await setBody("");
-      } else {
-        await setNumber("An Error has occurred.");
-        await setBody("An Error has occurred.");
-      }  
-      alert('Signin Information Sent To User');
+        const res = await fetch("../../../api/sendMessage", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ to: '+91' + cTelephoneNo, body: '\n Bill Eazy Account Registration  \n' + cName + ' complete your account linking for email id :' + cEmail + '\n with your link otp :' + link_otp }),
+        });
+
+
+        console.log('data: ' + cTelephoneNo, cName, link_otp);
+        const data = await res.json();
+        if (data.success) {
+            await setNumber("");
+            await setBody("");
+        } else {
+            await setNumber("An Error has occurred.");
+            await setBody("An Error has occurred.");
+        }
+        alert('Signin Information Sent To User');
     }
 
 
 
     const onSubmitAgent = async (e) => {
         console.log('triggered');
-        
-    const res = await fetch("../../../api/sendMessage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ to: '+91'+aTelephoneNo, body: '\n Bill Eazy Account Registration  \n'+ aName+' complete your account linking for email id :'+aEmail+'\n with your link otp  :'+link_otp}),
-      });
 
-    
-      console.log( 'data: '+ cTelephoneNo, cName, link_otp);
-      const data = await res.json();
-      if (data.success) {
-        await setNumber("");
-        await setBody("");
-      } else {
-        await setNumber("An Error has occurred.");
-        await setBody("An Error has occurred.");
-      }  
-      alert('Signin Information Sent To User');
+        const res = await fetch("../../../api/sendMessage", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ to: '+91' + aTelephoneNo, body: '\n Bill Eazy Account Registration  \n' + aName + ' complete your account linking for email id :' + aEmail + '\n with your link otp  :' + link_otp }),
+        });
+
+
+        console.log('data: ' + cTelephoneNo, cName, link_otp);
+        const data = await res.json();
+        if (data.success) {
+            await setNumber("");
+            await setBody("");
+        } else {
+            await setNumber("An Error has occurred.");
+            await setBody("An Error has occurred.");
+        }
+        alert('Signin Information Sent To User');
     }
 
 
+   
 
 
     const handleConsumerRegister = async e => {
@@ -118,8 +121,8 @@ function AdminPage() {
             await addDoc(collection(db, "consumers"), {
                 ...newConsumer
             });
-             console.log('Sms sent')
-             onSubmit();
+            console.log('Sms sent')
+            onSubmit();
         } catch (error) {
             console.log(error);
         }
@@ -148,21 +151,28 @@ function AdminPage() {
     };
 
     return (
-        <div className='p-5'>
-            <div className='my-3'>
+        <div className='p-2'>
+            <div className='my-3 main'>
                 <Row>
-                    <Col sm={6}>
+                    <Col sm={6} className='textx'>
                         <h2 className='alerty' >Admin Page</h2>
                     </Col>
+                    <br />
+                    <div  className='btn-holder'> 
                     <Col sm={6}>
                         <Row>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact'onClick={() => navigate("/admin/generate-bill")}>
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={() => navigate("/admin/generate-bill")}>
                                     Generate Bill
                                 </Button>
                             </Col>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
+                            <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={() => navigate("/admin/add-rates")}>
+                                    Add New Rates
+                                </Button>
+                            </Col>
+                            <Col>
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={function (e) {
                                     setConsumerAccNo(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
                                     setInstNo(`${Math.ceil(Math.random() * Math.pow(10, 6)).toString()}`);
                                     setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
@@ -293,22 +303,22 @@ function AdminPage() {
                                             </Form>
                                         </div>
                                     </Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="secondary" id='btn-contact' onClick={handleCloseConsumer}>
+                                    <Modal.Footer>f
+                                        <Button variant="secondary" id='btn-contactx' onClick={handleCloseConsumer}>
                                             Cancel
                                         </Button>
-                                        <Button variant="primary" id='btn-contact' onClick={function (event) { handleCloseConsumer(); handleConsumerRegister() }}>
+                                        <Button variant="primary" id='btn-contactx' onClick={function (event) { handleCloseConsumer(); handleConsumerRegister() }}>
                                             Register
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
                             </Col>
                             <Col>
-                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={function (e) {
                                     setAgentId(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
                                     setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
                                     handleShowAgent();
-                                }}>Register Agent</Button>
+                                }}>Register <br/> Agent</Button>
                                 <Modal show={showA} onHide={handleCloseAgent}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Register Agent</Modal.Title>
@@ -352,14 +362,6 @@ function AdminPage() {
                                                     </Col>
                                                 </Form.Group>
 
-                                                {/* <Form.Group as={Row} className="mb-3" controlId="FormElementAgentPassword">
-                                                    <Form.Label column sm={4}>
-                                                    Password
-                                                    </Form.Label>
-                                                    <Col sm={8}>
-                                                    <Form.Control type="password" placeholder="Password" />
-                                                    </Col>
-                                                </Form.Group> */}
                                             </Form>
                                         </div>
                                     </Modal.Body>
@@ -375,6 +377,9 @@ function AdminPage() {
                             </Col>
                         </Row>
                     </Col>
+                    
+                    </div>
+                    
                 </Row>
             </div>
             <BillsList />

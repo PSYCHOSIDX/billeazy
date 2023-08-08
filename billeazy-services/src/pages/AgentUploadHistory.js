@@ -15,7 +15,7 @@ const AgentUploadHistory = () => {
     {user ? <NavbarAgentLogout/>: <NavbarAgentLogin/>}
     <UploadHistory/>
    
-    <Footer/>
+    <Footer />
     </>
   )
 }

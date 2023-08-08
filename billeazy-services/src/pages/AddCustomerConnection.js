@@ -12,7 +12,7 @@ import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
 
 import {db} from '../firebaseConfig';
-import {collection, getDocs, query, orderBy, where, addDoc} from 'firebase/firestore';
+import {collection, getDocs, query, orderBy, where, addDoc, setDoc} from 'firebase/firestore';
 
 
 
@@ -45,7 +45,7 @@ const AddCustomerConnection= () => {
         ...doc.data(),
         id: doc.id,
     }));
-    //console.log('hello :'+ userList);
+  console.log('hello :'+ userList);
     userList.map((x)=>(setDetail(x)));
  try{
 
@@ -61,7 +61,7 @@ const AddCustomerConnection= () => {
     fetchData();
    
 
-  },[]);
+  });
 
 
 
