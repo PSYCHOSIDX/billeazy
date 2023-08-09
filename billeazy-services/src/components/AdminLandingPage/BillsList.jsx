@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { useEffect, useState } from 'react';
-import { collection, getDocs, query, updateDoc, doc, where } from 'firebase/firestore';
+import { collection, getDocs, query, updateDoc, doc, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import { Modal } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
@@ -21,10 +21,12 @@ function BillsList() {
     const [key, setKey] = useState('all');
     const [pendingTickets, setPendingTickets] = useState(null);
     const [resolvedTickets, setResolvedTickets] = useState(null);
-    const [bill , setBill] = useState([0]);
-    const [billPaid , setBillPaid] = useState([0]);
-    const [billPending , setBillPending] = useState([0]);
-    const [agentRecords , setAgents] = useState([0]);
+    // const [bill , setBill] = useState([]);
+    
+    const [billPaid , setBillPaid] = useState([]);
+    const [billPending , setBillPending] = useState([]);
+    const [customer, setCustomers]= useState([]);
+    const [agentRecords , setAgents] = useState([]);
 
     //used for ticket resolution
     const [billData, setBillData] = useState();
@@ -42,7 +44,7 @@ function BillsList() {
     const [showResolve, setShowResolve] = useState(false);
     const handleCloseResolve = () => setShowResolve(false);
     const handleShowResolve = () => setShowResolve(true);
-    const [customer, setCustomers]= useState([0]);
+    
     const [search , setSearch] = useState('');
     const billsCollectionRef = collection(db,`bills`);
     const agentsCollectionRef = collection(db,`employees`);
@@ -133,105 +135,74 @@ function BillsList() {
         
     
     };
-
-
     useEffect(() => {
         handleGetTickets();
     }, [])
     useEffect(() => {
-        console.log(pendingTickets);
-    }, [pendingTickets])
+        // console.log(pendingTickets);
+    }, [pendingTickets,customer])
 
     // get agents details
     useEffect(() => {
-        const getAgents = async () => {
-            const q = query(agentsCollectionRef);
-            const data = await getDocs(q);
-            const newData = data.docs.map((doc) => ({
+        onSnapshot(agentsCollectionRef, docSnap =>{
+            const agentsData = docSnap.docs.map((doc)=>({
                 ...doc.data(),
-                id: doc.id,
+                id: doc.id
             }));
-         //   console.log("rendered agents:"+ newData);
-            setAgents(newData);
-        
-        };
-        
-        
-            getAgents()
+            setAgents(agentsData)
+        })
         },[])
 
-    //get all bills
     useEffect(() => {
         const getBills = async () => {
         const q = query(billsCollectionRef);
-        const data = await getDocs(q);
-        const newData = data.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-        }));
-        console.log("rendered bills ");
-        setBill(newData);
-        
+        // const data = await getDocs(q);
+        onSnapshot(billsCollectionRef, docSnap =>{
+            const billsData = docSnap.docs.map((doc)=>({
+                ...doc.data(),
+                id: doc.id
+            }));
+            setBillPending([])
+            setBillPaid([])
+            billsData.forEach((b) => {
+                if (b.paymentStatus == 'pending') {
+                    setBillPending(prev =>
+                        [...prev,
+                            b]
+                    );
+                    // setBillPending(b);
+                }
+                if (b.paymentStatus == 'paid') {     
+                    setBillPaid(prev => [
+                        ...prev,
+                        b])
+                    // setBillPaid(b);
+
+                }
+            });
+        })
+
         };
-    
-    
         getBills()
         }, [])
 
-    //paid bills
-    useEffect(() => {
-        const getPaidBills = async () => {
-            const qx = query(billsCollectionRef, where('paymentStatus', '==', 'paid'));
-            const data = await getDocs(qx);
-            const newData = data.docs.map((doc) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
-            console.log("rendered paid bills ");
-            setBillPaid(newData);
-        };
-        
-        
-            getPaidBills()
-        }, [])
-
-
-    // pending bills
-    useEffect(() => {
-        const getPendingBills = async () => {
-        const qx = query(billsCollectionRef, where('paymentStatus', '==', 'pending'));
-        const data = await getDocs(qx);
-        const newData = data.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-        }));
-        console.log("rendered pending bills ");
-        setBillPending(newData);
-        
-        };
-    
-    
-        getPendingBills()
-        }, [])
-
-
-
+        useEffect(()=>{
+            console.log("Customer changed");
+        },[customer])
 
         useEffect(() => {
-            const getCustomers = async () => {
-            const qx = query(collection(db, 'consumers'));
-            const data = await getDocs(qx);
-            const newData = data.docs.map((doc) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
-            console.log("rendered pending bills ");
-            setCustomers(newData)
-            
-            };
-    
-            getCustomers()
-            }, [])
+
+            onSnapshot(collection(db,'consumers'), docSnap =>{
+                const customerData = docSnap.docs.map((doc)=>({
+                    ...doc.data(),
+                    id: doc.id
+                }));
+                setCustomers(customerData)
+            })
+
+            // getCustomers()
+            }, []) 
+
 
     return (
 
