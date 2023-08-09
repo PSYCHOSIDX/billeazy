@@ -9,7 +9,7 @@ import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import AddNewRatesModal from './AddNewRatesModal';
+import AddNewRatesModal from './UpdateRates';
 
 import {ToastContainer,toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -225,7 +225,7 @@ function AdminPage() {
                             </Col>
                             <Col>
                             <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={() => navigate("/admin/add-rates")}>
-                                    Add New Rates
+                                    Update Rates
                                 </Button>
                             </Col>
                             <Col>
@@ -314,7 +314,7 @@ function AdminPage() {
                                                         <Form.Control type="text" pattern="^[A-Z]{2}[0-9]{5}\z" placeholder="e.g SA01011" /* id="meterNo" */ name="meterNo" value={meterNo} onChange={e => setMeterNo(e.target.value)} />
                                                     </Col>
                                                 </Form.Group>
-
+ 
                                                 <Form.Group as={Row} className="mb-3" controlId="FormElementTarrifCategory">
                                                     <Form.Label column sm={4}>
                                                         Tarrif Category
