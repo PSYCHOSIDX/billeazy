@@ -167,7 +167,16 @@ function CustomerBillPage() {
     const handlePayment = (amount, billNo) => {
 
         if (amount === "") {
-            alert('please enter a valid amount');
+            toast.error('Please Enter A Valid Amount', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
         } else {
             var options = {
                 key: process.env.REACT_APP_RAYZORPAY_KEYID,
