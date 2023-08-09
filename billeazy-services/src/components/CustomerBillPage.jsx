@@ -10,7 +10,7 @@ import '../components/component-styles/navbar.css';
 import '../components/component-styles/invoice.css';
 import { UserAuth } from '../context/UserAuthContext'
 import { db } from '../firebaseConfig';
-import { collection, getDocs, query, orderBy, where, addDoc, getDoc, updateDoc, setDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, where, addDoc, getDoc, updateDoc, setDoc, doc, onSnapshot } from 'firebase/firestore';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
@@ -55,12 +55,17 @@ function CustomerBillPage() {
             if (consumer.empty)
                 return
             const consumerData = consumer.docs[0].data();
-            const bills = await getDocs(query(billsCollectionRef, where("meterNo", "==", consumerData.meterNo)));
-            
-            const billsData = bills.docs.map((doc) => ({
+            // const bills = await getDocs(query(billsCollectionRef, where("meterNo", "==", consumerData.meterNo)));
+            const q = query(billsCollectionRef, where("meterNo", "==", consumerData.meterNo));
+
+            onSnapshot(q, docSnap =>{
+            const billsData = docSnap.docs.map((doc) => ({
                 ...doc.data(),
                 id: doc.id
             }));
+            setBill(billsData);
+            setBillPending([]);
+            setBillPayed([]);
             billsData.forEach((b) => {
                 if (b.paymentStatus == 'pending') {
 
@@ -76,8 +81,7 @@ function CustomerBillPage() {
                         b])
                 }
             });
-           
-            setBill(billsData);
+        });         
         };
         getBills()
     }, [])
@@ -85,20 +89,15 @@ function CustomerBillPage() {
     }, [billPayed,billPending,bill]);
   
     useEffect(() => {
-        const getTickets = async () => {
-            const q = query(ticketsCollectionRef, where('email', '==', user.email.toString()));
-            const data = await getDocs(q);
-            const newData = data.docs.map((doc) => ({
+        const q = query(ticketsCollectionRef, where('email', '==', user.email.toString()));
+        onSnapshot(q, docSnap =>{
+            const ticketsData = docSnap.docs.map((doc)=>({
                 ...doc.data(),
-                id: doc.id,
+                id: doc.id
             }));
-           
-            setTickets(newData);
-
-        };
-
-
-        getTickets()
+            setTickets(ticketsData);
+            // setAgents(agentsData)
+        })  
     }, [])
 
 
