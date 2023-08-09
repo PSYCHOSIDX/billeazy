@@ -59,8 +59,8 @@ function UploadHistory() {
         <Table responsive bordered  className='table-hold'>
             <thead>
                     <tr>
-                        <th id='thx'>Upload date and Time</th>
-                        <th id='thx'>No. of records</th>
+                        <th id='thx'>Upload Date</th>
+                        <th id='thx'>No. of Records</th>
                     </tr>
             </thead>
             <tbody gap={2}>
@@ -89,7 +89,7 @@ function UploadHistory() {
         pauseOnHover
         theme="colored"
       />
-        <div className='m-5'>
+        <div className='m-5' >
             <h2 className='fw-semibold alertx'>Agent Upload History</h2>
             <div className='mx-5 px-5 my-3 alerty'>
                 {loading ?
