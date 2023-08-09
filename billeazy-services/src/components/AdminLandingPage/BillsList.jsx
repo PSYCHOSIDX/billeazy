@@ -13,7 +13,9 @@ import { Form } from 'react-bootstrap';
 import { generateAmount } from '../../utils/billGeneration';
 import { getBillingPeriod } from '../../utils/billGeneration';
 import Table from 'react-bootstrap/Table';
+
 import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function BillsList() {
     const [key, setKey] = useState('all');

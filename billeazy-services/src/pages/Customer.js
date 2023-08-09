@@ -11,6 +11,8 @@ import NavbarCustomerLogout from '../components/NavbarCustomerLogout'
 import {db} from '../firebaseConfig';
 import {collection, getDocs, query, orderBy, where, addDoc} from 'firebase/firestore';
 
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Customer = () => {
 
@@ -33,14 +35,25 @@ const Customer = () => {
       
       };
     
-    
+     
         getUser()
       },)
     
-  
+   
     return (
       <>
-
+    <ToastContainer
+    position="top-center"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="light"
+    />
        {user ? <NavbarCustomerLogout/> : <NavbarLogin/>}
       {usertype && usertype === 'consumer' ? <CustomerBillPage/> : <h1 className='alert-admin'> Loading ..</h1>}
         <Footer/> 

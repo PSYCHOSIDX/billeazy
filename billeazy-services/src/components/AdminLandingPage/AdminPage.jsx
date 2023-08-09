@@ -11,6 +11,8 @@ import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import AddNewRatesModal from './AddNewRatesModal';
 
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function AdminPage() {
     const [showC, setShowC] = useState(false);
     const [showA, setShowA] = useState(false);
@@ -67,7 +69,17 @@ function AdminPage() {
             await setNumber("An Error has occurred.");
             await setBody("An Error has occurred.");
         }
-        alert('Signin Information Sent To User');
+        //alert('Signin Information Sent To User');
+        toast.success('Signin Information Sent To User', {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            });
     }
 
 
@@ -93,7 +105,17 @@ function AdminPage() {
             await setNumber("An Error has occurred.");
             await setBody("An Error has occurred.");
         }
-        alert('Signin Information Sent To User');
+       // alert('Signin Information Sent To User');
+       toast.success('Signin Information Sent To User', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     }
 
 
@@ -121,12 +143,20 @@ function AdminPage() {
             await addDoc(collection(db, "consumers"), {
                 ...newConsumer
             });
-
-            console.log('Sms sent')
-            
+          //  console.log('Sms sent')
             onSubmit();
         } catch (error) {
-            console.log(error);
+            //console.log(error);
+            toast.error('failed to add consumer', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
         }
     };
 
@@ -149,11 +179,36 @@ function AdminPage() {
 
         } catch (error) {
             console.log(error);
+            toast.error('failed to add employee', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
         }
     };
 
     return (
-        <div className='p-2'>
+
+        <>
+            <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+        />
+
+<div className='p-2'>
             <div className='my-3 main'>
                 <Row>
                     <Col sm={6} className='textx'>
@@ -386,6 +441,8 @@ function AdminPage() {
             </div>
             <BillsList />
         </div>
+        </>
+        
     );
 }
 

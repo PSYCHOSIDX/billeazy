@@ -23,6 +23,11 @@ import { jsPDF } from "jspdf";
 import shortid from "shortid";
 import '../global-styles/global.css'
 
+
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 function CustomerBillPage() {
     const [key, setKey] = useState('all');
     const [name, setName] = useState();
@@ -40,6 +45,7 @@ function CustomerBillPage() {
     // const CollectionRef = collection(db,'bills');
     const ticketsCollectionRef = collection(db, `tickets`);
     const [search, setSearch] = useState('')
+    const[count, setCount]= useState(false);
 
     //get all bills
 
@@ -50,7 +56,7 @@ function CustomerBillPage() {
                 return
             const consumerData = consumer.docs[0].data();
             const bills = await getDocs(query(billsCollectionRef, where("meterNo", "==", consumerData.meterNo)));
-            // console.log();
+            
             const billsData = bills.docs.map((doc) => ({
                 ...doc.data(),
                 id: doc.id
@@ -64,46 +70,20 @@ function CustomerBillPage() {
                     );
                 }
                 if (b.paymentStatus == 'paid') {
-                    // console.log(b);
+                   
                     setBillPayed(prev => [
                         ...prev,
                         b])
                 }
             });
-            console.log(billPayed);
-            console.log("rendered all bills ");
-            console.log(user.email);
-            console.log('all bills :' + bill);
+           
             setBill(billsData);
         };
         getBills()
     }, [])
     useEffect(() => {
-        console.log(billPayed);
     }, [billPayed,billPending,bill]);
-    //paid bills
-    // useEffect(() => {
-    //     const getPaidBills = async () => {
-    //     //   const q = query(billsCollectionRef, where('email', '==', user.email));
-    //         const consumer = await getDocs(query(collection(db, "consumers"), where('email', '==', user.email)));
-    //         if(consumer.empty)
-    //             return
-    //         const consumerData = consumer.docs[0].data();
-    //       const qx = query(billsCollectionRef, where('paymentStatus', '==', 'paid', 'meterNo','==',consumerData.meterNo));
-    //       const data = await getDocs(qx);
-    //       const newData = data.docs.map((doc) => ({
-    //           ...doc.data(),
-    //           id: doc.id,
-    //       }));
-    //       console.log("rendered payed bills ");
-    //       setBillPayed(newData);
-
-    //     };
-    //       getPaidBills()
-    //     }, [])
-
-
-    //get all tickets
+  
     useEffect(() => {
         const getTickets = async () => {
             const q = query(ticketsCollectionRef, where('email', '==', user.email.toString()));
@@ -112,7 +92,7 @@ function CustomerBillPage() {
                 ...doc.data(),
                 id: doc.id,
             }));
-            console.log("rendered tickets ");
+           
             setTickets(newData);
 
         };
@@ -122,49 +102,35 @@ function CustomerBillPage() {
     }, [])
 
 
-    // pending bills
-    // useEffect(() => {
-    //     const getPendingBills = async () => {
-    //       const q = query(billsCollectionRef, where('email', '==', user.email.toString()));
-    //       const qx = query(q, where('paymentStatus', '==', 'pending'));
-    //       const data = await getDocs(qx);
-    //       const newData = data.docs.map((doc) => ({
-    //           ...doc.data(),
-    //           id: doc.id,
-    //       }));
-    //       console.log("rendered pending bills ");
-    //       setBillPending(newData);
 
-    //     };
-
-
-    //       getPendingBills()
-    //     }, [])
-
-
-    // get consumer details
     useEffect(() => {
-        const getUser = async () => {
-            const q = query(consumersCollectionRef, where("usertype", "==", "consumer"));
-            const data = await getDocs(q);
-            const newData = data.docs.map((doc) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
-            console.log("rendered consumer")
-            newData.map((m) => (
-                setName(m.consumerName),
-                setcaNo(m.consumerAccNo),
-                setmeter(m.meterNo),
-                setPhone(m.telephoneNo)
-            ))
 
-        };
+     
+            const getUser = async () => {
+                const q = query(consumersCollectionRef, where("usertype", "==", "consumer"));
+                const data = await getDocs(q);
+                const newData = data.docs.map((doc) => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+               
+                newData.map((m) => (
+                    setName(m.consumerName),
+                    setcaNo(m.consumerAccNo),
+                    setmeter(m.meterNo),
+                    setPhone(m.telephoneNo)
+                ))
+    
+            };
 
-        getUser()
+          
+                
+        getUser();
+    
+
     }, [])
 
-
+   
 
 
     //payments
@@ -177,14 +143,23 @@ function CustomerBillPage() {
 
         try {
 
-            console.log('triggered update')
+            
             await updateDoc(data, {
                 paymentStatus: 'paid',
                 paymentID: payx
             });
 
         } catch (error) {
-            alert(error)
+            toast.error('Verification Failed', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
         }
 
 
@@ -205,10 +180,27 @@ function CustomerBillPage() {
                 handler: function (response) {
                     if (response.razorpay_payment_id) {
                         paymentUpdate(billNo, response.razorpay_payment_id);
-                        alert("Payment Success");
+                        toast.success('Payment Successful', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            });
                     } else {
-                        console.log('failure');
-                        alert("Payment Failure")
+                        toast.error('Payment Failure', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            });
                     }
 
                 },
@@ -238,17 +230,41 @@ function CustomerBillPage() {
 
 
         const downloadPdfDocument = () => {
-            const input = document.getElementById("print-page");
-            html2canvas(input)
-                .then((canvas) => {
-                    const imgWidth = 209;
-                    const imgHeight = canvas.height * imgWidth / canvas.width;
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF();
-                    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
-                    pdf.save(`Invoice.pdf`);
-
-                })
+            try{
+                const input = document.getElementById("print-page");
+                html2canvas(input)
+                    .then((canvas) => {
+                        const imgWidth = 209;
+                        const imgHeight = canvas.height * imgWidth / canvas.width;
+                        const imgData = canvas.toDataURL('image/png');
+                        const pdf = new jsPDF();
+                        pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                        pdf.save(`Invoice.pdf`);
+    
+                    })
+                    toast.success('Bill Exported Successfully', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        });
+            } catch(e){
+                toast.error('Bill Exported Successfully', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
+                }
+          
         }
 
 
@@ -454,9 +470,27 @@ function CustomerBillPage() {
                 await addDoc(collection(db, "tickets"), {
                     ...newTicket
                 });
-                alert('Ticket Submitted')
+                toast.success('Ticket Raised Successfully', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
             } catch (error) {
-                console.log(error);
+                toast.error('Failed To Raise Ticket !', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
             }
 
         }
@@ -492,10 +526,22 @@ function CustomerBillPage() {
             </>
         );
     }
-
-
+  
     return (
         <>
+        
+        <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
             <Card id='cardx'>
                 <Card.Body>
 
@@ -513,7 +559,7 @@ function CustomerBillPage() {
                             <h5 className='green'> <b >METER NO : <span>{meter}</span>  </b> </h5>
                         </div>
 
-                        <input style={{ fontSize: 12, height: 44, margin: '.1rem' }} className='fieldxx' placeholder='Live Search Bill Number ' autoComplete='on' type='text' onChange={(e) => setSearch(e.target.value)} />
+                        <input style={{ fontSize: 12, height: 44, margin: '.1rem' }} className='fieldxx' placeholder='Live Search Bill ID ' autoComplete='on' type='text' onChange={(e) => setSearch(e.target.value)} />
                         <br />
                         <br />
                         <div>

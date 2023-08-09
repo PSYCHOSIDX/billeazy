@@ -15,6 +15,10 @@ import { db } from '../firebaseConfig';
 import { collection, getDocs, query, orderBy, where, addDoc, setDoc } from 'firebase/firestore';
 
 
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const AddCustomerConnection = () => {
   const [show, setShow] = useState(0);
@@ -48,6 +52,16 @@ const AddCustomerConnection = () => {
       console.log('hello :' + userList);
       userList.map((x) => (setDetail(x)));
       try {
+        // toast('Verifying ..', {
+        //   position: "top-right",
+        //   autoClose: 10000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "light",
+        //   });
 
         { userDetail && userDetail.status == 'verified_consumer' ? navigate('/customer') : setShow(1) }
 
@@ -80,10 +94,10 @@ const AddCustomerConnection = () => {
           id: doc.id,
         }));
 
-        console.log(newData);
+        
         newData.map((x) => (setLinkInfo(x)));
         if (user.email == linkInfo.email && pin == linkInfo.link_otp) {
-          console.log('match');
+          
 
           const handleLink = async (e) => {
             try {
@@ -97,8 +111,17 @@ const AddCustomerConnection = () => {
                 status: 'verified_consumer',
                 usertype: 'consumer'
               });
-              console.log("Link Added !");
-              alert('Account Linked Successfully');
+              
+              toast.success('Account Linked Successfully !', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
             } catch (error) {
               console.log(error.message);
             }
@@ -106,7 +129,16 @@ const AddCustomerConnection = () => {
           }
           handleLink();
         } else {
-          alert('Link Failed')
+          toast.error('Link Failed !', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
         }
 
       };
@@ -124,7 +156,18 @@ const AddCustomerConnection = () => {
   return (
 
     <>
-
+  <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
 
       {user ? <NavbarCustomerLogout /> : <NavbarLogin />}
 

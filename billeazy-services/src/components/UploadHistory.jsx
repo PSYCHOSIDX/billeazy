@@ -5,6 +5,11 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../firebaseConfig';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import '../global-styles/global.css'
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { getYYYMMDD } from '../utils/dateConverters';
+import { Table } from 'react-bootstrap';
 
 function UploadHistory() {
     const [uploads, setUploads] = useState([]);
@@ -22,6 +27,17 @@ function UploadHistory() {
                 }))
                 setUploads(data)
                 setLoading(false);
+
+                toast.success('Data Fetched Successfully', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
             }
         })()
 
@@ -37,28 +53,42 @@ function UploadHistory() {
 
     } else {
         // console.log(uploads);
+        
         returnData = (<>
-            <Stack>
-                <div className="ListHeadings shadow-none p-2">
-                    <Row>
-                        <Col >Upload date and Time</Col>
-                        <Col>No. of records</Col>
-                    </Row>
-                </div>
-            </Stack>
-            <Stack gap={2}>
+
+        <Table responsive bordered  className='table-hold'>
+            <thead>
+                    <tr>
+                        <th id='thx'>Upload date and Time</th>
+                        <th id='thx'>No. of records</th>
+                    </tr>
+            </thead>
+            <tbody gap={2}>
                 {uploads.map(upload => 
-                     (<div key={upload.id} className="BillList bg-light shadow-sm p-2">
-                        <Row>
-                            <Col>{Date(upload.date)}</Col>
-                            <Col>{upload.noEntries}</Col>
-                        </Row>
-                    </div>)
+                     (<tr key={upload.id} className="BillList bg-light shadow-sm p-2">
+                            <td>{getYYYMMDD(upload.date)}</td>
+                            <td>{upload.noEntries}</td>
+                    </tr>)
                 )}
-            </Stack>
+            </tbody>
+            </Table>
         </>)
+
+                          
     }
-    return (
+    return (<>
+        <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
         <div className='m-5'>
             <h2 className='fw-semibold alertx'>Agent Upload History</h2>
             <div className='mx-5 px-5 my-3 alerty'>
@@ -67,6 +97,7 @@ function UploadHistory() {
                     : returnData}
             </div>
         </div>
+        </>
     );
 }
 
