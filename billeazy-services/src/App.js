@@ -19,7 +19,7 @@ import ProtectedCustomerRoutes from "./components/ProtectedCustomerRoutes";
 import AddCustomerConnection from "./pages/AddCustomerConnection"
 import AddAgentConnection from "./pages/AddAgentConnection";
 import GenerateBill from "./pages/GenerateBill";
-import AddNewRatesModal from "./components/AdminLandingPage/AddNewRatesModal";
+import UpdateRates from "./components/AdminLandingPage/UpdateRates";
 
 const App = () => {
   return (
@@ -29,7 +29,7 @@ const App = () => {
             <Route path='/adminlogin'  element={<AdminLoginPage/>} />
             <Route path='/admin' element={<ProtectedAdminRoutes> <Admin/> </ProtectedAdminRoutes>} />
             <Route path="/admin/generate-bill" element={<ProtectedAdminRoutes> <GenerateBill/> </ProtectedAdminRoutes>} />
-            <Route path="/admin/add-rates" element={<ProtectedAdminRoutes> <AddNewRatesModal/> </ProtectedAdminRoutes>} />
+            <Route path="/admin/add-rates" element={<ProtectedAdminRoutes> <UpdateRates/> </ProtectedAdminRoutes>} />
 
             <Route path='/employees' element={<Agent/>} />
             <Route path='/employees/upload' element={<ProtectedAgentRoutes> <UploadFile/> </ProtectedAgentRoutes>} />
