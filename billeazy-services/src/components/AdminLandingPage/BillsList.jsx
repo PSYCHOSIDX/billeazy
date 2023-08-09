@@ -86,6 +86,8 @@ function BillsList() {
         setReadingDifference(billData.readingDifference);
         setBillingPeriod(billData.billingPeriod);
         setAmount(billData.amount);
+
+        getConsumerData(billData.meterNo);
         
         setBillPath(getBill.docs[0].ref.path);
     };
@@ -96,6 +98,14 @@ function BillsList() {
 
         const getConsumer = await getDocs(query(collection(db, "consumers"), where("meterNo", "==",meterNo)));
         const consumerData = getConsumer.docs[0].data();
+
+        setCName(consumerData.name);
+        setAddress(consumerData.address);
+        setMeterNo(consumerData.meterNo);
+        setEnergizationDate(consumerData.energizationDate);
+        setTariffCategory(consumerData.tariffCategory);
+        setTension(consumerData.tension);
+        setSanctionedLoad(consumerData.sanctionedLoad);
 
         setConsumerData(consumerData);
     };
@@ -116,6 +126,7 @@ function BillsList() {
 
     const handleUpdateConsumer = async(id) => {
         try{
+            console.log(id);
             await updateDoc(doc(db,`consumers/${id}`), {
                 name: cName,
                 address : address,
@@ -125,7 +136,8 @@ function BillsList() {
                 tension : tension,
                 sanctionedLoad : Number(sanctionedLoad),
             });
-            toast.success('Ticket Resolved!', {
+
+            toast.success('Consumer Data Updated!', {
                 position: "top-center",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -135,9 +147,8 @@ function BillsList() {
                 progress: undefined,
                 theme: "colored",
                 });
-            handleGetTickets()
         } catch (e) {
-            toast.error('Ticket Resolution Failed!', {
+            toast.error('Data Updation Failed!', {
                 position: "top-center",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -354,6 +365,16 @@ function BillsList() {
                                                         <Modal.Body>
                                                             {consumerData?  <div className='forms'>
                                                                 <Form>
+                                                                    
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerName">
+                                                                        <Form.Label column sm={4}>
+                                                                            Name
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Control type="text" name="cName" value={cName} onChange={e => setCName(e.target.value)} />
+                                                                        </Col>
+                                                                    </Form.Group>
+
                                                                     <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAccNo">
                                                                         <Form.Label column sm={4}>
                                                                             Consumer Account Number
@@ -372,21 +393,12 @@ function BillsList() {
                                                                         </Col>
                                                                     </Form.Group>
 
-                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAddress">
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementBillDate">
                                                                         <Form.Label column sm={4}>
-                                                                            Name
+                                                                            Address
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            {/* <Form.Label>editable</Form.Label> */}
-                                                                        </Col>
-                                                                    </Form.Group>
-
-                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerEmail">
-                                                                        <Form.Label column sm={4}>
-                                                                            Email
-                                                                        </Form.Label>
-                                                                        <Col sm={8}>
-                                                                            <Form.Label>{consumerData.email}</Form.Label>  
+                                                                            <Form.Control type="text" name="address" value={address} onChange={e => setAddress(e.target.value)} />
                                                                         </Col>
                                                                     </Form.Group>
 
@@ -398,41 +410,57 @@ function BillsList() {
                                                                             <Form.Label>{consumerData.telephoneNo}</Form.Label>  
                                                                         </Col>
                                                                     </Form.Group>
+                                                                    
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerEmail">
+                                                                        <Form.Label column sm={4}>
+                                                                            Email
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{consumerData.email}</Form.Label>  
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerEnergization">
+                                                                        <Form.Label column sm={4}>
+                                                                            Energization Date
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Control type="date" placeholder="energizationDate" /* id="energizationDate" */ name="energizationDate" value={energizationDate} onChange={e => setEnergizationDate(e.target.value)} />
+                                                                        </Col>
+                                                                    </Form.Group>
 
                                                                     <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
                                                                         <Form.Label column sm={4}>
                                                                             Meter Number
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            {/* <Form.Label>editable</Form.Label> */}
+                                                                            <Form.Control type="text" name="meterNo" value={meterNo} onChange={e => setMeterNo(e.target.value)} />
                                                                         </Col>
                                                                     </Form.Group>
 
-                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementBillDate">
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementTarrifCategory">
                                                                         <Form.Label column sm={4}>
-                                                                            Address
+                                                                            Tarrif Category
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            {/* <Form.Label>editable</Form.Label> */}
+                                                                            <Form.Select /* id="tarrifCategory" */ name="tariffCategory" value={tariffCategory} onChange={e => setTariffCategory(e.target.value)}>
+                                                                                <option value={"domestic"}>Domestic</option>
+                                                                                <option value={"commercial"}>Commercial</option>
+                                                                                <option value={"industrial"}>Industrial</option>
+                                                                            </Form.Select>
                                                                         </Col>
                                                                     </Form.Group>
 
-                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
-                                                                        <Form.Label column sm={4}>
-                                                                            Tariff Category
-                                                                        </Form.Label>
-                                                                        <Col sm={8}>
-                                                                            {/* <Form.Label>editable</Form.Label> */}
-                                                                            </Col>
-                                                                    </Form.Group>
-
-                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementTension">
                                                                         <Form.Label column sm={4}>
                                                                             Tension
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            {/* <Form.Label>editable</Form.Label> */}
-                                                                            </Col>
+                                                                            <Form.Select /* id="tension" */ name="tension" value={tension} onChange={e => setTension(e.target.value)}>
+                                                                                <option value={"lt"}>Low Tension</option>
+                                                                                <option value={"ht"}>High Tension</option>
+                                                                            </Form.Select>
+                                                                        </Col>
                                                                     </Form.Group>
 
                                                                     <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
@@ -440,8 +468,8 @@ function BillsList() {
                                                                             Sanctioned Load
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            {/* <Form.Label>editable</Form.Label> */}
-                                                                            </Col>
+                                                                            <Form.Control type="number" min={0} name="sanctionedLoad" value={sanctionedLoad} onChange={e => setSanctionedLoad(e.target.value)} />
+                                                                        </Col>
                                                                     </Form.Group>
                                                                 </Form>
                                                             </div> : <></>}
