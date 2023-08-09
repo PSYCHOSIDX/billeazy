@@ -108,17 +108,17 @@ const AddNewRatesModal = () => {
     return (
         <>
             <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-        />
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <NavbarAdminLogout />
             <Row>
                 <Col sm={6}>
@@ -380,7 +380,7 @@ const AddNewRatesModal = () => {
                             <Button variant="secondary" onClick={() => setShowModal(false)}>
                                 Close
                             </Button>
-                            <Button variant="primary" onClick={() => { handleAddRatesHandler(); setShowModal(false)}}>
+                            <Button variant="primary" onClick={() => { handleAddRatesHandler(); setShowModal(false) }}>
                                 Add
                             </Button>
                         </Modal.Footer>
