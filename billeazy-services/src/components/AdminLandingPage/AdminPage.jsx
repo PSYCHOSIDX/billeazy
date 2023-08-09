@@ -23,7 +23,7 @@ function AdminPage() {
     const handleShowAgent = () => setShowA(true);
 
 
-
+    //used to create consumer
     const [cName, setCName] = useState("");
     const [consumerAccNo, setConsumerAccNo] = useState(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
     const [instNo, setInstNo] = useState(`${Math.ceil(Math.random() * Math.pow(10, 6)).toString()}`);

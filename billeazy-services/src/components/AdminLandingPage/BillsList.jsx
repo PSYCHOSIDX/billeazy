@@ -39,6 +39,17 @@ function BillsList() {
     //used for storing consumer data
     const [consumerData, setConsumerData] = useState();
 
+    //used for updating consumer data
+    const [cName, setCName] = useState("");
+    const [address, setAddress] = useState("");
+    const [energizationDate, setEnergizationDate] = useState("");
+    const [meterNo, setMeterNo] = useState("");
+    const [tariffCategory, setTariffCategory] = useState("domestic");
+    const [tension, setTension] = useState("lt");
+    const [sanctionedLoad, setSanctionedLoad] = useState(0)
+
+    
+
     //used for ticket resolution
     const [showResolve, setShowResolve] = useState(false);
     const handleCloseResolve = () => setShowResolve(false);
@@ -108,12 +119,10 @@ function BillsList() {
             await updateDoc(doc(db,`consumers/${id}`), {
                 name: cName,
                 address : address,
-                telephoneNo: cTelephoneNo,
-                email: cEmail,
                 energizationDate : energizationDate,
                 meterNo : meterNo,
                 tariffCategory : tariffCategory,
-                tension : tensiom,
+                tension : tension,
                 sanctionedLoad : Number(sanctionedLoad),
             });
             toast.success('Ticket Resolved!', {
@@ -359,7 +368,8 @@ function BillsList() {
                                                                             Installation Number
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            <Form.Label>{consumerData.instNo}</Form.Label>                                                    </Col>
+                                                                            <Form.Label>{consumerData.instNo}</Form.Label>  
+                                                                        </Col>
                                                                     </Form.Group>
 
                                                                     <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAddress">
@@ -376,7 +386,7 @@ function BillsList() {
                                                                             Email
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            {/* not editable */}
+                                                                            <Form.Label>{consumerData.email}</Form.Label>  
                                                                         </Col>
                                                                     </Form.Group>
 
@@ -385,7 +395,7 @@ function BillsList() {
                                                                             Telephone Number
                                                                         </Form.Label>
                                                                         <Col sm={8}>
-                                                                            not editable
+                                                                            <Form.Label>{consumerData.telephoneNo}</Form.Label>  
                                                                         </Col>
                                                                     </Form.Group>
 
