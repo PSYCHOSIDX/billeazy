@@ -121,7 +121,9 @@ function AdminPage() {
             await addDoc(collection(db, "consumers"), {
                 ...newConsumer
             });
+
             console.log('Sms sent')
+            
             onSubmit();
         } catch (error) {
             console.log(error);

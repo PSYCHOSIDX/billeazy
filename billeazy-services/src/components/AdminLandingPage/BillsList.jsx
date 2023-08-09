@@ -34,6 +34,7 @@ function BillsList() {
     const [amount, setAmount] = useState();
     const [billPath, setBillPath] = useState();
 
+    //used for storing consumer data
     const [consumerData, setConsumerData] = useState();
 
     //used for ticket resolution
@@ -45,6 +46,11 @@ function BillsList() {
     const billsCollectionRef = collection(db,`bills`);
     const agentsCollectionRef = collection(db,`employees`);
 
+    //used for consumer update
+    const [showUpdateConsumer, setShowUpdateConsumer] = useState(false);
+    const handleCloseUpdateConsumer = () => setShowUpdateConsumer(false);
+    const handleShowUpdateConsumer = () => setShowUpdateConsumer(true);
+
     const handleGetTickets = async e => {
         const getPendingTickets = await getDocs(query(collection(db, "tickets"), where("status", "==", "pending")));
         setPendingTickets(getPendingTickets.docs.map(doc => ({ id: doc.id, ...doc.data() })));
@@ -54,7 +60,7 @@ function BillsList() {
     }
 
     //used for resolution
-    const getData = async (billNo) => {
+    const getBillData = async (billNo) => {
 
         const getBill = await getDocs(query(collection(db, "bills"), where("billNo", "==", billNo)));
         const billData = getBill.docs[0].data();
@@ -69,12 +75,18 @@ function BillsList() {
         setAmount(billData.amount);
         
         setBillPath(getBill.docs[0].ref.path);
+    };
 
-        const getConsumer = await getDocs(query(collection(db, "consumers"), where("meterNo", "==", billData.meterNo)));
+    //used to get consumer data 
+
+    const getConsumerData = async (meterNo) => {
+
+        const getConsumer = await getDocs(query(collection(db, "consumers"), where("meterNo", "==",meterNo)));
         const consumerData = getConsumer.docs[0].data();
 
         setConsumerData(consumerData);
     };
+
 
      //used for resolution
      const updateAmount = async(meterNo,readingDifference) => {
@@ -88,9 +100,47 @@ function BillsList() {
         console.log(amount);
         setAmount(amount);
     };
+
+    const handleUpdateConsumer = async(id) => {
+        try{
+            await updateDoc(doc(db,`consumers/${id}`), {
+                name: cName,
+                address : address,
+                telephoneNo: cTelephoneNo,
+                email: cEmail,
+                energizationDate : energizationDate,
+                meterNo : meterNo,
+                tariffCategory : tariffCategory,
+                tension : tensiom,
+                sanctionedLoad : Number(sanctionedLoad),
+            });
+            toast.success('Ticket Resolved!', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+            handleGetTickets()
+        } catch (e) {
+            toast.error('Ticket Resolution Failed!', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }
+    };
     
     //used for resolution
-    const handleResolution = async(id) => {
+    const handleTicketResolution = async(id) => {
         try{
             await updateDoc(doc(db,billPath), {
                 dueDate : dueDate,
@@ -126,8 +176,6 @@ function BillsList() {
                 theme: "colored",
                 });
         }
-        
-    
     };
 
 
@@ -267,6 +315,7 @@ function BillsList() {
                                         <th  id='thx'>Email</th>
                                         <th  id='thx'>Address</th>
                                         <th id='thx'>Energization Date</th>
+                                        <th id='thx'>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -281,8 +330,122 @@ function BillsList() {
                                                 <td>{ag.email}</td>
                                                 <td>{ag.address}</td>
                                                 <td>{ag.energizationDate}</td>
-                                            
-                                        </tr>
+                                                <td><Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
+                                                    handleShowUpdateConsumer(); getConsumerData(ag.meterNo) ;
+                                                }}>
+                                                    Update
+                                                </Button>
+                
+                                                <Modal show={showUpdateConsumer} onHide={handleCloseUpdateConsumer}>
+                                                        <Modal.Header closeButton>
+                                                            <Modal.Title>Edit Consumer</Modal.Title>
+                                                        </Modal.Header>
+                                                        <Modal.Body>
+                                                            {consumerData?  <div className='forms'>
+                                                                <Form>
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAccNo">
+                                                                        <Form.Label column sm={4}>
+                                                                            Consumer Account Number
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{consumerData.consumerAccNo}</Form.Label>
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNo">
+                                                                        <Form.Label column sm={4}>
+                                                                            Installation Number
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            <Form.Label>{consumerData.instNo}</Form.Label>                                                    </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAddress">
+                                                                        <Form.Label column sm={4}>
+                                                                            Name
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            {/* <Form.Label>editable</Form.Label> */}
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerEmail">
+                                                                        <Form.Label column sm={4}>
+                                                                            Email
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            {/* not editable */}
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerEnergization">
+                                                                        <Form.Label column sm={4}>
+                                                                            Telephone Number
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            not editable
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
+                                                                        <Form.Label column sm={4}>
+                                                                            Meter Number
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            {/* <Form.Label>editable</Form.Label> */}
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementBillDate">
+                                                                        <Form.Label column sm={4}>
+                                                                            Address
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            {/* <Form.Label>editable</Form.Label> */}
+                                                                        </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
+                                                                        <Form.Label column sm={4}>
+                                                                            Tariff Category
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            {/* <Form.Label>editable</Form.Label> */}
+                                                                            </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
+                                                                        <Form.Label column sm={4}>
+                                                                            Tension
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            {/* <Form.Label>editable</Form.Label> */}
+                                                                            </Col>
+                                                                    </Form.Group>
+
+                                                                    <Form.Group as={Row} className="mb-3" controlId="FormElementMeterNumber">
+                                                                        <Form.Label column sm={4}>
+                                                                            Sanctioned Load
+                                                                        </Form.Label>
+                                                                        <Col sm={8}>
+                                                                            {/* <Form.Label>editable</Form.Label> */}
+                                                                            </Col>
+                                                                    </Form.Group>
+                                                                </Form>
+                                                            </div> : <></>}
+                                                            
+                                                        </Modal.Body>
+                                                        <Modal.Footer>
+                                                            <Button variant="secondary" id='btn-contact' onClick={handleCloseUpdateConsumer}>
+                                                                Cancel
+                                                            </Button>
+                                                            <Button variant="primary" id='btn-contact' onClick={function (event) { handleCloseUpdateConsumer(); handleUpdateConsumer(ag.id) }}>
+                                                                Update
+                                                            </Button>
+                                                        </Modal.Footer>
+                                                    </Modal>
+                                                </td>
+                                            </tr>
                                     ))
                                 : <p className='paray'> No Employees Found</p>
                             }
@@ -463,7 +626,7 @@ function BillsList() {
                                                 <td>{ticket.email}</td>
                                                 <td>{ticket.description}</td>
                                                 <td><Button className='AdminActionButtons' variant="outline-primary" id='btn-contact' onClick={function (e) {
-                                                    handleShowResolve(); getData(ticket.billNo) ;
+                                                    handleShowResolve(); getBillData(ticket.billNo) ;
                                                 }}>
                                                     Resolve
                                                 </Button>
@@ -598,7 +761,7 @@ function BillsList() {
                                                             <Button variant="secondary" id='btn-contact' onClick={handleCloseResolve}>
                                                                 Cancel
                                                             </Button>
-                                                            <Button variant="primary" id='btn-contact' onClick={function (event) { handleCloseResolve(); handleResolution(ticket.id) }}>
+                                                            <Button variant="primary" id='btn-contact' onClick={function (event) { handleCloseResolve(); handleTicketResolution(ticket.id) }}>
                                                                 Resolve
                                                             </Button>
                                                         </Modal.Footer>
