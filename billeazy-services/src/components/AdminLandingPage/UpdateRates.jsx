@@ -98,7 +98,7 @@ const UpdateRates = () => {
         const rates = {
             tariff: {
                 domestic: domesticRates,
-                commerial: commericalRates,
+                commercial: commericalRates,
                 industrial: industrialRates
             },
             date: ratesDate,
