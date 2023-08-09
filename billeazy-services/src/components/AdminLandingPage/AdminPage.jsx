@@ -9,7 +9,7 @@ import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
 import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import AddNewRatesModal from './AddNewRatesModal';
+import AddNewRatesModal from './UpdateRates';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -208,50 +208,50 @@ function AdminPage() {
                 theme="colored"
             />
 
-            <div className='p-2'>
-                <div className='my-3 main'>
-                    <Row>
-                        <Col sm={6} className='textx'>
-                            <h2 className='alerty' >Admin Page</h2>
-                        </Col>
-                        <br />
-                        <div className='btn-holder'>
-                            <Col sm={6}>
-                                <Row>
-                                    <Col>
-                                        <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={() => navigate("/admin/generate-bill")}>
-                                            Generate Bill
-                                        </Button>
-                                    </Col>
-                                    <Col>
-                                        <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={() => navigate("/admin/add-rates")}>
-                                            Add New Rates
-                                        </Button>
-                                    </Col>
-                                    <Col>
-                                        <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={function (e) {
-                                            setConsumerAccNo(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
-                                            setInstNo(`${Math.ceil(Math.random() * Math.pow(10, 6)).toString()}`);
-                                            setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
-                                            handleShowConsumer();
-                                        }}>
-                                            Register Consumer
-                                        </Button>
-                                        <Modal show={showC} onHide={handleCloseConsumer}>
-                                            <Modal.Header closeButton>
-                                                <Modal.Title>Register Consumer</Modal.Title>
-                                            </Modal.Header>
-                                            <Modal.Body>
-                                                <div className='forms'>
-                                                    <Form>
-                                                        <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerName">
-                                                            <Form.Label column sm={4}>
-                                                                Name
-                                                            </Form.Label>
-                                                            <Col sm={8}>
-                                                                <Form.Control type="text" pattern="^[A-Za-z .']+\z" placeholder="consumer name" /* id="consumerName" */ name="cName" value={cName} onChange={e => setCName(e.target.value)} />
-                                                            </Col>
-                                                        </Form.Group>
+<div className='p-2'>
+            <div className='my-3 main'>
+                <Row>
+                    <Col sm={6} className='textx'>
+                        <h2 className='alerty' >Admin Page</h2>
+                    </Col>
+                    <br />
+                    <div  className='btn-holder'> 
+                    <Col sm={6}>
+                        <Row>
+                            <Col>
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={() => navigate("/admin/generate-bill")}>
+                                    Generate Bill
+                                </Button>
+                            </Col>
+                            <Col>
+                            <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={() => navigate("/admin/add-rates")}>
+                                    Update Rates
+                                </Button>
+                            </Col>
+                            <Col>
+                                <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={function (e) {
+                                    setConsumerAccNo(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
+                                    setInstNo(`${Math.ceil(Math.random() * Math.pow(10, 6)).toString()}`);
+                                    setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
+                                    handleShowConsumer();
+                                }}>
+                                    Register Consumer
+                                </Button>
+                                <Modal show={showC} onHide={handleCloseConsumer}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Register Consumer</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className='forms'>
+                                            <Form>
+                                                <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerName">
+                                                    <Form.Label column sm={4}>
+                                                        Name
+                                                    </Form.Label>
+                                                    <Col sm={8}>
+                                                        <Form.Control type="text" pattern="^[A-Za-z .']+\z" placeholder="consumer name" /* id="consumerName" */ name="cName" value={cName} onChange={e => setCName(e.target.value)} />
+                                                    </Col>
+                                                </Form.Group>
 
                                                         <Form.Group as={Row} className="mb-3" controlId="FormElementConsumerAccNo">
                                                             <Form.Label column sm={4}>
@@ -314,7 +314,7 @@ function AdminPage() {
                                                                 <Form.Control type="text" pattern="^[A-Z]{2}[0-9]{5}\z" placeholder="e.g SA01011" /* id="meterNo" */ name="meterNo" value={meterNo} onChange={e => setMeterNo(e.target.value)} />
                                                             </Col>
                                                         </Form.Group>
-
+ 
                                                         <Form.Group as={Row} className="mb-3" controlId="FormElementTarrifCategory">
                                                             <Form.Label column sm={4}>
                                                                 Tarrif Category
