@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import BillsList from './BillsList';
 import { db } from '../../firebaseConfig';
-import { doc, setDoc, addDoc, collection } from '@firebase/firestore';
+import { doc, setDoc, getDocs, where, addDoc, collection } from '@firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import AddNewRatesModal from './UpdateRates';
 
@@ -119,7 +119,16 @@ function AdminPage() {
     }
 
 
-
+    const getAccNo = async e =>{
+        await new Promise(resolve => setTimeout(resolve,100));
+        const randomId = `${Math.ceil(Math.random() * Math.pow(10, 12))}`;
+        const getData = await getDocs(collection(db,`consumers`), where("consumerAccNo","==",`${randomId}`));
+        if(getData?.length > 0 ){
+            await getAccNo();
+        } else {
+            return randomId;
+        }
+    };
 
 
     const handleConsumerRegister = async e => {
@@ -230,7 +239,7 @@ function AdminPage() {
                             </Col>
                             <Col>
                                 <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={function (e) {
-                                    setConsumerAccNo(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
+                                    getAccNo().then(result => setConsumerAccNo(result));
                                     setInstNo(`${Math.ceil(Math.random() * Math.pow(10, 6)).toString()}`);
                                     setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
                                     handleShowConsumer();
