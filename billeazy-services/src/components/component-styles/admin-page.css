@@ -192,11 +192,7 @@
   font-weight: 300;
 }
 
-#div{
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  
-  padding: .2rem;
-}
+
 
 .AdminActionButtons{
     width: 90%;
@@ -233,7 +229,9 @@
 
 
 
-
+#print-page{
+  background: #3b0062;
+}
 
 @media screen and (max-width:900px) {
     .btn-holder{

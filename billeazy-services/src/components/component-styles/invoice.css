@@ -64,9 +64,6 @@
 .modal-invoice .body-invoice .pt-25, .modal-invoice .body-invoice .py-25 {
   padding-top: 0.75rem !important;
 }
-.modal-invoice .body-invoice .bgc-default-tp1 {
-  background-color: #ffffff !important;
-}
 .modal-invoice .body-invoice .bgc-default-l4, .modal-invoice .body-invoice .bgc-h-default-l4:hover {
   background-color: #f3f8fa !important;
 }
