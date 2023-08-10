@@ -628,7 +628,7 @@ useEffect(() => {
                                     <thead>
                                         <tr id='thx'>
 
-                                            <th id='thx'>Bill Id</th>
+                                            <th id='thx'>Consumer No</th>
                                             <th id='thx'>Current reading date</th>
                                             <th id='thx'>Current reading</th>
                                             <th id='thx'>Previous reading date</th>
@@ -653,7 +653,7 @@ useEffect(() => {
 
                                                 <tr>
 
-                                                    <td>{bc.billNo}</td>
+                                                    <td>{bc.consumerAccNo}</td>
                                                     <td>{bc.currentReadingDate}</td>
                                                     <td>{bc.currentReading}</td>
                                                     <td>{bc.prevReadingDate}</td>
@@ -686,7 +686,7 @@ useEffect(() => {
                                     <thead>
                                         <tr id='thx'>
 
-                                            <th id='thx'>Bill Id</th>
+                                            <th id='thx'>Consumer No</th>
                                             <th id='thx'>Current reading date</th>
                                             <th id='thx'>Current reading</th>
                                             <th id='thx'>Previous reading date</th>
@@ -711,7 +711,7 @@ useEffect(() => {
 
                                                 <tr>
 
-                                                    <td>{bc.billNo}</td>
+                                                    <td>{bc.consumerAccNo}</td>
                                                     <td>{bc.currentReadingDate}</td>
                                                     <td>{bc.currentReading}</td>
                                                     <td>{bc.prevReadingDate}</td>
