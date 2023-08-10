@@ -23,6 +23,7 @@ function BillsList() {
     const [resolvedTickets, setResolvedTickets] = useState(null);
     // const [bill , setBill] = useState([]);
     
+    const [adminData, setAdminData]=useState([]);
     const [billPaid , setBillPaid] = useState([]);
     const [billPending , setBillPending] = useState([]);
     const [customer, setCustomers]= useState([]);
@@ -63,6 +64,7 @@ function BillsList() {
     const [search , setSearch] = useState('');
     const billsCollectionRef = collection(db,`bills`);
     const agentsCollectionRef = collection(db,`employees`);
+    const adminCollectionRef = collection(db,`users`);
 
     //used for agent update
     const [showUpdateAgent, setShowUpdateAgent] = useState(false);
@@ -258,6 +260,19 @@ function BillsList() {
         })
         },[])
 
+
+
+            // get agents details
+    useEffect(() => {
+        onSnapshot(agentsCollectionRef, docSnap =>{
+            const agentsData = docSnap.docs.map((doc)=>({
+                ...doc.data(),
+                id: doc.id
+            }));
+            setAgents(agentsData)
+        })
+        },[])
+
     useEffect(() => {
         const getBills = async () => {
         const q = query(billsCollectionRef);
@@ -308,6 +323,42 @@ function BillsList() {
             // getCustomers()
             }, []) 
 
+
+
+
+// get admins
+
+useEffect(() => {
+    const getAdmin = async () => {
+        
+    const q = query(adminCollectionRef, where('usertype','==','admin'));
+    // const data = await getDocs(q);
+    onSnapshot(q, docSnap =>{
+        const AdminData = docSnap.docs.map((doc)=>({
+            ...doc.data(),
+            id: doc.id
+        }));
+        setAdminData([]);
+
+        AdminData.forEach((b) => {
+            if (b.usertype === 'admin') {
+            
+                console.log('this admin:' +b)
+                setAdminData(prev =>
+                    [...prev,
+                        b]
+                );
+             //  console.log("datax:" +adminCollectionRef) // setBillPending(b);
+            }
+            
+        });
+    })
+
+    };
+    getAdmin()
+    }, [])
+
+         
 
     return (
 
@@ -902,6 +953,37 @@ function BillsList() {
                             </div>
                         </Tab>
 
+                        <Tab eventKey="aadmin" title="Admin Users">
+
+                    <div id='div'>
+                        <Table responsive bordered className='table-hold'>
+                            <thead >
+                                <tr id='header'>
+                                    <th id='thx'>Name</th>
+                                    <th id='thx'>Email</th>
+                                    <th id='thx'>Phone No</th>
+                                    <th id='thx'>User Type</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {adminData?.length > 0 ? (
+                                  adminData.map((abc) => {
+                                        return (
+                                            <tr>
+                                                <td>{abc.name}</td>
+                                                <td>{abc.email}</td>
+                                                <td>{abc.phone}</td>
+                                                <td>{abc.usertype}</td>
+                                            </tr>
+                                        )
+                                    })
+                                ) : <p className='paray'> No Admins Found</p>
+                                }
+                            </tbody>
+                        </Table>
+                    </div>
+                    </Tab>
                     </Tabs>
                 </div>
             </div>
