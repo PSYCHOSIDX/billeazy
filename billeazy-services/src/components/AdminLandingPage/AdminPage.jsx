@@ -118,7 +118,7 @@ function AdminPage() {
         });
     }
 
-
+    //used to get consumer acc number
     const getAccNo = async e =>{
         await new Promise(resolve => setTimeout(resolve,100));
         const randomId = `${Math.ceil(Math.random() * Math.pow(10, 12))}`;
@@ -354,7 +354,7 @@ function AdminPage() {
                                                                 Sanctioned Load
                                                             </Form.Label>
                                                             <Col sm={8}>
-                                                                <Form.Control type="number" min={0} placeholder="e.g 3.5" /* id="sanctionedLoad" */ name="sanctionedLoad" value={sanctionedLoad} onChange={e => setSanctionedLoad(e.target.value)} />
+                                                                <Form.Control type="number"  min={0.1} step={0.1} placeholder="e.g 3.5" /* id="sanctionedLoad" */ name="sanctionedLoad" value={sanctionedLoad} onChange={e => setSanctionedLoad(e.target.value)} />
                                                             </Col>
                                                         </Form.Group>
 
@@ -381,7 +381,7 @@ function AdminPage() {
                                     </Col>
                                     <Col>
                                         <Button className='AdminActionButtons' variant="outline-primary" id='btn-contactx' onClick={function (e) {
-                                            setAgentId(`${Math.ceil(Math.random() * Math.pow(10, 12))}`);
+                                            getAccNo().then(result => setAgentId(result));
                                             setLink_otp(Math.ceil(Math.random() * Math.pow(10, 6)));
                                             handleShowAgent();
                                         }}>Register <br /> Agent</Button>

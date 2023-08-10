@@ -53,6 +53,17 @@ Date.prototype.addDays = function (days) {
   return date;
 }
 
+const getBillNo = async e =>{
+  await new Promise(resolve => setTimeout(resolve,100));
+  const randomId = `${Math.ceil(Math.random() * Math.pow(10, 12))}`;
+  const getData = await getDocs(collection(db,`bills`), where("bilNo","==",`${randomId}`));
+  if(getData?.length > 0 ){
+      await getBillNo();
+  } else {
+      return randomId;
+  }
+};
+
 const onGenerateBill = async (readings) => {
 
   const date = new Date();
@@ -61,6 +72,7 @@ const onGenerateBill = async (readings) => {
     try {
       let newBill = {}
 
+      let billNo;
 
       const getConsumer = await getDocs(query(collection(db, "consumers"), where("meterNo", "==", `${doc.meterNo}`)));
       //   console.log(getConsumer);
@@ -72,6 +84,8 @@ const onGenerateBill = async (readings) => {
       const getPrevBill = await getDocs(query(collection(db, "bills"), where("meterNo", "==", `${doc.meterNo}`), orderBy("billDate", "desc")));
 
       console.log(getPrevBill);
+
+      getBillNo().then(result => billNo = result);
 
       //   const prevBill = getPrevBill.docs[0].data();
 
@@ -88,7 +102,7 @@ const onGenerateBill = async (readings) => {
         newBill = {
           consumerAccNo: consumerRef.consumerAccNo,
           meterNo: doc.meterNo,
-          billNo: `${Math.ceil(Math.random() * Math.pow(10, 10))}`,
+          billNo: `${billNo}`,
           billDate: date.toISOString().split('T')[0],
           dueDate: date.addDays(7).toISOString().split('T')[0],
           unit: (consumerRef.tension === 'lt') ? 'KWH' : 'KVAH',
@@ -116,7 +130,7 @@ const onGenerateBill = async (readings) => {
 
           consumerAccNo: consumerRef.consumerAccNo,
           meterNo: doc.meterNo,
-          billNo: `${Math.ceil(Math.random() * Math.pow(10, 10))}`,
+          billNo: `${billNo}`,
           billDate: date.toISOString().split('T')[0],
           dueDate: date.addDays(7).toISOString().split('T')[0],
           unit: (consumerRef.tension === 'lt') ? 'KWH' : 'KVAH',
