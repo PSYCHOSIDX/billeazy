@@ -66,6 +66,7 @@ const getBillNo = async e =>{
 
 const onGenerateBill = async (readings) => {
 
+  let countSuccessful = 0;
   const date = new Date();
   for (const doc of readings) {
 
@@ -155,21 +156,12 @@ const onGenerateBill = async (readings) => {
       await updateDoc(meterRef, {
         billGenerated: true
       });
-      toast.success('Bill Generated Successfully!', {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
+      countSuccessful++;
     }
 
     catch (e) {
       console.log(e);
-      toast.error('Bill Not Generated!', {
+      toast.error(`Bill For Meter Number ${doc.meterNo} Not Generated!`, {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -189,6 +181,16 @@ const onGenerateBill = async (readings) => {
     //     })
     // }
   }
+  toast.success(`${countSuccessful} Bills Generated Successfully!`, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });
 
 };
 

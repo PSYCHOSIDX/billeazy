@@ -856,7 +856,7 @@ function BillsList() {
                                                 )
                                             })
                                         ) :
-                                            <p className='paray'>No Pending Tickets</p>
+                                            <p className='paray'>No Paid Tickets</p>
 
                                         }
                                     </tbody>
