@@ -9,6 +9,7 @@ import '../../global-styles/global.css'
 import { generateAmount,getBillingPeriod } from '../../utils/billGeneration';
 import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getYYYMMDD } from '../../utils/dateConverters';
 
 const reqFields = ['Meter_No', 'Unit', 'Current_Reading_Date', 'Current_Reading', 'Reading_Remark'];
 
@@ -28,25 +29,6 @@ const fetchReadings = async () => {
   // return    getDocs(q).then(snap => snap.docs.map(x => x.data()));
 }
 
-
-// const onGenerateBill = async (readings) =>{
-//     for(const row of readings)
-//     {
-//         let consumption = 0,lastBillDate = null;
-//         const oldReadingSnap = await getDocs(query(collection(db, "Meter Reading"), where("meterNo","==",row["meterNo"]),
-//                 where("billGenerated","==",true),orderBy("currentReadingDate","desc"),limit(1)));
-//         console.log(oldReadingSnap);
-//         if(oldReadingSnap.empty)
-//         {
-//             consumption = row["currentReading"];
-//         }else{
-//             consumption = row["currentReading"]-oldReadingSnap.docs[0].data()['currentReading'];
-//             lastBillDate = oldReadingSnap.docs[0].data('currentReadingDate')
-//         }
-//         console.log("consumption: ",consumption);
-//     }
-
-// }
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
@@ -228,7 +210,7 @@ const MeterReading = () => {
                 <>
                   <td>{row["meterNo"]}</td>
                   <td>{row["unit"]}</td>
-                  <td>{Date(row["currentReadingDate"])}</td>
+                  <td>{getYYYMMDD(row["currentReadingDate"])}</td>
                   <td>{row["currentReading"]}</td>
                   {/* <td>{row["prevReadingDate"]}</td> */}
                   {/* <td>{row["prevReading"]}</td> */}

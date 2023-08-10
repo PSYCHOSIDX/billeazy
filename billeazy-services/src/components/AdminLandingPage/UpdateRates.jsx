@@ -88,7 +88,7 @@ const UpdateRates = () => {
             const rates = rateSnap.docs[0].data();
             // console.log(rates);
             setDomesticRates(rates.tariff.domestic);
-            setCommericalRates(rates.tariff.commerial);
+            setCommericalRates(rates.tariff.commercial);
             setIndustrialRates(rates.tariff.industrial); 
             setRatesDocRef(rateSnap.docs[0].ref);
         })()
@@ -98,7 +98,7 @@ const UpdateRates = () => {
         const rates = {
             tariff: {
                 domestic: domesticRates,
-                commerial: commericalRates,
+                commercial: commericalRates,
                 industrial: industrialRates
             },
             date: ratesDate,
