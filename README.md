@@ -4,6 +4,7 @@ Simple SaaS tool to manage electricity bills in North Goa
 
 <img width="587" alt="Screenshot 2023-08-25 111859" src="https://github.com/PSYCHOSIDX/billeazy/assets/63893110/f44c9fb7-9dd4-42e9-9f8a-db858b9c5383">
 
+## Link to Presentation : <a href='https://teams.microsoft.com/l/message/19:f9f0ceec74384d3599ab58372271defe@thread.v2/1692942176575?context=%7B%22contextType%22%3A%22chat%22%7D '>  Bill Eazy Presentation </a>
 
 # ELECTRICITY BILLING SYSTEM 
 
